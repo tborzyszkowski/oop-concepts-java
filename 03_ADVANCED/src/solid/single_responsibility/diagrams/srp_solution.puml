@@ -1,0 +1,54 @@
+@startuml srp_solution
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Zastosowanie SRP - Podział odpowiedzialności
+
+class Employee {
+  - name: String
+  - position: String
+  - salary: double
+  --
+  + getName(): String
+  + getPosition(): String
+  + getSalary(): double
+}
+
+class PayrollCalculator {
+  + calculatePay(Employee): double
+}
+
+class EmployeeRepository {
+  + save(Employee): void
+}
+
+class EmployeeReportGenerator {
+  + generateReport(Employee): String
+}
+
+PayrollCalculator ..> Employee : uses
+EmployeeRepository ..> Employee : uses
+EmployeeReportGenerator ..> Employee : uses
+
+note right of Employee
+  ✅ Tylko dane pracownika
+  Powód do zmiany: struktura danych
+end note
+
+note right of PayrollCalculator
+  ✅ Tylko logika płacowa
+  Powód do zmiany: zasady naliczania
+end note
+
+note right of EmployeeRepository
+  ✅ Tylko persystencja
+  Powód do zmiany: sposób zapisu
+end note
+
+note right of EmployeeReportGenerator
+  ✅ Tylko raportowanie
+  Powód do zmiany: format raportów
+end note
+
+@enduml
+

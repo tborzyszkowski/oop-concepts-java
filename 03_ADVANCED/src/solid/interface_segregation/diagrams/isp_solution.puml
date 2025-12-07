@@ -1,0 +1,55 @@
+@startuml isp_solution
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Zastosowanie ISP - Segregowane interfejsy
+
+interface Workable {
+  + work(): void
+}
+
+interface Eatable {
+  + eat(): void
+}
+
+interface Sleepable {
+  + sleep(): void
+}
+
+interface Payable {
+  + getSalary(): double
+}
+
+class Human implements Workable, Eatable, Sleepable, Payable {
+  + work(): void
+  + eat(): void
+  + sleep(): void
+  + getSalary(): double
+}
+
+class Robot implements Workable {
+  + work(): void
+}
+
+note right of Robot
+  ✅ Robot implementuje
+  tylko Workable
+
+  Brak pustych implementacji
+  Brak wyjątków
+end note
+
+note left of Human
+  ✅ Human implementuje
+  wszystkie potrzebne
+  interfejsy
+end note
+
+note bottom
+  ✅ Małe, specyficzne interfejsy
+  ✅ Każdy klient zależy tylko od potrzebnych metod
+  ✅ Zgodność z ISP
+end note
+
+@enduml
+

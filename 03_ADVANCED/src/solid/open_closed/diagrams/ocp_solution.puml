@@ -1,0 +1,56 @@
+@startuml ocp_solution
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Zastosowanie OCP - Rozszerzanie bez modyfikacji
+
+interface Shape {
+  + calculateArea(): double
+}
+
+class Rectangle implements Shape {
+  - width: double
+  - height: double
+  --
+  + calculateArea(): double
+}
+
+class Circle implements Shape {
+  - radius: double
+  --
+  + calculateArea(): double
+}
+
+class Triangle implements Shape {
+  - base: double
+  - height: double
+  --
+  + calculateArea(): double
+}
+
+class AreaCalculator {
+  + calculateTotalArea(List<Shape>): double
+}
+
+AreaCalculator ..> Shape : <<uses>>
+
+note right of Shape
+  ✅ Abstrakcja - stabilna,
+  zamknięta na modyfikację
+end note
+
+note bottom of Triangle
+  ✅ Nowa figura dodana
+  BEZ MODYFIKACJI
+  istniejącego kodu!
+end note
+
+note bottom of AreaCalculator
+  ✅ Nie zna konkretnych implementacji
+  ✅ Działa z dowolnym Shape
+  ✅ Otwarty na rozszerzanie
+  ✅ Zamknięty na modyfikację
+end note
+
+@enduml
+

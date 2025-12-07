@@ -1,0 +1,59 @@
+@startuml dip_solution
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Zastosowanie DIP - Zależność od abstrakcji
+
+interface Database {
+  + save(String): void
+  + retrieve(String): String
+}
+
+class MySQLDatabase implements Database {
+  + save(String): void
+  + retrieve(String): String
+}
+
+class MongoDatabase implements Database {
+  + save(String): void
+  + retrieve(String): String
+}
+
+class UserService {
+  - database: Database
+  --
+  + UserService(Database)
+  + saveUser(String): void
+  + getUser(String): String
+}
+
+UserService --> Database
+
+note right of UserService
+  ✅ ROZWIĄZANIE:
+
+  private final Database database;
+
+  public UserService(Database database) {
+      this.database = database;
+  }
+
+  • Zależność od abstrakcji
+  • Dependency Injection
+  • Łatwa zmiana implementacji
+  • Możliwość mockowania
+end note
+
+note bottom of Database
+  ✅ Abstrakcja stabilna
+  Szczegóły zależą od niej
+end note
+
+note bottom
+  ✅ Oba moduły zależą od abstrakcji
+  ✅ Zgodność z DIP
+  ✅ Odwrócona zależność
+end note
+
+@enduml
+

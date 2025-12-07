@@ -1,0 +1,45 @@
+@startuml lsp_solution
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Rozwiązanie LSP - Kompozycja zamiast dziedziczenia
+
+interface Shape {
+  + getArea(): double
+  + getName(): String
+}
+
+class Rectangle implements Shape {
+  - width: int
+  - height: int
+  --
+  + Rectangle(width, height)
+  + getArea(): double
+  + getName(): String
+}
+
+class Square implements Shape {
+  - side: int
+  --
+  + Square(side)
+  + getArea(): double
+  + getName(): String
+}
+
+note right of Shape
+  ✅ Wspólny interfejs
+  Obie klasy są podstawialne
+end note
+
+note bottom of Rectangle
+  ✅ Własny kontrakt
+  Niezależne wymiary
+end note
+
+note bottom of Square
+  ✅ Własny kontrakt
+  Jeden wymiar (side)
+end note
+
+@enduml
+

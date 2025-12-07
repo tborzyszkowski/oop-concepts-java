@@ -1,0 +1,50 @@
+@startuml ocp_violation
+@enduml
+
+end note
+  • Wysokie ryzyko regresji
+  • Trudne testowanie
+  • Naruszenie SRP (zna wszystkie figury)
+  • Modyfikacja kodu przy każdym nowym kształcie
+  PROBLEMY:
+note bottom of AreaCalculator
+
+AreaCalculator ..> Circle : <<instanceof>>
+AreaCalculator ..> Rectangle : <<instanceof>>
+
+end note
+  MODYFIKACJI tej metody!
+  ❌ Dodanie nowego kształtu wymaga
+
+  }
+      return Math.PI * c.getRadius() * c.getRadius();
+      Circle c = (Circle) shape;
+  } else if (shape instanceof Circle) {
+      return r.getWidth() * r.getHeight();
+      Rectangle r = (Rectangle) shape;
+  if (shape instanceof Rectangle) {
+note right of AreaCalculator::calculateArea
+
+}
+  + getRadius(): double
+  --
+  - radius: double
+class Circle {
+
+}
+  + getHeight(): double
+  + getWidth(): double
+  --
+  - height: double
+  - width: double
+class Rectangle {
+
+}
+  + calculateArea(Object): double
+class AreaCalculator {
+
+title Naruszenie OCP - Modyfikacja przy każdym rozszerzeniu
+
+skinparam classAttributeIconSize 0
+!theme plain
+

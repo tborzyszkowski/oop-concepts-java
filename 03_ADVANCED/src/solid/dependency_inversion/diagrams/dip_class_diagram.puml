@@ -1,0 +1,73 @@
+@startuml dip_class_diagram
+!theme plain
+skinparam classAttributeIconSize 0
+
+title DIP - Pełny diagram z Dependency Injection
+
+package "High-Level Module" {
+  class UserService {
+    - database: Database
+    --
+    + UserService(Database)
+    + saveUser(String): void
+    + getUser(String): String
+  }
+}
+
+package "Abstraction Layer" {
+  interface Database <<interface>> {
+    + save(String): void
+    + retrieve(String): String
+  }
+}
+
+package "Low-Level Modules" {
+  class MySQLDatabase implements Database {
+    + save(String): void
+    + retrieve(String): String
+  }
+
+  class MongoDatabase implements Database {
+    + save(String): void
+    + retrieve(String): String
+  }
+
+  class PostgreSQLDatabase implements Database {
+    + save(String): void
+    + retrieve(String): String
+  }
+}
+
+UserService --> Database
+
+note top of UserService
+  Moduł WYSOKIEGO poziomu
+  Zależy od ABSTRAKCJI
+end note
+
+note bottom of Database
+  ABSTRAKCJA
+  Stabilna, rzadko zmieniana
+end note
+
+note bottom of MySQLDatabase
+  Moduły NISKIEGO poziomu
+  Zależą od ABSTRAKCJI
+
+  ✅ Odwrócona zależność!
+end note
+
+note right of UserService
+  Dependency Injection:
+
+  // Używanie MySQL
+  Database db = new MySQLDatabase();
+  UserService service = new UserService(db);
+
+  // Zmiana na MongoDB
+  Database db = new MongoDatabase();
+  UserService service = new UserService(db);
+end note
+
+@enduml
+

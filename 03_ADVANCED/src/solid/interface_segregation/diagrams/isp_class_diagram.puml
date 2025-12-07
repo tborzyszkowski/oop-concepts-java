@@ -1,0 +1,69 @@
+@startuml isp_class_diagram
+!theme plain
+skinparam classAttributeIconSize 0
+
+title ISP - Pełny diagram segregowanych interfejsów
+
+package "Interfaces" {
+  interface Workable {
+    + work(): void
+  }
+
+  interface Eatable {
+    + eat(): void
+  }
+
+  interface Sleepable {
+    + sleep(): void
+  }
+
+  interface Payable {
+    + getSalary(): double
+  }
+}
+
+package "Implementations" {
+  class Human implements Workable, Eatable, Sleepable, Payable {
+    - name: String
+    - salary: double
+    --
+    + work(): void
+    + eat(): void
+    + sleep(): void
+    + getSalary(): double
+  }
+
+  class Robot implements Workable {
+    - model: String
+    --
+    + work(): void
+  }
+
+  class Animal implements Eatable, Sleepable {
+    - species: String
+    --
+    + eat(): void
+    + sleep(): void
+  }
+}
+
+note bottom of Workable
+  ✅ Małe, spójne interfejsy
+end note
+
+note bottom of Human
+  Implementuje wszystkie
+  potrzebne interfejsy
+end note
+
+note bottom of Robot
+  Implementuje tylko Workable
+end note
+
+note bottom of Animal
+  Implementuje Eatable i Sleepable
+  (nie pracuje, nie otrzymuje pensji)
+end note
+
+@enduml
+

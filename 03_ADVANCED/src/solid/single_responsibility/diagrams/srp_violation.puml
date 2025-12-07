@@ -1,0 +1,43 @@
+@startuml srp_violation
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Naruszenie SRP - Klasa z wieloma odpowiedzialnościami
+
+class Employee {
+  - name: String
+  - position: String
+  - salary: double
+  --
+  + calculatePay(): double
+  + save(): void
+  + generateReport(): String
+}
+
+note right of Employee::calculatePay
+  Odpowiedzialność 1:
+  Logika biznesowa
+  (obliczanie wynagrodzenia)
+end note
+
+note right of Employee::save
+  Odpowiedzialność 2:
+  Persystencja danych
+  (zapis do bazy)
+end note
+
+note right of Employee::generateReport
+  Odpowiedzialność 3:
+  Raportowanie
+  (generowanie raportów)
+end note
+
+note bottom of Employee
+  ❌ PROBLEM: Klasa ma 3 powody do zmiany:
+  1. Zmiana zasad obliczania płacy
+  2. Zmiana sposobu zapisu danych
+  3. Zmiana formatu raportów
+end note
+
+@enduml
+

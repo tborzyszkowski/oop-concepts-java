@@ -1,0 +1,79 @@
+@startuml solid_overview
+@enduml
+
+ISP_note -[hidden]down-> DIP_note
+LSP_note -[hidden]down-> ISP_note
+OCP_note -[hidden]down-> LSP_note
+SRP_note -[hidden]down-> OCP_note
+
+}
+  end note
+    ✅ Lepsze testowanie (mocking)
+    ✅ Łatwa zmiana implementacji
+    ✅ Dependency Injection
+
+    nie konkretnych implementacji.
+    Zależymy od abstrakcji,
+
+    **Zasada Odwrócenia Zależności**
+  note as DIP_note
+package "D - Dependency Inversion Principle" #LightCyan {
+
+}
+  end note
+    ✅ Wyższa elastyczność
+    ✅ Niskie sprzężenie
+    ✅ Małe, specyficzne interfejsy
+
+    których nie używają.
+    Klienci nie powinni zależeć od interfejsów,
+
+    **Zasada Segregacji Interfejsów**
+  note as ISP_note
+package "I - Interface Segregation Principle" #LightCoral {
+
+}
+  end note
+    ✅ Polimorfizm działa prawidłowo
+    ✅ Poprawne dziedziczenie
+    ✅ Zachowanie kontraktów
+
+    za swoje klasy bazowe.
+    Podklasy muszą być podstawialne
+
+    **Zasada Podstawiania Liskov**
+  note as LSP_note
+package "L - Liskov Substitution Principle" #LightYellow {
+
+}
+  end note
+    ✅ Niskie ryzyko regresji
+    ✅ Istniejący kod pozostaje stabilny
+    ✅ Rozszerzanie przez dziedziczenie/implementację
+
+    ale zamknięte na modyfikację.
+    Klasy powinny być otwarte na rozszerzanie,
+
+    **Zasada Otwarte-Zamknięte**
+  note as OCP_note
+package "O - Open/Closed Principle" #LightGreen {
+
+}
+  end note
+    ✅ Wyższa spójność
+    ✅ Łatwiejsze testowanie
+    ✅ Jedna odpowiedzialność = łatwiejsze utrzymanie
+
+    odpowiedzialność i jeden powód do zmiany.
+    Każda klasa powinna mieć tylko jedną
+
+    **Zasada Pojedynczej Odpowiedzialności**
+  note as SRP_note
+package "S - Single Responsibility Principle" #LightBlue {
+
+title Przegląd zasad SOLID
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+!theme plain
+

@@ -1,0 +1,44 @@
+@startuml lsp_rectangle_problem
+@enduml
+
+end note
+  ❌ FAIL dla Square (area = 16)
+  ✅ Działa dla Rectangle
+
+  }
+      assert r.getArea() == 20;
+      r.setHeight(4);
+      r.setWidth(5);
+  void testRectangle(Rectangle r) {
+note bottom of Rectangle
+
+end note
+  Narusza kontrakt Rectangle
+  ❌ PROBLEM: Zmienia oba wymiary!
+
+  }
+      this.height = width; // ❌
+      this.width = width;
+  public void setWidth(int width) {
+  @Override
+note right of Square::setWidth
+
+}
+  + setHeight(int): void
+  + setWidth(int): void
+class Square extends Rectangle {
+
+}
+  + getArea(): int
+  + setHeight(int): void
+  + setWidth(int): void
+  --
+  # height: int
+  # width: int
+class Rectangle {
+
+title Naruszenie LSP - Problem Rectangle/Square
+
+skinparam classAttributeIconSize 0
+!theme plain
+

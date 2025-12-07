@@ -1,0 +1,52 @@
+@startuml isp_violation
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Naruszenie ISP - "Fat Interface"
+
+interface Worker {
+  + work(): void
+  + eat(): void
+  + sleep(): void
+  + getSalary(): double
+}
+
+class Human implements Worker {
+  + work(): void
+  + eat(): void
+  + sleep(): void
+  + getSalary(): double
+}
+
+class Robot implements Worker {
+  + work(): void
+  + eat(): void
+  + sleep(): void
+  + getSalary(): double
+}
+
+note right of Robot
+  ❌ PROBLEM:
+  Robot zmuszony do implementacji
+  metod, których nie używa:
+
+  public void eat() {
+    throw new UnsupportedOperationException();
+  }
+
+  public void sleep() {
+    throw new UnsupportedOperationException();
+  }
+
+  public double getSalary() {
+    throw new UnsupportedOperationException();
+  }
+end note
+
+note bottom of Worker
+  ❌ "Fat Interface"
+  Zbyt wiele odpowiedzialności
+end note
+
+@enduml
+

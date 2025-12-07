@@ -1,0 +1,92 @@
+@startuml solid_relationships
+!theme plain
+skinparam backgroundColor transparent
+
+title Relacje między zasadami SOLID
+
+package "SOLID Principles" {
+
+  card "**S**ingle\nResponsibility" as SRP #LightBlue {
+    Jedna odpowiedzialność
+    = jeden powód do zmiany
+  }
+
+  card "**O**pen/Closed" as OCP #LightGreen {
+    Otwarte na rozszerzanie
+    Zamknięte na modyfikację
+  }
+
+  card "**L**iskov\nSubstitution" as LSP #LightYellow {
+    Podklasy podstawialne
+    za klasy bazowe
+  }
+
+  card "**I**nterface\nSegregation" as ISP #LightCoral {
+    Wiele małych interfejsów
+    > jeden duży
+  }
+
+  card "**D**ependency\nInversion" as DIP #LightCyan {
+    Zależność od abstrakcji
+    nie od szczegółów
+  }
+}
+
+' Relationships
+SRP -down-> OCP : "wspiera"
+SRP -down-> ISP : "spójność"
+OCP -down-> DIP : "wymaga"
+LSP -up-> DIP : "poprawne\npodstawianie"
+ISP -down-> DIP : "ułatwia"
+OCP -right-> LSP : "poprawne\nrozszerzanie"
+
+' Notes
+note right of SRP
+  **Fundament**
+  Najprostsza zasada
+  Punkt startowy
+end note
+
+note right of OCP
+  **Rozszerzalność**
+  Używa abstrakcji
+  Wzorce: Strategy,
+  Factory, Template
+end note
+
+note right of LSP
+  **Poprawność**
+  Kontrakty
+  Nie wzmacniaj
+  preconditions
+end note
+
+note right of ISP
+  **Modularność**
+  Małe, spójne
+  interfejsy
+  Niskie sprzężenie
+end note
+
+note right of DIP
+  **Abstrakcja**
+  Dependency Injection
+  Łatwe testowanie
+  Elastyczność
+end note
+
+note bottom
+  **Jak zasady współpracują:**
+
+  1. SRP → OCP: Klasy z jedną odpowiedzialnością łatwiej rozszerzać
+  2. OCP → DIP: Rozszerzanie wymaga abstrakcji
+  3. LSP → DIP: Podstawianie działa gdy zależymy od abstrakcji
+  4. ISP → SRP: Małe interfejsy = pojedyncze odpowiedzialności
+  5. ISP → DIP: Segregowane interfejsy ułatwiają DI
+
+  **Kolejność nauki:** S → O → D → L → I
+  **Ważność:** Wszystkie równie ważne, uzupełniają się
+end note
+
+@enduml
+

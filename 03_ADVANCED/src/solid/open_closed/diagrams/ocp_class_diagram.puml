@@ -1,0 +1,94 @@
+@startuml ocp_class_diagram
+!theme plain
+skinparam classAttributeIconSize 0
+
+title OCP - Pełny diagram systemu figur geometrycznych
+
+package "Abstractions" {
+  interface Shape {
+    + calculateArea(): double
+    + calculatePerimeter(): double
+    + getName(): String
+  }
+}
+
+package "Concrete Implementations" {
+  class Rectangle implements Shape {
+    - width: double
+    - height: double
+    --
+    + Rectangle(width, height)
+    + calculateArea(): double
+    + calculatePerimeter(): double
+    + getName(): String
+  }
+
+  class Circle implements Shape {
+    - radius: double
+    --
+    + Circle(radius)
+    + calculateArea(): double
+    + calculatePerimeter(): double
+    + getName(): String
+  }
+
+  class Triangle implements Shape {
+    - base: double
+    - height: double
+    - sideA: double
+    - sideB: double
+    - sideC: double
+    --
+    + Triangle(base, height, sideA, sideB, sideC)
+    + calculateArea(): double
+    + calculatePerimeter(): double
+    + getName(): String
+  }
+}
+
+package "Services" {
+  class AreaCalculator {
+    + calculateTotalArea(List<Shape>): double
+    + findLargestShape(List<Shape>): Shape
+    + calculateAverageArea(List<Shape>): double
+  }
+
+  class ShapeRenderer {
+    + render(Shape): String
+    + renderAll(List<Shape>): String
+  }
+}
+
+package "Application" {
+  class ShapeDemo {
+    + main(String[]): void
+  }
+}
+
+AreaCalculator ..> Shape : <<uses>>
+ShapeRenderer ..> Shape : <<uses>>
+ShapeDemo --> AreaCalculator
+ShapeDemo --> ShapeRenderer
+ShapeDemo ..> Rectangle : <<creates>>
+ShapeDemo ..> Circle : <<creates>>
+ShapeDemo ..> Triangle : <<creates>>
+
+note bottom of Shape
+  Abstrakcja ZAMKNIĘTA
+  na modyfikację
+end note
+
+note right of Triangle
+  Nowe implementacje
+  OTWARTE na rozszerzanie
+  (bez modyfikacji istniejącego kodu)
+end note
+
+note bottom of AreaCalculator
+  Zależy od abstrakcji,
+  nie konkretnych implementacji
+  (Dependency Inversion Principle)
+end note
+
+@enduml
+

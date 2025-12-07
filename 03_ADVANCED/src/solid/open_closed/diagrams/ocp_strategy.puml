@@ -1,0 +1,57 @@
+@startuml ocp_strategy
+!theme plain
+skinparam classAttributeIconSize 0
+
+title OCP - Wzorzec Strategy dla rabatów
+
+interface DiscountStrategy {
+  + calculateDiscount(double): double
+}
+
+class RegularCustomerDiscount implements DiscountStrategy {
+  + calculateDiscount(double): double
+}
+
+class PremiumCustomerDiscount implements DiscountStrategy {
+  + calculateDiscount(double): double
+}
+
+class VIPCustomerDiscount implements DiscountStrategy {
+  + calculateDiscount(double): double
+}
+
+class SeasonalDiscount implements DiscountStrategy {
+  + calculateDiscount(double): double
+}
+
+class Customer {
+  - name: String
+  - discountStrategy: DiscountStrategy
+  --
+  + applyDiscount(double): double
+}
+
+Customer --> DiscountStrategy
+
+note right of DiscountStrategy
+  ✅ Interfejs stabilny,
+  zamknięty na modyfikację
+end note
+
+note bottom of SeasonalDiscount
+  ✅ Nowa strategia dodana
+  bez modyfikacji istniejącego kodu
+end note
+
+note left of Customer
+  public double applyDiscount(double amount) {
+      return amount -
+             discountStrategy.calculateDiscount(amount);
+  }
+
+  ✅ Nie zna konkretnych strategii
+  ✅ Otwarty na nowe typy rabatów
+end note
+
+@enduml
+

@@ -1,0 +1,82 @@
+@startuml srp_class_diagram
+!theme plain
+skinparam classAttributeIconSize 0
+
+title SRP - Pełny diagram klas z zależnościami
+
+package "Model" {
+  class Employee {
+    - name: String
+    - position: String
+    - salary: double
+    --
+    + Employee(name, position, salary)
+    + getName(): String
+    + getPosition(): String
+    + getSalary(): double
+  }
+}
+
+package "Business Logic" {
+  class PayrollCalculator {
+    + calculatePay(Employee): double
+  }
+}
+
+package "Persistence" {
+  class EmployeeRepository {
+    - database: Database
+    --
+    + save(Employee): void
+    + findById(id): Employee
+    + findAll(): List<Employee>
+  }
+}
+
+package "Reporting" {
+  class EmployeeReportGenerator {
+    + generateReport(Employee): String
+    + generateSummary(List<Employee>): String
+  }
+}
+
+package "Application" {
+  class EmployeeService {
+    - repository: EmployeeRepository
+    - calculator: PayrollCalculator
+    - reportGenerator: EmployeeReportGenerator
+    --
+    + processEmployee(Employee): void
+  }
+}
+
+PayrollCalculator ..> Employee : <<uses>>
+EmployeeRepository ..> Employee : <<uses>>
+EmployeeReportGenerator ..> Employee : <<uses>>
+
+EmployeeService --> EmployeeRepository
+EmployeeService --> PayrollCalculator
+EmployeeService --> EmployeeReportGenerator
+
+note bottom of Employee
+  Odpowiedzialność:
+  Reprezentacja danych pracownika
+end note
+
+note bottom of PayrollCalculator
+  Odpowiedzialność:
+  Logika obliczania wynagrodzenia
+end note
+
+note bottom of EmployeeRepository
+  Odpowiedzialność:
+  Zarządzanie persystencją danych
+end note
+
+note bottom of EmployeeReportGenerator
+  Odpowiedzialność:
+  Generowanie raportów
+end note
+
+@enduml
+

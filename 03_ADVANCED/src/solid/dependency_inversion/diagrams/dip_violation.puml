@@ -1,0 +1,39 @@
+@startuml dip_violation
+!theme plain
+skinparam classAttributeIconSize 0
+
+title Naruszenie DIP - Zależność od szczegółów
+
+class UserService {
+  - database: MySQLDatabase
+  --
+  + saveUser(String): void
+}
+
+class MySQLDatabase {
+  + save(String): void
+}
+
+UserService --> MySQLDatabase : <<creates>>
+
+note right of UserService
+  ❌ PROBLEM:
+
+  private MySQLDatabase database
+      = new MySQLDatabase();
+
+  • Zależność od konkretnej klasy
+  • Trudna zmiana bazy danych
+  • Niemożliwe mockowanie w testach
+  • Wysokie sprzężenie
+end note
+
+note bottom
+  ❌ Moduł wysokiego poziomu (UserService)
+  zależy od modułu niskiego poziomu (MySQLDatabase)
+
+  ❌ Naruszenie DIP
+end note
+
+@enduml
+
