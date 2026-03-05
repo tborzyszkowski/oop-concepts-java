@@ -6,8 +6,10 @@
 |---------|-------|------|
 | [`classes/`](classes/README.md) | Klasy i Obiekty | Klasa, obiekt, pole, metoda, operator `new`, referencje |
 | [`fields_and_methods/`](fields_and_methods/README.md) | Pola i Metody | Modyfikatory dostępu, `static`, enkapsulacja |
-| [`object_lifecycle/`](object_lifecycle/README.md) | Cykl życia obiektów | Konstruktory, bloki init, Garbage Collector, `try-with-resources` |
+| [`object_lifecycle/`](object_lifecycle/README.md) | Cykl życia obiektów | Konstruktory, kopia płytka/głęboka, Prototype, GC, `try-with-resources` |
 | [`control_flow/`](control_flow/README.md) | Instrukcje sterujące | `if/else`, `switch`, pętle — Java vs C vs Python |
+| [`tdd/`](tdd/README.md) | TDD — Test-Driven Development | Red-Green-Refactor, JUnit 5, Stack jako przykład |
+| [`exercises/`](exercises/README.md) | Zadania dla studentów | Rectangle, TeamCopy, Prototype, Calculator z TDD |
 
 ## Wymagania
 

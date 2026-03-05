@@ -1,0 +1,62 @@
+@startuml shallow_vs_deep
+title Kopia plytka vs Kopia gleboka
+
+skinparam backgroundColor #FAFAFA
+skinparam defaultTextAlignment left
+skinparam rectangle {
+    RoundCorner 8
+    BorderColor #555555
+}
+skinparam ArrowColor #333333
+skinparam NoteBorderColor #F9A825
+skinparam NoteBackgroundColor #FFFDE7
+
+' ===== STOS =====
+rectangle "STOS (Stack)" as stack #LightBlue {
+    rectangle "original    -> 0xA1" as orig    #AliceBlue
+    rectangle "shallowCopy -> 0xA2" as shallow #AliceBlue
+    rectangle "deepCopy    -> 0xA3" as deep    #AliceBlue
+}
+
+' ===== STERTA – oryginalne obiekty =====
+rectangle "Person @0xA1  name=Anna  age=30" as p1 #PaleGreen
+rectangle "Person @0xA2  (shallow copy)" as p2 #FFE0E0
+rectangle "Person @0xA3  (deep copy)"    as p3 #CCFFCC
+
+' ===== OBIEKTY WSPOLDZIELONE =====
+rectangle "Address @0xB1  city=Warszawa" as b1 #LightPink
+rectangle "List    @0xC1  [prog, ksiazki]" as c1 #LightPink
+
+' ===== NIEZALEZNE KOPIE =====
+rectangle "Address @0xB2  city=Warszawa\n(niezalezna kopia)" as b2 #90EE90
+rectangle "List    @0xC2  [prog, ksiazki]\n(niezalezna kopia)" as c2 #90EE90
+
+' ===== STRZALKI ZE STOSU =====
+orig    --> p1
+shallow --> p2
+deep    --> p3
+
+' ===== SHALLOW: wspoldzielone referencje =====
+p1 --> b1 : address
+p1 --> c1 : hobbies
+p2 --> b1 : <color:red>address (ten sam!)</color>
+p2 --> c1 : <color:red>hobbies (ta sama!)</color>
+
+' ===== DEEP: niezalezne kopie =====
+p3 --> b2 : address (kopia)
+p3 --> c2 : hobbies (kopia)
+
+note bottom of b1
+  <color:red><b>Kopia platka</b></color>
+  p1 i p2 wskazuja na TEN SAM Address i List.
+  Modyfikacja przez p2 zmienia takze p1!
+end note
+
+note bottom of b2
+  <color:green><b>Kopia gleboka</b></color>
+  p3 ma WLASNE kopie Address i List.
+  Modyfikacje p3 nie wplywaja na p1.
+end note
+
+@enduml
+

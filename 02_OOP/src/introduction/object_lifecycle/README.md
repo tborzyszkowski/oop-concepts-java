@@ -3,14 +3,17 @@
 ## Spis treści
 
 1. [Konstruktory](#1-konstruktory)
-2. [Przeciążanie konstruktorów](#2-przeciążanie-konstruktorów)
+2. [Przeciążanie konstruktorów i konstruktor kopiujący](#2-przeciążanie-konstruktorów-i-konstruktor-kopiujący)
 3. [Delegowanie konstruktorów — `this(...)`](#3-delegowanie-konstruktorów--this)
-4. [Bloki inicjalizacyjne](#4-bloki-inicjalizacyjne)
-5. [Kolejność inicjalizacji](#5-kolejność-inicjalizacji)
-6. [Garbage Collector — automatyczne usuwanie obiektów](#6-garbage-collector--automatyczne-usuwanie-obiektów)
-7. [Rodzaje referencji](#7-rodzaje-referencji)
-8. [AutoCloseable i try-with-resources](#8-autocloseable-i-try-with-resources)
-9. [Uruchamianie przykładów](#9-uruchamianie-przykładów)
+4. [Kopia płytka vs Kopia głęboka](#4-kopia-płytka-vs-kopia-głęboka)
+5. [Wzorzec Prototype](#5-wzorzec-prototype)
+6. [Bloki inicjalizacyjne](#6-bloki-inicjalizacyjne)
+7. [Kolejność inicjalizacji](#7-kolejność-inicjalizacji)
+8. [Garbage Collector — automatyczne usuwanie obiektów](#8-garbage-collector--automatyczne-usuwanie-obiektów)
+9. [Rodzaje referencji](#9-rodzaje-referencji)
+10. [AutoCloseable i try-with-resources](#10-autocloseable-i-try-with-resources)
+11. [Testy jednostkowe](#11-testy-jednostkowe)
+12. [Uruchamianie przykładów](#12-uruchamianie-przykładów)
 
 ---
 
@@ -47,7 +50,7 @@ public class Person {
 ```
 
 ```java
-Person p1 = new Person();                  // konstruktor domyślny
+Person p1 = new Person();                    // konstruktor domyślny
 Person p2 = new Person("Anna", "Nowak", 30); // konstruktor pełny
 ```
 
@@ -55,9 +58,9 @@ Person p2 = new Person("Anna", "Nowak", 30); // konstruktor pełny
 
 ---
 
-## 2. Przeciążanie konstruktorów
+## 2. Przeciążanie konstruktorów i konstruktor kopiujący
 
-Java pozwala na wiele konstruktorów różniących się listą parametrów (analogia do przeciążania metod):
+Java pozwala na wiele konstruktorów różniących się listą parametrów:
 
 ```java
 public Person() { ... }
@@ -79,10 +82,13 @@ public Person(Person other) {
 
 ```java
 Person original = new Person("Jan", "Kowalski", 40);
-Person kopia = new Person(original); // niezależna kopia
+Person kopia    = new Person(original); // niezależna kopia
 kopia.setAge(25);
 System.out.println(original.getAge()); // 40 — niezmienione
 ```
+
+> ⚠️ Uwaga: konstruktor kopiujący jest **kopią płytką** jeśli klasa zawiera
+> mutowalne pola zagnieżdżone (List, Map, inne obiekty). Patrz sekcja 4.
 
 ---
 
@@ -112,7 +118,169 @@ public Person(String firstName, String lastName, int age) {
 
 ---
 
-## 4. Bloki inicjalizacyjne
+## 4. Kopia płytka vs Kopia głęboka
+
+Konstruktor kopiujący tworzy nowy obiekt — ale jak głęboko kopiuje?
+
+### Problem — obiekty zagnieżdżone
+
+```java
+class Address {
+    String street;
+    String city;
+}
+
+class Person {
+    String name;          // String jest immutable — zawsze "bezpieczny"
+    int age;              // prymityw — kopiowany przez wartość
+    Address address;      // mutowalny obiekt — UWAGA!
+    List<String> hobbies; // mutowalna kolekcja — UWAGA!
+}
+```
+
+### Kopia płytka (Shallow Copy)
+
+Kopiuje referencje do zagnieżdżonych obiektów. Oba obiekty **dzielą** te same wewnętrzne obiekty.
+
+```java
+Person shallowCopy() {
+    return new Person(this.name, this.age,
+        this.address,   // ta sama referencja!
+        this.hobbies);  // ta sama lista!
+}
+```
+
+```java
+Person p1 = new Person("Anna", 30, addr, hobbies);
+Person p2 = p1.shallowCopy();
+
+p2.address.city = "Krakow"; // ZMIENIA ORYGINAŁ!
+p2.hobbies.add("sport");    // ZMIENIA ORYGINALNĄ LISTĘ!
+
+System.out.println(p1.address.city); // "Krakow" — zmodyfikowane!
+```
+
+### Kopia głęboka (Deep Copy)
+
+Tworzy nowe kopie wszystkich mutowalnych obiektów zagnieżdżonych.
+
+```java
+Person deepCopy() {
+    return new Person(
+        this.name,
+        this.age,
+        new Address(this.address),       // nowy obiekt Address
+        new ArrayList<>(this.hobbies));  // nowa lista
+}
+```
+
+```java
+Person p1 = new Person("Anna", 30, addr, hobbies);
+Person p2 = p1.deepCopy();
+
+p2.address.city = "Krakow"; // p1.address.city NIEZMIENIONE
+p2.hobbies.add("sport");    // p1.hobbies NIEZMIENIONA
+
+System.out.println(p1.address.city); // "Gdansk" — niezmienione!
+```
+
+### Diagram
+
+![shallow_vs_deep](diagrams/shallow_vs_deep.png)
+
+> 📄 Diagram PlantUML: [`diagrams/shallow_vs_deep.puml`](diagrams/shallow_vs_deep.puml)
+> 📄 Pełny kod: [`copies/CopyDemo.java`](copies/CopyDemo.java)
+
+### Kiedy co stosować?
+
+| Sytuacja | Podejście |
+|----------|-----------|
+| Tylko prymitywy i Stringi | Kopia płytka wystarczy |
+| Mutowalne pola zagnieżdżone (List, Map, własne obiekty) | Kopia głęboka |
+| Zagnieżdżone obiekty są `record` lub `String` (immutable) | Kopia płytka wystarczy |
+| Głęboka hierarchia zagnieżdżeń | Serializacja lub biblioteka (Jackson, Kryo) |
+
+---
+
+## 5. Wzorzec Prototype
+
+**Prototype** to wzorzec kreacyjny — tworzy nowe obiekty przez **klonowanie** istniejącego "prototypu" zamiast przez kosztowny konstruktor.
+
+### Kiedy stosować?
+
+- Tworzenie obiektu jest **kosztowne** (połączenie z DB, długa inicjalizacja)
+- Chcemy tworzyć **wariacje** obiektu na bazie szablonu
+- Potrzebujemy **polimorficznego klonowania** (klonowanie przez interfejs)
+
+### Implementacja
+
+```java
+// Interfejs Prototype
+interface Prototype<T> {
+    T copy(); // głęboka kopia
+}
+
+class GameCharacter implements Prototype<GameCharacter> {
+    private String name;
+    private Position position;        // mutowalny — wymaga deep copy
+    private List<String> inventory;   // mutowalny — wymaga deep copy
+
+    // Prywatny konstruktor kopiujący — używany tylko przez copy()
+    private GameCharacter(GameCharacter other) {
+        this.name      = other.name;
+        this.position  = new Position(other.position);     // deep copy
+        this.inventory = new ArrayList<>(other.inventory); // deep copy
+    }
+
+    @Override
+    public GameCharacter copy() {
+        return new GameCharacter(this);
+    }
+
+    // Fluent settery — do modyfikacji klonu
+    public GameCharacter withName(String name) { this.name = name; return this; }
+}
+```
+
+### Rejestr prototypów
+
+```java
+class CharacterRegistry {
+    private Map<String, GameCharacter> prototypes = new HashMap<>();
+
+    void register(String key, GameCharacter proto) {
+        prototypes.put(key, proto);
+    }
+
+    GameCharacter spawn(String key) {
+        return prototypes.get(key).copy(); // klonowanie, nie new!
+    }
+}
+```
+
+```java
+// Kosztowna inicjalizacja — tylko RAZ
+GameCharacter warriorProto = new GameCharacter("Warrior_PROTO", ...);
+registry.register("warrior", warriorProto);
+
+// Szybkie klonowanie bez inicjalizacji
+GameCharacter w1 = registry.spawn("warrior").withName("Aragorn");
+GameCharacter w2 = registry.spawn("warrior").withName("Boromir");
+
+// Prototyp niezmieniony!
+System.out.println(warriorProto.getName()); // "Warrior_PROTO"
+```
+
+### Diagram
+
+![prototype_pattern](diagrams/prototype_pattern.png)
+
+> 📄 Diagram PlantUML: [`diagrams/prototype_pattern.puml`](diagrams/prototype_pattern.puml)
+> 📄 Pełny kod: [`copies/PrototypeDemo.java`](copies/PrototypeDemo.java)
+
+---
+
+## 6. Bloki inicjalizacyjne
 
 ### Blok inicjalizacyjny instancji
 
@@ -124,12 +292,14 @@ public class Person {
 
     // Blok inicjalizacyjny — przed każdym konstruktorem
     {
-        System.out.println("Blok inicjalizacyjny");
+        System.out.println("[INIT BLOCK] przed konstruktorem");
         email = "brak@email.com"; // wspólna inicjalizacja dla wszystkich konstruktorów
     }
 
-    public Person() { System.out.println("Konstruktor domyślny"); }
-    public Person(String name, ...) { System.out.println("Konstruktor pełny"); }
+    public Person() { System.out.println("[CONSTRUCTOR] domyślny"); }
+    public Person(String firstName, String lastName, int age) {
+        System.out.println("[CONSTRUCTOR] pełny");
+    }
 }
 ```
 
@@ -140,7 +310,7 @@ Wykonywany **raz** — gdy klasa jest ładowana przez JVM:
 ```java
 public class Person {
     static {
-        System.out.println("Blok STATYCZNY — raz dla klasy");
+        System.out.println("[STATIC BLOCK] raz dla klasy");
         // Inicjalizacja zasobów statycznych, konfiguracja, logowanie
     }
 }
@@ -148,11 +318,11 @@ public class Person {
 
 ---
 
-## 5. Kolejność inicjalizacji
+## 7. Kolejność inicjalizacji
 
 ```
 Pierwsze użycie klasy:
-  1. Blok statyczny (tylko RAZ)
+  1. Blok statyczny (tylko RAZ dla całej klasy)
 
 Przy każdym new:
   2. Blok inicjalizacyjny instancji
@@ -165,7 +335,7 @@ Przykład — uruchomienie `new Person()` po raz pierwszy:
 [STATIC BLOCK] Klasa Person załadowana przez JVM     ← raz
 [INIT BLOCK]   Blok inicjalizacyjny — przed konstruktorem
 [CONSTRUCTOR]  Person(firstName, lastName, age) — docelowy
-[CONSTRUCTOR]  Person() — domyślny
+[CONSTRUCTOR]  Person() — domyślny (wywołał this(...))
 ```
 
 Diagram cyklu życia obiektu:
@@ -176,7 +346,7 @@ Diagram cyklu życia obiektu:
 
 ---
 
-## 6. Garbage Collector — automatyczne usuwanie obiektów
+## 8. Garbage Collector — automatyczne usuwanie obiektów
 
 Java zarządza pamięcią **automatycznie** przez mechanizm Garbage Collector (GC).
 
@@ -202,7 +372,7 @@ p = null;
 > 📄 Diagram PlantUML: [`diagrams/gc_generations.puml`](diagrams/gc_generations.puml)
 
 | Obszar | Opis | GC |
-|--------|------|-----|
+|--------|------|----|
 | **Eden** | Nowe obiekty | Minor GC (szybki) |
 | **Survivor S0/S1** | Przeżyłe Minor GC | Minor GC |
 | **Old Gen** | Długożyjące obiekty | Major/Full GC (wolny) |
@@ -219,7 +389,7 @@ p = null;
 
 ---
 
-## 7. Rodzaje referencji
+## 9. Rodzaje referencji
 
 ```java
 import java.lang.ref.*;
@@ -228,19 +398,21 @@ import java.lang.ref.*;
 Person strong = new Person("Anna", "Nowak", 30);
 
 // Słaba (Weak) — GC może usunąć w dowolnym momencie
-WeakReference<Person> weak = new WeakReference<>(new Person("X","Y",0));
-Person obj = weak.get(); // może zwrócić null!
+WeakReference<Person> weak = new WeakReference<>(new Person("X", "Y", 0));
+Person obj = weak.get(); // może zwrócić null po GC!
 
-// Miękka (Soft) — GC usuwa tylko gdy brakuje pamięci
-SoftReference<Person> soft = new SoftReference<>(new Person("Z","W",0));
+// Miękka (Soft) — GC usuwa tylko gdy brakuje pamięci (cache)
+SoftReference<Person> soft = new SoftReference<>(new Person("Z", "W", 0));
 
 // Fantomowa (Phantom) — po finalizacji, przed zwolnieniem pamięci
-// Używana do: śledzenia kiedy obiekt jest zbierany przez GC
+// Używana do śledzenia kiedy obiekt jest zbierany przez GC
 ```
+
+> 📄 Demo GC: [`advanced/GcDemo.java`](advanced/GcDemo.java)
 
 ---
 
-## 8. AutoCloseable i try-with-resources
+## 10. AutoCloseable i try-with-resources
 
 Zamiast przestarzałego `finalize()` (usuniętego w Java 18) używaj `AutoCloseable`:
 
@@ -248,7 +420,7 @@ Zamiast przestarzałego `finalize()` (usuniętego w Java 18) używaj `AutoClosea
 public class ResourceHolder implements AutoCloseable {
 
     public ResourceHolder(String name) {
-        System.out.println("[OPEN] " + name);
+        System.out.println("[OPEN]  " + name);
     }
 
     @Override
@@ -262,9 +434,9 @@ public class ResourceHolder implements AutoCloseable {
 // try-with-resources — close() wywołane automatycznie!
 try (ResourceHolder res = new ResourceHolder("Plik")) {
     res.doWork();
-} // <- res.close() tutaj, nawet gdy rzucony wyjątek
+} // ← res.close() tutaj, nawet gdy rzucony wyjątek
 
-// Wiele zasobów — zamykane w odwrotnej kolejności
+// Wiele zasobów — zamykane w odwrotnej kolejności otwarcia
 try (ResourceHolder r1 = new ResourceHolder("Socket");
      ResourceHolder r2 = new ResourceHolder("Plik")) {
     r1.doWork();
@@ -273,11 +445,55 @@ try (ResourceHolder r1 = new ResourceHolder("Socket");
 ```
 
 > 📄 Pełny kod: [`advanced/ResourceHolder.java`](advanced/ResourceHolder.java)
-> 📄 Demo GC: [`advanced/GcDemo.java`](advanced/GcDemo.java)
 
 ---
 
-## 9. Uruchamianie przykładów
+## 11. Testy jednostkowe
+
+Testy weryfikują konstruktory, walidację i zachowanie kopii:
+
+```java
+// Test konstruktora kopiującego — niezależność
+@Test
+void copyConstructorCreatesIndependentCopy() {
+    Person original = new Person("Anna", "Kowalska", 30);
+    Person copy = new Person(original);
+
+    copy.setAge(25);
+
+    assertEquals(30, original.getAge(), "Oryginal nie powinien sie zmienic");
+    assertEquals(25, copy.getAge());
+    assertNotSame(original, copy);
+}
+
+// Test głębokiej kopii — zmiana przez kopię nie wpływa na oryginał
+@Test
+void deepCopyMutationDoesNotAffectOriginal() {
+    Address addr    = new Address("Ul. C", "Wroclaw");
+    PersonDeep orig = new PersonDeep("Piotr", 40, addr, new ArrayList<>());
+    PersonDeep copy = orig.deepCopy();
+
+    copy.address.city = "Lublin";
+
+    assertEquals("Wroclaw", orig.address.city); // niezmienione!
+}
+
+// Test płytkiej kopii — współdzielenie referencji
+@Test
+void shallowCopySharesAddressReference() {
+    PersonShallow orig = new PersonShallow("Anna", 30, addr, hobbies);
+    PersonShallow copy = orig.shallowCopy();
+
+    assertSame(orig.address, copy.address); // ten sam obiekt!
+}
+```
+
+> 📄 Testy Person: [`tests/PersonTest.java`](tests/PersonTest.java)
+> 📄 Testy kopii: [`tests/CopyTest.java`](tests/CopyTest.java)
+
+---
+
+## 12. Uruchamianie przykładów
 
 ```bash
 # Z katalogu 02_OOP/src
@@ -285,6 +501,14 @@ try (ResourceHolder r1 = new ResourceHolder("Socket");
 # Konstruktory i inicjalizacja
 javac -d . introduction/object_lifecycle/basic/*.java
 java introduction.object_lifecycle.basic.PersonDemo
+
+# Kopie płytkie i głębokie
+javac -d . introduction/object_lifecycle/copies/CopyDemo.java
+java introduction.object_lifecycle.copies.CopyDemo
+
+# Wzorzec Prototype
+javac -d . introduction/object_lifecycle/copies/PrototypeDemo.java
+java introduction.object_lifecycle.copies.PrototypeDemo
 
 # Garbage Collector
 javac -d . introduction/object_lifecycle/advanced/GcDemo.java
@@ -308,10 +532,13 @@ java introduction.object_lifecycle.advanced.ResourceHolder
 | **Konstruktor** | Specjalna metoda inicjalizująca obiekt, wywołana przez `new` |
 | **Przeciążanie konstruktorów** | Wiele konstruktorów z różnymi parametrami |
 | **`this(...)`** | Wywołanie innego konstruktora z konstruktora |
+| **Konstruktor kopiujący** | Tworzy nowy obiekt jako kopię istniejącego |
+| **Kopia płytka** | Kopiuje referencje — zagnieżdżone obiekty współdzielone |
+| **Kopia głęboka** | Kopiuje wszystkie obiekty — pełna niezależność |
+| **Wzorzec Prototype** | Klonowanie zamiast `new` — dla kosztownej inicjalizacji |
 | **Blok statyczny** | Wykonywany raz przy ładowaniu klasy |
 | **Blok inicjalizacyjny** | Wykonywany przed każdym konstruktorem |
 | **GC** | Automatyczne usuwanie nieosiągalnych obiektów |
-| **`finalize()`** | Przestarzałe! Usunięte w Java 18 |
 | **`AutoCloseable`** | Nowoczesny sposób zwalniania zasobów |
 | **`try-with-resources`** | Gwarantuje wywołanie `close()` |
 
