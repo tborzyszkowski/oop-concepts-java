@@ -1,0 +1,49 @@
+@startuml static_vs_instance
+title Pola statyczne vs instancyjne — model pamięci
+
+skinparam backgroundColor #FAFAFA
+
+rectangle "Metaspace / Class Area\n(pamięć klasy)" as meta #LightBlue {
+    rectangle "Counter.class" as cls #AliceBlue {
+        rectangle "instanceCount = 3" as sf #LightSkyBlue [
+            <b>static int instanceCount</b>
+            Jedna kopia dla całej klasy
+        ]
+        rectangle "DEFAULT_MAX = 100" as sc #LightSkyBlue [
+            <b>static final int DEFAULT_MAX</b>
+            Stała klasy
+        ]
+    }
+}
+
+rectangle "Heap (Sterta)" as heap #LightGreen {
+    rectangle "c1 : Counter" as obj1 #PaleGreen {
+        rectangle "name = \"Zamówienia\"\ncount = 3\nminValue = 0\nmaxValue = 10" as f1 [
+            pola instancyjne c1
+        ]
+    }
+    rectangle "c2 : Counter" as obj2 #PaleGreen {
+        rectangle "name = \"Wizyty\"\ncount = 0\nminValue = 0\nmaxValue = 100" as f2 [
+            pola instancyjne c2
+        ]
+    }
+    rectangle "c3 : Counter" as obj3 #PaleGreen {
+        rectangle "name = \"Błędy\"\ncount = 0\nminValue = 0\nmaxValue = 50" as f3 [
+            pola instancyjne c3
+        ]
+    }
+}
+
+obj1 ..> meta : Counter.instanceCount++\n(przy new Counter)
+obj2 ..> meta
+obj3 ..> meta
+
+note bottom of heap
+  Każdy obiekt ma WŁASNĄ kopię
+  pól instancyjnych (name, count, ...)
+  Pole statyczne instanceCount = 3
+  jest <b>jedno</b> dla wszystkich!
+end note
+
+@enduml
+

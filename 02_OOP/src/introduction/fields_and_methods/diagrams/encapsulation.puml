@@ -1,0 +1,51 @@
+@startuml encapsulation_before_after
+title Enkapsulacja — Before vs After
+
+skinparam classAttributeIconSize 0
+
+package "BEFORE (anty-wzorzec)" #FFE0E0 {
+    class "Counter (before)" as CounterBefore {
+        + count : int
+        + name : String
+        + maxValue : int
+        ----
+        + increment() : void
+        + decrement() : void
+        + reset() : void
+    }
+
+    class "CounterBeforeDemo" as demoBefore
+    demoBefore --> CounterBefore
+    note on link
+        counter.count = -999; ✓ (dozwolone!)
+        counter.maxValue = -50; ✓ (dozwolone!)
+    end note
+}
+
+package "AFTER (enkapsulacja)" #E0FFE0 {
+    class "Counter (after)" as CounterAfter {
+        + {static} DEFAULT_MAX : int
+        + getCount() : int
+        + increment() : boolean
+        + decrement() : boolean
+        + reset() : void
+        + setName(name) : void
+        ----
+        - {static} instanceCount : int
+        - count : int
+        - name : String
+        - minValue : int
+        - maxValue : int
+        - statusBar() : String
+    }
+
+    class "FieldsMethodsDemo" as demoAfter
+    demoAfter --> CounterAfter
+    note on link
+        counter.count = -999; ✗ (błąd kompilacji!)
+        // tylko metody publiczne
+    end note
+}
+
+@enduml
+

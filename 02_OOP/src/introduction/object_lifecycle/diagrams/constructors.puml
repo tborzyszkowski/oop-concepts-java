@@ -1,0 +1,46 @@
+@startuml constructors
+title Konstruktory i delegowanie this(...)
+
+skinparam class {
+    BackgroundColor #E8F5E9
+    BorderColor #388E3C
+}
+
+class Person {
+    - firstName : String
+    - lastName : String
+    - age : int
+    - email : String
+    ----
+    + Person()
+    + Person(firstName, lastName)
+    + Person(firstName, lastName, age)
+    + Person(other : Person)
+}
+
+note "Person()\nthis(\"Nieznany\", \"Nieznany\", 0)" as n1
+note "Person(fn, ln)\nthis(fn, ln, 0)" as n2
+note "Person(fn, ln, age)\n<b>konstruktor docelowy</b>" as n3
+note "Person(other)\nthis(other.fn, other.ln, other.age)" as n4
+
+Person::Person .. n1
+Person::"Person(firstName, lastName)" .. n2
+Person::"Person(firstName, lastName, age)" .. n3
+Person::"Person(other : Person)" .. n4
+
+n1 --> n3 : deleguje\nthis(...)
+n2 --> n3 : deleguje\nthis(...)
+n4 --> n3 : deleguje\nthis(...)
+
+note bottom of Person
+  <b>Kolejność inicjalizacji:</b>
+  1. Blok statyczny (raz dla klasy)
+  2. Blok inicjalizacyjny instancji
+  3. Konstruktor
+
+  <b>Zasada:</b> this(...) musi być
+  pierwszą instrukcją konstruktora!
+end note
+
+@enduml
+

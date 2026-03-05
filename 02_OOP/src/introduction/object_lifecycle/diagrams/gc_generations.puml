@@ -1,0 +1,54 @@
+@startuml gc_generations
+title Heap JVM — Generacyjny Garbage Collector
+
+skinparam backgroundColor #FAFAFA
+skinparam rectangle {
+    RoundCorner 10
+}
+
+rectangle "JVM Heap" as heap #LightYellow {
+
+    rectangle "Young Generation" as young #LightBlue {
+        rectangle "Eden Space" as eden #AliceBlue [
+            Nowe obiekty
+            tworzone tutaj
+            (new Foo())
+        ]
+        rectangle "Survivor 0\n(S0)" as s0 #LightCyan [
+            Przeżyły\nMinor GC #1
+        ]
+        rectangle "Survivor 1\n(S1)" as s1 #LightCyan [
+            Przeżyły\nMinor GC #2
+        ]
+    }
+
+    rectangle "Old Generation\n(Tenured)" as old #LightGreen [
+        Obiekty długożyjące
+        (przeżyły wiele Minor GC)
+        Np. cache, singletons
+    ]
+
+    rectangle "Metaspace\n(Java 8+)" as meta #LightPink [
+        Metadane klas
+        (dawniej PermGen)
+        Nie ma stałego limitu
+    ]
+}
+
+eden --> s0 : Minor GC\n(Young GC)
+s0   --> s1 : kolejny\nMinor GC
+s1   --> old : Promotion\n(wiek > próg)
+old  --> old : Major GC\n(Full GC)
+
+note bottom of young
+  <b>Minor GC</b> — szybki, usuwa martwe obiekty z Young Gen
+  Większość obiektów jest krótkotrwała ("die young")
+end note
+
+note bottom of old
+  <b>Major/Full GC</b> — wolniejszy, "Stop the World"
+  Uruchamiany gdy Old Gen zapełniony
+end note
+
+@enduml
+
