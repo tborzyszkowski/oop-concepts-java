@@ -57,11 +57,11 @@ public class CalcTask {
 
     public static void main(String[] args) {
         Calculator calc = new Calculator();
-        System.out.println(calc.add(2, 3));       // 5.0
-        System.out.println(calc.divide(10, 4));   // 2.5
-        System.out.println(calc.power(2, 10));    // 1024.0
-        System.out.println(calc.sqrt(16));        // 4.0
-        System.out.println(calc.getHistory());
+//        System.out.println(calc.add(2, 3));       // 5.0
+//        System.out.println(calc.divide(10, 4));   // 2.5
+//        System.out.println(calc.power(2, 10));    // 1024.0
+//        System.out.println(calc.sqrt(16));        // 4.0
+//        System.out.println(calc.getHistory());
         // [add(2.0,3.0)=5.0, divide(10.0,4.0)=2.5, power(2.0,10)=1024.0, sqrt(16.0)=4.0]
     }
 }

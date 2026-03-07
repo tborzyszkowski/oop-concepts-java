@@ -54,19 +54,19 @@ public class RectangleTask {
 
     // Prosta weryfikacja ręczna — usuń gdy napiszesz testy JUnit
     public static void main(String[] args) {
-        Rectangle r1 = new Rectangle(4.0, 3.0);
-        System.out.println("Rectangle: " + r1);
-        System.out.println("Area: " + r1.area());           // 12.0
-        System.out.println("Perimeter: " + r1.perimeter()); // 14.0
-        System.out.println("isSquare: " + r1.isSquare());   // false
-
-        Rectangle r2 = new Rectangle(5.0, 5.0);
-        System.out.println("isSquare: " + r2.isSquare());   // true
-
-        Rectangle r3 = r1.scale(2.0);
-        System.out.println("Scaled: " + r3);                // 8.0 x 6.0
-
-        System.out.println("Instances: " + Rectangle.instanceCount); // 3
+//        Rectangle r1 = new Rectangle(4.0, 3.0);
+//        System.out.println("Rectangle: " + r1);
+//        System.out.println("Area: " + r1.area());           // 12.0
+//        System.out.println("Perimeter: " + r1.perimeter()); // 14.0
+//        System.out.println("isSquare: " + r1.isSquare());   // false
+//
+//        Rectangle r2 = new Rectangle(5.0, 5.0);
+//        System.out.println("isSquare: " + r2.isSquare());   // true
+//
+//        Rectangle r3 = r1.scale(2.0);
+//        System.out.println("Scaled: " + r3);                // 8.0 x 6.0
+//
+//        System.out.println("Instances: " + Rectangle.instanceCount); // 3
     }
 }
 

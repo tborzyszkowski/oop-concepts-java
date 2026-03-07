@@ -183,7 +183,7 @@ c.increment();     // OK — przez metodę publiczną
 
 ![encapsulation](diagrams/encapsulation.png)
 
-> 📄 Diagram PlantUML: [`diagrams/encapsulation.puml`](diagrams/encapsulation.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/encapsulation.puml`]&#40;diagrams/encapsulation.puml&#41;)
 
 > 📄 Kod przed: [`before/Counter.java`](before/Counter.java)
 > 📄 Kod po: [`after/Counter.java`](after/Counter.java)
