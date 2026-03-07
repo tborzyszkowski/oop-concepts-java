@@ -114,7 +114,7 @@ public Person(String firstName, String lastName, int age) {
 
 ![constructors](diagrams/constructors.png)
 
-> 📄 Diagram PlantUML: [`diagrams/constructors.puml`](diagrams/constructors.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/constructors.puml`]&#40;diagrams/constructors.puml&#41;)
 
 ---
 
@@ -188,7 +188,7 @@ System.out.println(p1.address.city); // "Gdansk" — niezmienione!
 
 ![shallow_vs_deep](diagrams/shallow_vs_deep.png)
 
-> 📄 Diagram PlantUML: [`diagrams/shallow_vs_deep.puml`](diagrams/shallow_vs_deep.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/shallow_vs_deep.puml`]&#40;diagrams/shallow_vs_deep.puml&#41;)
 > 📄 Pełny kod: [`copies/CopyDemo.java`](copies/CopyDemo.java)
 
 ### Kiedy co stosować?
@@ -275,7 +275,7 @@ System.out.println(warriorProto.getName()); // "Warrior_PROTO"
 
 ![prototype_pattern](diagrams/prototype_pattern.png)
 
-> 📄 Diagram PlantUML: [`diagrams/prototype_pattern.puml`](diagrams/prototype_pattern.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/prototype_pattern.puml`]&#40;diagrams/prototype_pattern.puml&#41;)
 > 📄 Pełny kod: [`copies/PrototypeDemo.java`](copies/PrototypeDemo.java)
 
 ---
@@ -342,7 +342,7 @@ Diagram cyklu życia obiektu:
 
 ![object_lifecycle](diagrams/object_lifecycle.png)
 
-> 📄 Diagram PlantUML: [`diagrams/object_lifecycle.puml`](diagrams/object_lifecycle.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/object_lifecycle.puml`]&#40;diagrams/object_lifecycle.puml&#41;)
 
 ---
 
@@ -369,7 +369,7 @@ p = null;
 
 ![gc_generations](diagrams/gc_generations.png)
 
-> 📄 Diagram PlantUML: [`diagrams/gc_generations.puml`](diagrams/gc_generations.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/gc_generations.puml`]&#40;diagrams/gc_generations.puml&#41;)
 
 | Obszar | Opis | GC |
 |--------|------|----|
