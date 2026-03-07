@@ -134,7 +134,7 @@ String description = switch (x) {
 
 ![switch_evolution](diagrams/switch_evolution.png)
 
-> 📄 Diagram PlantUML: [`diagrams/switch_evolution.puml`](diagrams/switch_evolution.puml)
+[//]: # (> 📄 Diagram PlantUML: [`diagrams/switch_evolution.puml`]&#40;diagrams/switch_evolution.puml&#41;)
 
 ---
 
