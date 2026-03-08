@@ -1,0 +1,46 @@
+@startuml access_modifiers
+title Modyfikatory dostępu w Javie
+
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor #FFFDE7
+    BorderColor #F57F17
+}
+
+class Counter {
+    ' === PUBLICZNE (dostępne wszędzie) ===
+    + {static} DEFAULT_MAX : int = 100
+    + getCount() : int
+    + getName() : String
+    + increment() : boolean
+    + decrement() : boolean
+    + reset() : void
+    + setName(name : String) : void
+    + {static} getTotalInstances() : int
+    ----
+    ' === PRYWATNE (tylko w tej klasie) ===
+    - {static} instanceCount : int
+    - name : String
+    - count : int
+    - minValue : int
+    - maxValue : int
+    - statusBar() : String
+}
+
+note right of Counter
+  <b>Legenda:</b>
+  <color:green>+</color> = <b>public</b>   - dostepny wszedzie
+  <color:red>-</color> = <b>private</b>  - tylko w tej klasie
+  <color:blue>#</color> = <b>protected</b>- klasa i podklasy
+  ~ = <b>package</b>  - tylko w pakiecie
+
+  <b>static</b> = pole/metoda KLASY
+  (nie instancji)
+end note
+
+class "Zewnętrzny kod" as ext
+ext --> Counter : może wywołać\npubliczne metody
+ext -[dashed]-> Counter : NIE może\ndotknąć prywatnych
+
+@enduml
+

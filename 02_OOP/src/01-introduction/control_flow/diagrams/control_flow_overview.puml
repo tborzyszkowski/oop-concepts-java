@@ -1,0 +1,61 @@
+@startuml control_flow_overview
+title Instrukcje sterujące Java — przegląd
+
+skinparam activity {
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
+    ArrowColor #1565C0
+    DiamondBackgroundColor #FFF9C4
+    DiamondBorderColor #F9A825
+}
+
+start
+
+:Instrukcja / wyrażenie;
+
+if (if / else if / else?) then (warunek prawdziwy)
+    :Blok if;
+else (fałsz)
+    if (else if?) then (kolejny warunek)
+        :Blok else if;
+    else (fałsz)
+        :Blok else;
+    endif
+endif
+
+:switch expression (Java 14+);
+note right
+  switch (val) {
+    case A -> ...;
+    case B, C -> ...;
+    default -> ...;
+  }
+end note
+
+while (while / for?) is (warunek true)
+    :Ciało pętli;
+    if (break?) then (tak)
+        break
+    endif
+    if (continue?) then (tak)
+        :przejdź do sprawdzenia warunku;
+    endif
+endwhile
+
+:do-while;
+repeat
+    :Ciało pętli (co najmniej raz);
+repeat while (warunek?)
+
+:try-with-resources;
+note right
+  try (Res r = new Res()) {
+    r.doWork();
+  }
+  // r.close() automatycznie
+end note
+
+stop
+
+@enduml
+
