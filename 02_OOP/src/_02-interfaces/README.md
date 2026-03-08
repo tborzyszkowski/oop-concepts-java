@@ -4,12 +4,12 @@
 
 | # | Temat | Katalog |
 |---|-------|---------|
-| 1 | [Pojęcie interfejsu — geneza i znaczenie](#1-pojęcie-interfejsu) | `interfaces_intro/` |
-| 2 | [Implementacja interfejsu w Java](#2-implementacja-interfejsu) | `interfaces_implementation/` |
-| 3 | [Zaawansowane przykłady: Comparable, Functional, Iterable](#3-zaawansowane-przykłady) | `interfaces_advanced/` |
-| 4 | [Szczególne właściwości: stałe, default, static, sealed](#4-szczególne-właściwości) | `interfaces_special/` |
-| 5 | [Interfejsy a wzorce projektowe](#5-interfejsy-a-wzorce-projektowe) | `interfaces_patterns/` |
-| 6 | [Zadania do samodzielnego rozwiązania](#6-zadania) | `exercises/` |
+| 1 | [Pojęcie interfejsu — geneza i znaczenie](interfaces_intro/README.md) | `interfaces_intro/` |
+| 2 | [Implementacja interfejsu w Java](interfaces_implementation/README.md) | `interfaces_implementation/` |
+| 3 | [Zaawansowane przykłady: Comparable, Functional, Iterable](interfaces_advanced/README.md) | `interfaces_advanced/` |
+| 4 | [Szczególne właściwości: stałe, default, static, sealed](interfaces_special/README.md) | `interfaces_special/` |
+| 5 | [Interfejsy a wzorce projektowe](interfaces_patterns/README.md) | `interfaces_patterns/` |
+| 6 | [Zadania do samodzielnego rozwiązania](exercises/README.md) | `exercises/` |
 
 ---
 
@@ -93,7 +93,13 @@ _02-interfaces/
 │   └── README.md
 ├── exercises/
 │   ├── tasks/                  # Zadania do samodzielnego rozwiązania
-│   └── solutions/              # Wzorcowe rozwiązania
+│   │   ├── PaymentTask.java    # Zadanie 1 — System płatności (⭐)
+│   │   ├── SortableTask.java   # Zadanie 2 — Comparable/Comparator (⭐⭐)
+│   │   ├── PluginTask.java     # Zadanie 3 — TextTransformer (⭐⭐)
+│   │   └── ShapeCalculatorTask.java  # Zadanie 4 — Sealed + switch (⭐⭐⭐)
+│   ├── solutions/
+│   │   └── Solutions.java      # Wzorcowe rozwiązania
+│   └── README.md
 ├── run-all-examples.ps1
 └── README.md  ← ten plik
 ```
@@ -104,7 +110,6 @@ _02-interfaces/
 
 - **Joshua Bloch** — *Effective Java, 3rd ed.* (2018) — Item 20: Prefer interfaces to abstract classes
 - **Bruce Eckel** — *Thinking in Java, 4th ed.* — rozdział "Interfaces"
-- Oracle JDK docs: [Interface (Java SE 21)](https://docs.oracle.com/en/java/docs/api/java.base/java/lang/reflect/Interface.html)
+- Oracle JDK docs: [Interface — Java SE 21](https://docs.oracle.com/en/java/se/21/docs/api/java.base/java/lang/reflect/package-summary.html)
 - JEP 409 — Sealed Classes (Java 17): <https://openjdk.org/jeps/409>
 - JEP 441 — Pattern Matching for switch (Java 21): <https://openjdk.org/jeps/441>
-
