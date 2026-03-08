@@ -13,6 +13,16 @@
 
 ---
 
+## 📅 Sugerowany plan zajęć (90 min)
+
+1.  **Wstęp (15 min):** Interface jako kontrakt. Dlaczego dziedziczenie to za mało? (moduł `interfaces_intro`).
+2.  **Live Coding (20 min):** Implementacja wielu interfejsów (`Duck` implements `Flyable`, `Swimmable`). Omówienie konfliktów nazw (moduł `interfaces_implementation`).
+3.  **Standard API (20 min):** `Comparable` vs `Comparator`. Krótkie wprowadzenie do Lambd (moduł `interfaces_advanced`).
+4.  **Nowości w Java (15 min):** Metody `default`, `static` i `sealed` (moduł `interfaces_special`).
+5.  **Praktyka (20 min):** Studenci rozwiązują Zadanie 1 (Płatności) lub Zadanie 2 (Sortowanie) z modułu `exercises`.
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell

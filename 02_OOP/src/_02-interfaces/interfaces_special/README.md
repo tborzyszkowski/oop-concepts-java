@@ -2,6 +2,11 @@
 
 ## Wprowadzenie
 
+### 🎯 Czego się nauczysz w tym module?
+*   Jak unikać psucia kodu klienta dzięki metodom **domyślnym** (`default`).
+*   Jak **Sealed Interfaces** pomagają kontrolować hierarchię dziedziczenia.
+*   Jak używać interfejsów jako fabryk (metody `static`).
+
 Wraz z ewolucją Javy, interfejsy zyskały nowe możliwości, zmieniając się z prostych definicji metod abstrakcyjnych w potężne narzędzie do projektowania API.
 
 W tym module zobaczysz:
@@ -79,9 +84,29 @@ Demo "Modern Java" w [SealedDemo.java](SealedDemo.java).
 
 ---
 
+## ⚠️ Najczęstsze błędy początkujących
+
+1.  **Nadużywanie metod `default`:**
+    Metody domyślne służą głównie do **zachowania kompatybilności wstecznej** (ewolucji API). Nie należy ich używać do implementowania logiki biznesowej, która powinna być w klasie. Traktuj je raczej jako "ratunek", a nie standardowy sposób pisania kodu.
+
+2.  **Ignorowanie metod `private`:**
+    Jeśli masz kilka metod `default` z powtarzającym się kodem, wydziel ten kod do metody `private` w interfejsie. To poprawia czytelność i ułatwia zmiany.
+
+3.  **Brak sekcji `default` w Switchu:**
+    W "starym" switchu zawsze trzeba było pisać `default:`.
+    W przypadku **Sealed Types**, jeśli pokryjesz wszystkie przypadki (`permits`), `default` jest zbędny. Ale uważaj: jeśli dodasz nową klasę do `permits`, a zapomnisz o switchu, kompilator zgłosi błąd (co jest dobrą rzeczą!).
+
+---
+
+## 📚 Literatura i materiały dodatkowe
+
+*   [JEP 409: Sealed Classes](https://openjdk.org/jeps/409)
+*   [Oracle Java Magazine: Java 17 Sealed Classes](https://blogs.oracle.com/javamagazine/post/java-17-sealed-classes-records-pattern-matching)
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
 .\run-examples.ps1
 ```
-

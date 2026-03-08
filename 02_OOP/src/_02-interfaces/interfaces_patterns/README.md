@@ -2,6 +2,11 @@
 
 ## Wprowadzenie
 
+### 🎯 Czego się nauczysz w tym module?
+*   Jak używać interfejsów jako **abstrakcji** (niezależnych od klas).
+*   Jak zaimplementować popularne wzorce: **Strategy**, **Observer**, **Command**.
+*   Jak wykorzystać interfejsy funkcyjne (i lambdy) w tych wzorcach.
+
 W świecie projektowania obiektowego, interfejsy odgrywają kluczową rolę. Pozwalają na **luźne powiązanie** (loose coupling) komponentów, co ułatwia testowanie, refaktoryzację i rozszerzanie kodu. Większość wzorców projektowych (z grupy GoF - Gang of Four) opiera się na polimorfizmie przez interfejsy.
 
 W tym module zobaczymy implementację czterech popularnych wzorców behawioralnych i konstrukcyjnych, w nowoczesnej Javie (z użyciem lambd).
@@ -72,9 +77,28 @@ Przykład systemu powiadomień w [FactoryDemo.java](FactoryDemo.java).
 
 ---
 
+## ⚠️ Najczęstsze błędy początkujących
+
+1.  **Sztywne wiązanie implementacji (`tight coupling`):**
+    Tworzenie instancji klasy konkretnej (`new BubbleSort()`) zamiast używania interfejsu (`SortStrategy`). To uniemożliwia łatwą podmianę algorytmu.
+
+2.  **Ignorowanie Lambd:**
+    Od Javy 8 wiele wzorców można zapisać w 1-2 linijkach kodu (np. `Observer` czy `Strategy`). Jeśli interfejs ma jedną metodę, użyj lambdy zamiast tworzyć całą nową klasę!
+
+3.  **Nadmiar interfejsów:**
+    "Interfejs marker" (pusty interfejs) jest dzisiaj rzadziej stosowany (zastępują go adnotacje). Nie twórz interfejsów "na zapas" — Java to nie C++ z plikami nagłówkowymi.
+
+---
+
+## 📚 Literatura i materiały dodatkowe
+
+*   **Erich Gamma et al.**, *Wzorce projektowe. Elementy oprogramowania obiektowego wielokrotnego użytku* (klasyka "GoF").
+*   **Joshua Bloch**, *Effective Java*, Temat 42: "Preferuj lambdy nad klasami anonimowymi".
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
 .\run-examples.ps1
 ```
-

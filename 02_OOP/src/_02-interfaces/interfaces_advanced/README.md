@@ -2,6 +2,12 @@
 
 ## Wprowadzenie
 
+### 🎯 Czego się nauczysz w tym module?
+*   Używać wbudowanych interfejsów Javy: `Comparable`, `Interable`, `Function`.
+*   Sortować kolekcje używając `Comparable` (naturalny porządek) i `Comparator` (własny porządek).
+*   Korzystać z wyrażeń **Lambda** do szybkiej implementacji interfejsów funkcyjnych.
+*   Zrozumieć mechanizm pętli `for-each` i interfejsu `Iterable`.
+
 W tym module przyjrzymy się interfejsom, które nie są częścią naszego kodu dziedzinowego (jak Kaczka czy Samochód), ale są **wbudowane w Javę** (`java.util.*`) i pełnią kluczową rolę w ekosystemie, w tym w sortowaniu kolekcji, pętlach czy programowaniu funkcyjnym.
 
 ---
@@ -95,9 +101,30 @@ Demo w [IterableDemo.java](IterableDemo.java).
 
 ---
 
+## ⚠️ Najczęstsze błędy początkujących
+
+1.  **Mylenie `Comparable` z `Comparator`:**
+    *   `Comparable` implementujemy *wewnątrz* naszej klasy (np. `Product`).
+    *   `Comparator` tworzymy *osobno* (jako lambdę lub klasę), gdy chcemy posortować klasę w inny sposób (lub taką, której nie możemy zmienić).
+
+2.  **Ignorowanie `@FunctionalInterface`:**
+    Adnotacja nie jest wymagana, ale *bardzo pomocna*. Chroni przed przypadkowym dodaniem drugiej metody abstrakcyjnej, co zepsułoby wszystkie lambdy w kodzie.
+
+3.  **Modyfikacja kolekcji w pętli `for-each`:**
+    Interfejs `Iterator` pozwala na bezpieczne usuwanie (`remove()`), ale pętla `for-each` ukrywa iterator. Próba usunięcia elementu z listy w `for-each` rzuci `ConcurrentModificationException`.
+
+---
+
+## 📚 Literatura i materiały dodatkowe
+
+*   **Cay S. Horstmann**, *Java. Techniki zaawansowane*, Rozdział 1: Strumienie (wprowadzenie do interfejsów funkcyjnych).
+*   [Oracle Tutorial: Lambda Expressions](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)
+*   [Oracle Tutorial: Object Ordering](https://docs.oracle.com/javase/tutorial/collections/interfaces/order.html)
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
 .\run-examples.ps1
 ```
-

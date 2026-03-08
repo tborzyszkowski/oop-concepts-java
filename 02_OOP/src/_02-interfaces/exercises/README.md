@@ -4,6 +4,13 @@ Jest to zestaw zadań mających na celu utrwalenie wiedzy o interfejsach w Javie
 
 Rozwiązania można sprawdzać w katalogu `solutions/`. Ale **najpierw spróbuj samodzielnie!**
 
+## ✅ Kryteria sukcesu / Definition of Done
+
+*   [x] Kod kompiluje się bez błędów.
+*   [x] Nazwy klas i interfejsów są zgodne z konwencją PascalCase.
+*   [x] Uruchomienie programu daje oczekiwany output (opisany w treści).
+*   [x] Zastosowano odpowiednie interfejsy z `java.util` (tam gdzie to konieczne).
+
 ---
 
 ## Zadanie 1: System Płatności (⭐)
@@ -78,4 +85,3 @@ Gotowe rozwiązania znajdziesz w pliku `exercises/solutions/Solutions.java`. Mo�
 javac -d out exercises/solutions/Solutions.java
 java -cp out exercises.solutions.Solutions
 ```
-

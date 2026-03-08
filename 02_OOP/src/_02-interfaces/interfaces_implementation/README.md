@@ -2,6 +2,11 @@
 
 ## Wprowadzenie
 
+### 🎯 Czego się nauczysz w tym module?
+*   Jak zaimplementować **wiele interfejsów** w jednej klasie.
+*   Jak radzić sobie z konfliktami nazw (gdy dwa interfejsy mają tę samą metodę).
+*   Jak bezpiecznie **rzutować obiekty** na interfejsy (`instanceof`).
+
 W przeciwieństwie do klas, gdzie w Javie dozwolone jest dziedziczenie tylko po jednej klasie ("Single Inheritance"), **klasa może implementować dowolną liczbę interfejsów**.
 
 Jest to potężne narzędzie, pozwalające modelować obiekty posiadające wiele różnych zdolności, np. `Duck` (kaczka), która potrafi zarówno latać (`Flyable`), jak i pływać (`Swimmable`).
@@ -84,9 +89,30 @@ Więcej w komentarzach w [Duck.java](Duck.java).
 
 ---
 
+## ⚠️ Najczęstsze błędy początkujących
+
+1.  **"Diamond Problem" (zły wybór metody):**
+    Gdy implementujesz dwa interfejsy z taką samą metodą default, musisz ją nadpisać w swojej klasie, bo kompilator nie wie którą wybrać.
+    `// Wymagane: return Interfejs1.super.metoda();`
+
+2.  **Rzutowanie "na ślepo":**
+    Próba rzutowania obiektu na interfejs, którego nie implementuje, kończy się błędem w działaniu programu (`ClassCastException`).
+    *Zawsze* używaj `instanceof` przed rzutowaniem!
+
+3.  **Zapominanie o wszystkich metodach:**
+    Jeśli klasa implementuje interfejs, musi zrealizować **wszystkie** jego metody abstrakcyjne (chyba że sama jest abstrakcyjna).
+
+---
+
+## 📚 Literatura i materiały dodatkowe
+
+*   **Cay S. Horstmann**, *Java. Podstawy*, Rozdział "Interfejsy".
+*   [Dokumentacja Oracle: Pattern Matching for instanceof](https://docs.oracle.com/en/java/javase/16/language/pattern-matching-instanceof.html)
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
 .\run-examples.ps1
 ```
-

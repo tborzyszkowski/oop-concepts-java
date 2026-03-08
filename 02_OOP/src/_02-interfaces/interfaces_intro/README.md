@@ -2,6 +2,11 @@
 
 ## Wprowadzenie
 
+### 🎯 Czego się nauczysz w tym module?
+*   Zrozumiesz **czym jest interfejs** (kontrakt) i dlaczego go używamy.
+*   Nauczysz się odróżniać dziedziczenie (`extends`) od implementacji (`implements`).
+*   Zobaczysz jak wykorzystać interfejsy do tworzenia elastycznego kodu (polimorfizm).
+
 Interfejs w Javie to fundamentalny mechanizm definiujący **kontrakt**, jaki musi spełnić klasa. Jest to sposób na osiągnięcie abstrakcji i oddzielenie definicji operacji ("co robić") od jej implementacji ("jak to zrobić").
 
 W odróżnieniu od dziedziczenia klas (`extends`), interfejsy pozwalają na zdefiniowanie wspólnych zachowań dla obiektów, które nie muszą należeć do tej samej hierarchii klas.
@@ -106,9 +111,36 @@ Więcej na temat różnic w diagramie powyżej.
 
 ---
 
+## ⚠️ Najczęstsze błędy początkujących
+
+1.  **Brak `public` przy implementacji:**
+    Metody w interfejsie są domyślnie `public`. Gdy implementujesz je w klasie, musisz jawnie dodać modyfikator `public`. Jeśli go pominiesz, kompilator zgłosi błąd (próba zawężenia widoczności do package-private).
+    ```java
+    // ŹLE:
+    void print() { ... } 
+    // DOBRZE:
+    public void print() { ... }
+    ```
+
+2.  **Próba użycia `new` na interfejsie:**
+    Nie można utworzyć instancji interfejsu (chyba że jako klasę anonimową).
+    `Printable p = new Printable(); // BŁĄD!`
+
+3.  **Mylenie interfejsu z klasą:**
+    Interfejs opisuje *zachowanie* (co obiekt potrafi), a nie *stan* (co obiekt ma w środku).
+
+---
+
+## 📚 Literatura i materiały dodatkowe
+
+*   **Joshua Bloch**, *Effective Java*, Temat 20: "Preferuj interfejsy nad klasami abstrakcyjnymi".
+*   **Cay S. Horstmann**, *Java. Podstawy*, Rozdział o interfejsach.
+*   [Dokumentacja Oracle: What Is an Interface?](https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html)
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
 .\run-examples.ps1
 ```
-
