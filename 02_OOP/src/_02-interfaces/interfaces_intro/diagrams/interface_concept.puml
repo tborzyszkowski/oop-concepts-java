@@ -1,0 +1,63 @@
+@startuml interface_concept
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam class {
+  BackgroundColor #EEF2FF
+  BorderColor #4A6CF7
+  ArrowColor #4A6CF7
+}
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
+skinparam note {
+  BackgroundColor #F0FFF4
+  BorderColor #22C55E
+}
+
+title Interfejs jako Kontrakt
+
+interface Printable <<interface>> {
+  + {abstract} print() : void
+}
+
+class Document {
+  - title : String
+  - content : String
+  + print() : void
+  + getTitle() : String
+}
+
+class Photo {
+  - filename : String
+  - widthPx : int
+  - heightPx : int
+  + print() : void
+}
+
+class "PDF Viewer" as PDF {
+  + print() : void
+}
+
+Document ..|> Printable : implements
+Photo    ..|> Printable : implements
+PDF      ..|> Printable : implements
+
+note right of Printable
+  Interfejs = Kontrakt
+  "Obiecuję zaimplementować
+   metodę print()"
+
+  Klasy NIE muszą być
+  ze sobą powiązane!
+end note
+
+note bottom of Document
+  Document i Photo nie
+  dziedziczą po sobie —
+  łączy je tylko interfejs
+end note
+@enduml
+

@@ -1,0 +1,59 @@
+@startuml strategy_pattern
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam class {
+  BackgroundColor #EEF2FF
+  BorderColor #4A6CF7
+}
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
+
+title Wzorzec Strategy — Interfejs jako punkt rozszerzenia
+
+interface SortStrategy <<interface>> {
+  + {abstract} sort(array : int[]) : void
+  + name() : String  <<default>>
+}
+
+class BubbleSort {
+  + sort(array : int[]) : void
+}
+
+class SelectionSort {
+  + sort(array : int[]) : void
+}
+
+class JavaBuiltinSort {
+  + sort(array : int[]) : void
+  + name() : String
+}
+
+class Sorter <<Context>> {
+  - strategy : SortStrategy
+  + setStrategy(SortStrategy) : void
+  + sortCopy(data : int[]) : int[]
+  + currentStrategy() : String
+}
+
+BubbleSort      ..|> SortStrategy
+SelectionSort   ..|> SortStrategy
+JavaBuiltinSort ..|> SortStrategy
+Sorter          o--> SortStrategy : uses
+
+note right of Sorter
+  Podmiana strategii w runtime:
+  sorter.setStrategy(new BubbleSort());
+  sorter.setStrategy(new QuickSort());
+  sorter.setStrategy(a -> Arrays.sort(a)); // lambda!
+end note
+
+note bottom of SortStrategy
+  SortStrategy jest interfejsem
+  funkcyjnym — implementacja
+  przez lambde jest mozliwa!
+end note
+@enduml
+

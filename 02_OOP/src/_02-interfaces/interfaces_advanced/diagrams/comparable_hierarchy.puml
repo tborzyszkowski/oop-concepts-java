@@ -1,0 +1,57 @@
+@startuml comparable_hierarchy
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam class { BackgroundColor #EEF2FF; BorderColor #4A6CF7 }
+skinparam interface { BackgroundColor #FFF8E1; BorderColor #F59E0B }
+
+title Comparable<T> i Comparator<T>
+
+interface "Comparable<T>" <<interface>> {
+  + {abstract} compareTo(T o) : int
+}
+
+interface "Comparator<T>" <<interface>> {
+  + {abstract} compare(T o1, T o2) : int
+  + reversed() : Comparator<T>  <<default>>
+  + thenComparing(...) : Comparator<T>  <<default>>
+  + {static} comparing(...) : Comparator<T>
+}
+
+class "Product" {
+  - name : String
+  - price : double
+  - category : String
+  + compareTo(Product) : int
+  + getName() : String
+  + getPrice() : double
+}
+
+class "Collections" <<utility>> {
+  + {static} sort(List<T>) : void
+  + {static} sort(List<T>, Comparator<T>) : void
+}
+
+class "TreeSet<T>" {
+  ' Automatycznie sortuje wg Comparable
+}
+
+Product ..|> "Comparable<T>"
+"Collections" ..> "Comparable<T>" : uses
+"Collections" ..> "Comparator<T>" : uses
+"TreeSet<T>"  ..> "Comparable<T>" : requires
+
+note right of "Comparable<T>"
+  Naturalne porządkowanie —
+  "wbudowane" w klasę.
+  Jedna implementacja.
+end note
+
+note right of "Comparator<T>"
+  Zewnętrzne porządkowanie —
+  możliwe wiele strategii.
+  Lambda jako Comparator!
+  Comparator.comparing(Product::getPrice)
+end note
+@enduml
+

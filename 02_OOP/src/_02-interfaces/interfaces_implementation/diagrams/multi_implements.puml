@@ -1,0 +1,64 @@
+@startuml multi_implements
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam class { BackgroundColor #EEF2FF; BorderColor #4A6CF7 }
+skinparam interface { BackgroundColor #FFF8E1; BorderColor #F59E0B }
+
+title Wielokrotna Implementacja Interfejsów
+
+interface Flyable <<interface>> {
+  + {abstract} fly() : void
+  + {abstract} getAltitude() : int
+  + status() : String  <<default>>
+}
+
+interface Swimmable <<interface>> {
+  + {abstract} swim() : void
+  + {abstract} getDiveDepth() : int
+  + status() : String  <<default>>
+}
+
+class Duck {
+  - name : String
+  - altitude : int
+  - diveDepth : int
+  + fly() : void
+  + getAltitude() : int
+  + swim() : void
+  + getDiveDepth() : int
+  + status() : String
+  + flyStatus() : String
+  + swimStatus() : String
+}
+
+class Airplane {
+  - registration : String
+  - altitude : int
+  + fly() : void
+  + getAltitude() : int
+}
+
+class Submarine {
+  - name : String
+  - depth : int
+  + swim() : void
+  + getDiveDepth() : int
+}
+
+Duck      ..|> Flyable
+Duck      ..|> Swimmable
+Airplane  ..|> Flyable
+Submarine ..|> Swimmable
+
+note right of Duck
+  Duck musi zaimplementować
+  WSZYSTKIE metody z OBU interfejsów.
+
+  Konflikt status() — musi
+  nadpisać explicite:
+    Flyable.super.status()
+    Swimmable.super.status()
+end note
+@enduml
+

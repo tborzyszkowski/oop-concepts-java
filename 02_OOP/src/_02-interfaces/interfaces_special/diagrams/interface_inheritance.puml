@@ -1,0 +1,65 @@
+@startuml interface_inheritance
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam class {
+  BackgroundColor #EEF2FF
+  BorderColor #4A6CF7
+}
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
+
+title Dziedziczenie Interfejsów i Specjalne Metody (Java 8/9+)
+
+interface Vehicle <<interface>> {
+  + {static} MAX_SPEED_KMH = 300
+  + {static} DEFAULT_FUEL = "Benzyna"
+  + {abstract} getBrand() : String
+  + {abstract} getCurrentSpeed() : int
+  + startEngine() : void        <<default>>
+  + stopEngine() : void         <<default>>
+  + statusReport() : String     <<default>>
+  + {static} create(brand) : Vehicle
+  - logEvent(event) : void      <<private>>
+}
+
+interface ElectricVehicle <<interface>> {
+  + {static} DEFAULT_FUEL = "Elektrycznosc"
+  + {static} MAX_CHARGE_KW = 250
+  + {abstract} getBatteryPercent() : int
+  + {abstract} charge(kilowatts) : void
+  + startEngine() : void        <<default, override>>
+  + batteryStatus() : String    <<default>>
+}
+
+class Tesla {
+  - model : String
+  - speed : int
+  - battery : int
+  + getBrand() : String
+  + getCurrentSpeed() : int
+  + getBatteryPercent() : int
+  + charge(kilowatts) : void
+  + accelerate(kmh) : void
+}
+
+ElectricVehicle --|> Vehicle       : extends
+Tesla           ..|> ElectricVehicle : implements
+
+note right of Vehicle
+  Java 8: default methods
+  Java 8: static methods
+  Java 9: private methods
+  (stale: public static final)
+end note
+
+note bottom of Tesla
+  Tesla dziedziczy WSZYSTKIE
+  default methods z Vehicle
+  (przez ElectricVehicle),
+  z wyjatkiem nadpisanych.
+end note
+@enduml
+

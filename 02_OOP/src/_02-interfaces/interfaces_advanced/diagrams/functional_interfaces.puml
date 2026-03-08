@@ -1,0 +1,59 @@
+@startuml functional_interfaces
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam interface { BackgroundColor #FFF8E1; BorderColor #F59E0B }
+
+title Interfejsy Funkcyjne — java.util.function
+
+interface "Predicate<T>" <<@FunctionalInterface>> {
+  + test(T t) : boolean
+  + and(Predicate) : Predicate
+  + or(Predicate)  : Predicate
+  + negate()       : Predicate
+}
+
+interface "Function<T,R>" <<@FunctionalInterface>> {
+  + apply(T t) : R
+  + andThen(Function) : Function
+  + compose(Function) : Function
+}
+
+interface "Consumer<T>" <<@FunctionalInterface>> {
+  + accept(T t) : void
+  + andThen(Consumer) : Consumer
+}
+
+interface "Supplier<T>" <<@FunctionalInterface>> {
+  + get() : T
+}
+
+interface "Validator<T>" <<@FunctionalInterface>> {
+  + validate(T value) : boolean
+  + and(Validator) : Validator
+  + or(Validator)  : Validator
+  + negate()       : Validator
+}
+
+note bottom of "Predicate<T>"
+  n -> n > 0
+  (lambda)
+end note
+
+note bottom of "Function<T,R>"
+  String::toUpperCase
+  (method reference)
+end note
+
+note bottom of "Supplier<T>"
+  ArrayList::new
+  (constructor reference)
+end note
+
+note right of "Validator<T>"
+  Własny interfejs funkcyjny
+  — identyczny wzorzec co
+  Predicate<T>
+end note
+@enduml
+

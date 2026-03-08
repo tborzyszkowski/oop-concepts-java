@@ -1,0 +1,61 @@
+@startuml factory_pattern
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam backgroundColor white
+skinparam class {
+  BackgroundColor #EEF2FF
+  BorderColor #4A6CF7
+}
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
+
+title Wzorzec Factory Method — Interfejs produktu i fabryki
+
+interface Notification <<interface>> {
+  + {abstract} send(message : String) : void
+  + {abstract} getType() : String
+}
+
+class EmailNotification {
+  - address : String
+  + send(String) : void
+  + getType() : String
+}
+
+class SmsNotification {
+  - phone : String
+  + send(String) : void
+  + getType() : String
+}
+
+class PushNotification {
+  - deviceToken : String
+  + send(String) : void
+  + getType() : String
+}
+
+interface "NotificationFactory" <<@FunctionalInterface>> {
+  + {abstract} create(recipient : String) : Notification
+  + {static} forChannel(channel : String) : NotificationFactory
+}
+
+EmailNotification ..|> Notification
+SmsNotification   ..|> Notification
+PushNotification  ..|> Notification
+
+"NotificationFactory" ..> Notification : creates
+
+note right of "NotificationFactory"
+  @FunctionalInterface — mozna
+  uzywac lambdy jako fabryki:
+  NotificationFactory f =
+    r -> new EmailNotification(r);
+
+  static forChannel() zwraca
+  odpowiednia fabryke wg kanalu.
+end note
+@enduml
+
+
