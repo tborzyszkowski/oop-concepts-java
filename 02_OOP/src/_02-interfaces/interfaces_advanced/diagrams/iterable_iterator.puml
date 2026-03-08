@@ -2,8 +2,14 @@
 skinparam classAttributeIconSize 0
 skinparam defaultFontName "Segoe UI"
 skinparam backgroundColor white
-skinparam class { BackgroundColor #EEF2FF; BorderColor #4A6CF7 }
-skinparam interface { BackgroundColor #FFF8E1; BorderColor #F59E0B }
+skinparam class {
+  BackgroundColor #EEF2FF
+  BorderColor #4A6CF7
+}
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
 
 title Iterable<T> i Iterator<T>
 

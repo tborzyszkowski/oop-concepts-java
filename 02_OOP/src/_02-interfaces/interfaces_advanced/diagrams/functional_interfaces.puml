@@ -2,7 +2,10 @@
 skinparam classAttributeIconSize 0
 skinparam defaultFontName "Segoe UI"
 skinparam backgroundColor white
-skinparam interface { BackgroundColor #FFF8E1; BorderColor #F59E0B }
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
 
 title Interfejsy Funkcyjne — java.util.function
 

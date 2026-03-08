@@ -2,18 +2,20 @@
 skinparam classAttributeIconSize 0
 skinparam defaultFontName "Segoe UI"
 skinparam backgroundColor white
-skinparam class { BackgroundColor #EEF2FF; BorderColor #4A6CF7 }
-skinparam interface { BackgroundColor #FFF8E1; BorderColor #F59E0B }
-skinparam abstract { BackgroundColor #FFE4E4; BorderColor #EF4444 }
+skinparam class {
+  BackgroundColor #EEF2FF
+  BorderColor #4A6CF7
+}
+skinparam interface {
+  BackgroundColor #FFF8E1
+  BorderColor #F59E0B
+}
 
 title Interfejs vs Klasa Abstrakcyjna
 
 package "Interfejs" {
   interface Printable <<interface>> {
     + {abstract} print() : void
-    ' Brak stanu (pól instancji)
-    ' Brak konstruktora
-    ' Wielokrotna implementacja OK
   }
 }
 
@@ -22,17 +24,21 @@ package "Klasa abstrakcyjna" {
     # color : String
     + {abstract} area() : double
     + describe() : String
-    ' MA stan (pola instancji)
-    ' MA konstruktor
-    ' Tylko jedno dziedziczenie!
   }
 }
 
-class Document { + print() : void }
-class Photo    { + print() : void }
-
-class Circle   { + area() : double }
-class Square   { + area() : double }
+class Document {
+  + print() : void
+}
+class Photo {
+  + print() : void
+}
+class Circle {
+  + area() : double
+}
+class Square {
+  + area() : double
+}
 
 Document ..|> Printable
 Photo    ..|> Printable
@@ -40,20 +46,19 @@ Circle   --|> AbstractShape
 Square   --|> AbstractShape
 
 note right of Printable
-  <b>Interfejs:</b>
-  - brak stanu (pól instancji)
+  Interfejs:
+  - brak stanu (pol instancji)
   - wielokrotna implementacja
-  - domyślnie public abstract
+  - domyslnie public abstract
   - Java 8+: default, static
   - Java 9+: private
 end note
 
 note right of AbstractShape
-  <b>Klasa abstrakcyjna:</b>
-  - może mieć pola instancji
+  Klasa abstrakcyjna:
+  - moze miec pola instancji
   - jedno dziedziczenie (extends)
-  - może mieć konstruktory
-  - może mieć metody konkretne
+  - moze miec konstruktory
+  - moze miec metody konkretne
 end note
 @enduml
-
