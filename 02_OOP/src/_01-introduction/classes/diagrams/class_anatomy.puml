@@ -1,0 +1,40 @@
+@startuml class_anatomy
+title Anatomia klasy Java
+
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor LightYellow
+    BorderColor DarkOrange
+    ArrowColor DarkOrange
+    FontSize 13
+}
+
+class Dog {
+    ' ===== POLA (Fields) - stan obiektu =====
+    + name : String
+    + breed : String
+    + age : int
+    + isVaccinated : boolean
+    ----
+    ' ===== METODY (Methods) - zachowanie =====
+    + bark() : void
+    + describe() : void
+    + greet(visitorName : String) : void
+    + isAdult() : boolean
+    + toString() : String
+}
+
+note right of Dog
+  <b>Klasa</b> = szablon (blueprint)
+  opisujący strukturę i zachowanie
+  obiektów danego typu.
+
+  <b>Pola</b> = dane / stan obiektu
+  (zmienne należące do obiektu)
+
+  <b>Metody</b> = zachowanie obiektu
+  (operacje, które obiekt potrafi wykonać)
+end note
+
+@enduml
+

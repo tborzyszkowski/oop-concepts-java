@@ -1,0 +1,53 @@
+@startuml object_lifecycle
+title Cykl życia obiektu w Javie
+
+skinparam state {
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
+    ArrowColor #1565C0
+}
+
+[*] --> Alokacja : new Person(...)
+
+state Alokacja {
+    [*] --> [*] : JVM alokuje pamięć\nna stercie (heap)
+}
+
+Alokacja --> Inicjalizacja : pamięć przydzielona
+
+state Inicjalizacja {
+    [*] --> StaticBlock : 1. Blok statyczny\n(tylko raz)
+    StaticBlock --> InitBlock : 2. Blok inicjalizacyjny
+    InitBlock --> Constructor : 3. Konstruktor
+    Constructor --> [*]
+}
+
+Inicjalizacja --> UzytkiWanie : obiekt gotowy\nreferencja zwrócona
+
+state UzytkiWanie {
+    [*] --> [*] : Wywołania metod,\nzmiana stanu
+}
+
+UzytkiWanie --> Nieosiagalny : brak silnych referencji\n(zmienna = null\nlub wyjście z zakresu)
+
+state Nieosiagalny {
+    [*] --> [*] : Tylko WeakReference/\nSoftReference lub nic
+}
+
+Nieosiagalny --> GC : Garbage Collector\nidentyfikuje obiekt
+
+state GC {
+    [*] --> [*] : Mark-and-Sweep\nlub G1/ZGC
+}
+
+GC --> [*] : Pamięć zwolniona
+
+note right of Nieosiagalny
+  <b>System.gc()</b> to tylko sugestia!
+  JVM decyduje kiedy uruchomić GC.
+  Nigdy nie polegaj na dokładnym
+  czasie wywołania GC.
+end note
+
+@enduml
+

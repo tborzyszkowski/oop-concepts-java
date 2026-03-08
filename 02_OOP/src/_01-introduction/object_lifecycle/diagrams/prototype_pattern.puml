@@ -1,0 +1,67 @@
+@startuml prototype_pattern
+title Wzorzec Prototype
+
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor #E8F5E9
+    BorderColor #388E3C
+}
+skinparam interface {
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
+}
+
+interface "Prototype<T>" as Proto {
+    + copy() : T
+}
+
+class GameCharacter {
+    - name : String
+    - type : String
+    - health : int
+    - mana : int
+    - level : int
+    - position : Position
+    - inventory : List<String>
+    ----
+    + GameCharacter(name, type, ...)
+    - GameCharacter(other : GameCharacter)
+    + copy() : GameCharacter
+    + withName(name) : GameCharacter
+    + atPosition(x, y) : GameCharacter
+    + addItem(item) : GameCharacter
+}
+
+class Position {
+    - x : double
+    - y : double
+    ----
+    + Position(x, y)
+    + Position(other : Position)
+}
+
+class CharacterRegistry {
+    - prototypes : Map<String, GameCharacter>
+    ----
+    + register(key, prototype) : void
+    + spawn(key) : GameCharacter
+}
+
+GameCharacter ..|> Proto : implements
+GameCharacter *--> Position : position\n(deep copy)
+CharacterRegistry --> GameCharacter : klonuje przez copy()
+
+note right of GameCharacter
+  Konstruktor prywatny zapobiega
+  bezposredniemu kopiowaniu.
+  copy() gwarantuje gleboka kopie.
+end note
+
+note bottom of CharacterRegistry
+  Registry przechowuje prototypy.
+  spawn() = clone prototypu,
+  bez kosztownej inicjalizacji!
+end note
+
+@enduml
+

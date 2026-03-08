@@ -1,0 +1,36 @@
+@startuml memory_model
+title Model pamieci - stos (Stack) vs sterta (Heap)
+
+skinparam backgroundColor #FAFAFA
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #F9A825
+}
+skinparam rectangle {
+    RoundCorner 8
+}
+
+rectangle "STOS (Stack)\nmain() frame" as stack #LightBlue {
+    rectangle "ref1: Dog\n-> 0xA100" as ref1 #LightCyan
+    rectangle "ref2: Dog\n-> 0xB200" as ref2 #LightCyan
+    rectangle "ref3: Dog\n-> null" as ref3 #LightCyan
+}
+
+rectangle "STERTA (Heap)" as heap #LightGreen {
+    rectangle "Obiekt Dog @0xA100\nname = \"Rex\"\nbreed = \"Owczarek\"\nage = 3" as obj1 #PaleGreen
+    rectangle "Obiekt Dog @0xB200\nname = \"Buddy\"\nbreed = \"Labrador\"\nage = 1" as obj2 #PaleGreen
+}
+
+ref1 --> obj1 : referencja
+ref2 --> obj2 : referencja
+ref3 -[dashed]-> heap : null\n(brak obiektu)
+
+note right of heap
+  Obiekty zyja na stercie.
+  Gdy zadna referencja nie wskazuje
+  na obiekt - Garbage Collector
+  moze go usunac.
+end note
+
+@enduml
+
