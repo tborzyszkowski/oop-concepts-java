@@ -6,17 +6,48 @@ Zajęcia z programowania obiektowego z przykładami w Java.
 ```
 oop-concepts-java/
 ├── 01_FUNDAMENTALS/          # Podstawy programowania obiektowego
-├── 02_OOP/                   # Zaawansowane koncepcje OOP
-├── 03_ADVANCED/              # Zaawansowane tematy
+├── 02_OOP/
 │   └── src/
-│       └── solid/            # ⭐ Zasady SOLID (nowe!)
+│       └── 01-introduction/  # ⭐ Moduł 01: Wprowadzenie do OOP w Javie
+├── 03_ADVANCED/
+│   └── src/
+│       └── solid/            # ⭐ Zasady SOLID
 ├── DOCS/                     # Dokumentacja
 ├── EXERCISES/                # Ćwiczenia
 ├── PRESENTATIONS/            # Prezentacje
 └── PROJECTS/                 # Projekty
 ```
 
-## 🆕 Nowe materiały: Zasady SOLID
+---
+
+## 📘 Moduł 01 — Wprowadzenie do OOP w Javie
+
+W katalogu `02_OOP/src/01-introduction/` znajdziesz kompleksowe materiały dydaktyczne
+wprowadzające do programowania obiektowego w Javie.
+
+### Zawartość
+
+| Podmoduł | Temat |
+|----------|-------|
+| `classes/` | Klasy i Obiekty — klasa, obiekt, pole, metoda, operator `new` |
+| `fields_and_methods/` | Pola i Metody — modyfikatory dostępu, `static`, enkapsulacja |
+| `object_lifecycle/` | Cykl życia obiektów — konstruktory, GC, kopie, Prototype |
+| `control_flow/` | Instrukcje sterujące — Java vs C vs Python |
+| `tdd/` | TDD — Red-Green-Refactor, JUnit 5, Stack jako przykład |
+| `exercises/` | Zadania dla studentów |
+
+### Szybki start
+
+```powershell
+cd 02_OOP\src\01-introduction
+.\run-all-examples.ps1
+```
+
+📖 **Szczegółowa instrukcja**: [02_OOP/src/01-introduction/INSTRUKCJA.md](02_OOP/src/01-introduction/INSTRUKCJA.md)
+
+---
+
+## 🔷 Zasady SOLID
 
 W katalogu `03_ADVANCED/src/solid/` znajdziesz kompleksowe materiały dydaktyczne o zasadach SOLID:
 
@@ -94,5 +125,4 @@ Materiały dydaktyczne z programowania obiektowego w Java.
 
 ---
 
-**Ostatnia aktualizacja**: Grudzień 2024 - dodano kompletne materiały o zasadach SOLID
-
+**Ostatnia aktualizacja**: Marzec 2026 — Moduł 01 przemianowany na `01-introduction`, dodano numerację modułów
