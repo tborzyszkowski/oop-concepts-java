@@ -48,15 +48,48 @@ Zobacz przykład w [Vehicle.java](Vehicle.java) i [ElectricVehicle.java](Electri
 Definiują funkcjonalność, która należy do samego interfejsu (np. metoda fabryczna), a nie do instancji klasy implementującej.
 
 ```java
-// Wywołanie: Vehicle.create("Ford");
+// Vehicle.java
 static Vehicle create(String brand) {
-    return new Car(brand);
+    return new Vehicle() {
+        @Override public String getBrand() { return brand; }
+        @Override public int getCurrentSpeed() { return 0; }
+    };
 }
 ```
-**Uwaga:** Metody statyczne w interfejsie **nie są dziedziczone** przez klasy implementujące.
+
+Przykład użycia znajdziesz w [DefaultMethodDemo.java](DefaultMethodDemo.java):
+
+```java
+Vehicle generic = Vehicle.create("GenericBrand");
+System.out.println(generic.statusReport());
+// ElectricVehicle.create(...) // blad: metody static nie sa dziedziczone
+```
+
+**Wniosek:** metody statyczne wywołujemy przez nazwę interfejsu (`Vehicle.create(...)`),
+nie przez obiekt i nie przez interfejs potomny.
 
 ### Metody prywatne (`private`)
-Jeśli kilka metod domyślnych (lub statycznych) potrzebuje tej samej logiki, możemy ją wydzielić do prywatnej metody wewnątrz interfejsu. Jest ona niewidoczna na zewnątrz.
+Jeśli kilka metod domyślnych (lub statycznych) potrzebuje tej samej logiki, możemy ją wydzielić do prywatnej metody wewnątrz interfejsu. Jest ona niewidoczna na zewnątrz i służy tylko porządkowaniu implementacji.
+
+W [Vehicle.java](Vehicle.java) metoda prywatna `logEvent(...)` jest współdzielona przez dwie metody domyślne:
+
+```java
+default void startEngine() {
+    System.out.println(getBrand() + ": Silnik uruchomiony (paliwo: " + DEFAULT_FUEL + ")");
+    logEvent("START");
+}
+
+default void stopEngine() {
+    System.out.println(getBrand() + ": Silnik zatrzymany");
+    logEvent("STOP");
+}
+
+private void logEvent(String event) {
+    System.out.println("  [LOG] " + event + " @ " + System.currentTimeMillis());
+}
+```
+
+To podejście eliminuje duplikację kodu i upraszcza utrzymanie interfejsu podczas dalszej rozbudowy API.
 
 ---
 
