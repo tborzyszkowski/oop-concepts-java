@@ -1,0 +1,8 @@
+@startuml
+interface MessageSender
+class ConsoleSender
+class NotificationService
+MessageSender <|.. ConsoleSender
+NotificationService --> MessageSender
+@enduml
+

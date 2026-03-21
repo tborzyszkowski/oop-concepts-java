@@ -1,0 +1,11 @@
+@startuml
+class Vehicle
+class Car
+Vehicle <|-- Car
+note right of Car
+Upcasting: Car -> Vehicle
+Downcasting: Vehicle -> Car
+(z kontrola instanceof)
+end note
+@enduml
+

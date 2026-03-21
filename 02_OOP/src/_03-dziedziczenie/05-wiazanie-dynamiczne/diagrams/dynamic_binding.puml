@@ -1,0 +1,18 @@
+@startuml
+abstract class Shape {
+  {abstract} +area(): double
+}
+class Circle {
+  +area(): double
+}
+class Rectangle {
+  +area(): double
+}
+Shape <|-- Circle
+Shape <|-- Rectangle
+note right of Shape
+Pozne wiazanie: metoda wybierana
+na podstawie rzeczywistego typu obiektu
+end note
+@enduml
+

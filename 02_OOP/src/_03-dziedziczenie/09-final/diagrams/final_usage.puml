@@ -1,0 +1,11 @@
+@startuml
+class ImmutablePoint <<final>>
+class BaseService {
+  +audit(): void <<final>>
+}
+note right of ImmutablePoint
+final class: brak dziedziczenia
+final fields: niemutowalnosc
+end note
+@enduml
+

@@ -1,0 +1,16 @@
+@startuml
+class Person {
+  #name: String
+  +describe(): String
+}
+class Student {
+  -indexNumber: String
+  +describe(): String
+}
+Person <|-- Student
+note bottom of Student
+super(name) w konstruktorze
+super.describe() w metodzie
+end note
+@enduml
+
