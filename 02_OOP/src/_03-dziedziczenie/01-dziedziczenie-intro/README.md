@@ -1,25 +1,59 @@
-# 01 - Dziedziczenie: geneza i implementacja
+# Modul 3.1: Pojecie dziedziczenia i implementacja w Javie
 
-Dziedziczenie pozwala budowac nowy typ na bazie istniejącego typu. W Java realizujemy to przez `extends`.
+## Wprowadzenie
+
+Dziedziczenie pozwala budowac nowy typ na bazie istniejacego typu. W Javie realizujemy to przez `extends`, a glowna korzyscia jest wspolny kontrakt `is-a` oraz mozliwosc ponownego uzycia kodu.
+
+### Czego nauczysz sie w tym module?
+- odrozniania relacji `is-a` od relacji `has-a`,
+- projektowania prostych hierarchii klas,
+- swiadomego uzycia `override` w klasie potomnej.
+
+---
+
+## Diagram koncepcji
 
 ![Diagram dziedziczenia](diagrams/inheritance_intro.png)
 
-## Kod
+Diagram PlantUML: [`diagrams/inheritance_intro.puml`](diagrams/inheritance_intro.puml)
 
-- `src/inheritance/t01/InheritanceIntroDemo.java`
+---
+
+## Kod i omowienie
+
+Plik z przykladem:
+- [`src/inheritance/t01/InheritanceIntroDemo.java`](src/inheritance/t01/InheritanceIntroDemo.java)
+
+Fragment:
 
 ```java
-Animal d = new Dog();
-System.out.println(d.speak()); // Hau
+Animal animal = new Dog();
+System.out.println(animal.speak());
 ```
 
-## Co pokazuje ten temat
+Wynik pokazuje, ze referencja typu bazowego (`Animal`) moze wskazywac na obiekt klasy potomnej (`Dog`).
 
-- relacje `is-a`
-- ponowne uzycie zachowan przez nadpisanie metod
-- podstawe do polimorfizmu
+---
 
-## Zrodla
+## Najczestsze bledy
 
-- https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html
+1. Projektowanie dziedziczenia tylko po to, by wspoldzielic kod (zamiast przemyslanej relacji `is-a`).
+2. Brak `@Override` przy nadpisywaniu metod.
+3. Nadmiernie glebokie hierarchie klas, utrudniajace utrzymanie.
 
+---
+
+## Uruchomienie
+
+Z katalogu `02_OOP/src/_03-dziedziczenie`:
+
+```powershell
+.\run-all-examples.ps1
+```
+
+---
+
+## Materialy dodatkowe
+
+- Oracle Tutorials: <https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html>
+- Effective Java, rozdzial o projektowaniu klas i interfejsow
