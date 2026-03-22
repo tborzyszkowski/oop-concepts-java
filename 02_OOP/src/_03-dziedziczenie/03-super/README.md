@@ -1,13 +1,13 @@
-# Modul 3.3: Slowo kluczowe `super` w praktyce
+﻿# Moduł 3.3: Słowo kluczowe `super` w praktyce
 
 ## Wprowadzenie
 
-`super` pozwala odwolac sie do czesci klasy bazowej: konstruktora, metod i pol. To kluczowe narzedzie przy budowaniu klas potomnych, gdy chcesz rozszerzyc zachowanie zamiast je zastapic.
+`super` pozwala odwołać się do części klasy bazowej: konstruktora, metod i pól. To kluczowe narzędzie przy budowaniu klas potomnych, gdy chcesz rozszerzyć zachowanie zamiast je zastąpić.
 
-### Czego nauczysz sie w tym module?
-- jak wywolywac konstruktor klasy bazowej,
-- kiedy uzywac `super.method()`,
-- jak unikac bledow inicjalizacji obiektu.
+### Czego nauczysz się w tym module?
+- jak wywoływać konstruktor klasy bazowej,
+- kiedy używać `super.method()`,
+- jak unikać błędów inicjalizacji obiektu.
 
 ---
 
@@ -19,9 +19,9 @@ Diagram PlantUML: [`diagrams/super_usage.puml`](diagrams/super_usage.puml)
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t03/SuperKeywordDemo.java`](src/inheritance/t03/SuperKeywordDemo.java)
 
 Fragment:
@@ -33,14 +33,14 @@ Student(String name, String indexNumber) {
 }
 ```
 
-Najpierw inicjalizowana jest czesc klasy bazowej, dopiero pozniej pola klasy potomnej.
+Najpierw inicjalizowana jest część klasy bazowej, dopiero później pola klasy potomnej.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
-1. Pomijanie wywolania odpowiedniego konstruktora bazowego.
-2. Uzywanie `super` tam, gdzie wystarcza `this`.
+1. Pomijanie wywołania odpowiedniego konstruktora bazowego.
+2. Używanie `super` tam, gdzie wystarcza `this`.
 3. Nadpisywanie metody i zapominanie o logice bazowej, gdy jest wymagana.
 
 ---

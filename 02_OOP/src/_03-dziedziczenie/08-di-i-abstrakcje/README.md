@@ -1,13 +1,13 @@
-# Modul 3.8: Abstrakcje, DI i wstrzykiwanie zaleznosci
+﻿# Moduł 3.8: Abstrakcje, DI i wstrzykiwanie zależności
 
 ## Wprowadzenie
 
-Wstrzykiwanie zaleznosci dziala najlepiej, gdy modul wysokiego poziomu zalezy od abstrakcji, a nie od konkretnej implementacji. Dziedziczenie i interfejsy sa tu narzedziem do budowy luzno powiazanych komponentow.
+Wstrzykiwanie zależności działa najlepiej, gdy moduł wysokiego poziomu zależy od abstrakcji, a nie od konkretnej implementacji. Dziedziczenie i interfejsy są tu narzędziem do budowy luźno powiązanych komponentów.
 
-### Czego nauczysz sie w tym module?
-- jak abstrakcja wspiera testowalnosc kodu,
-- jak dziala reczne wstrzykiwanie zaleznosci,
-- jak przygotowac kod pod kontenery DI.
+### Czego nauczysz się w tym module?
+- jak abstrakcja wspiera testowalność kodu,
+- jak działa ręczne wstrzykiwanie zależności,
+- jak przygotować kod pod kontenery DI.
 
 ---
 
@@ -19,20 +19,20 @@ Diagram PlantUML: [`diagrams/di_abstraction.puml`](diagrams/di_abstraction.puml)
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t08/DiAbstractionDemo.java`](src/inheritance/t08/DiAbstractionDemo.java)
 
-Przyklad pokazuje, jak ten sam komponent klienta moze pracowac z rozna implementacja dostarczona z zewnatrz.
+Przykład pokazuje, jak ten sam komponent klienta może pracować z różną implementacją dostarczoną z zewnątrz.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
-1. Tworzenie zaleznosci (`new`) wewnatrz logiki biznesowej.
-2. Wstrzykiwanie konkretnych klas zamiast interfejsow.
-3. Brak testow jednostkowych dla komponentow korzystajacych z DI.
+1. Tworzenie zależności (`new`) wewnątrz logiki biznesowej.
+2. Wstrzykiwanie konkretnych klas zamiast interfejsów.
+3. Brak testów jednostkowych dla komponentów korzystających z DI.
 
 ---
 

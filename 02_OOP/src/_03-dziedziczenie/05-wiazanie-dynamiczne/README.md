@@ -1,38 +1,38 @@
-# Modul 3.5: Dynamiczne wiazanie metod
+﻿# Moduł 3.5: Dynamiczne wiązanie metod
 
 ## Wprowadzenie
 
-W Javie metody instancyjne sa wiazane dynamicznie (late binding). Kompilator sprawdza typ referencji, ale konkretna implementacja jest wybierana przez JVM na podstawie rzeczywistego typu obiektu.
+W Javie metody instancyjne są wiązane dynamicznie (late binding). Kompilator sprawdza typ referencji, ale konkretna implementacja jest wybierana przez JVM na podstawie rzeczywistego typu obiektu.
 
-### Czego nauczysz sie w tym module?
-- jak dziala dynamic dispatch,
-- czym rozni sie late binding od early binding,
+### Czego nauczysz się w tym module?
+- jak działa dynamic dispatch,
+- czym różni się late binding od early binding,
 - jakie to ma konsekwencje dla projektowania API.
 
 ---
 
 ## Diagram koncepcji
 
-![Diagram dynamicznego wiazania](diagrams/dynamic_binding.png)
+![Diagram dynamicznego wiązania](diagrams/dynamic_binding.png)
 
 Diagram PlantUML: [`diagrams/dynamic_binding.puml`](diagrams/dynamic_binding.puml)
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t05/DynamicBindingDemo.java`](src/inheritance/t05/DynamicBindingDemo.java)
 
-W przykladzie ta sama referencja bazowa wywoluje rozne implementacje, zalezne od typu obiektu.
+W przykładzie ta sama referencja bazowa wywołuje różne implementacje, zależne od typu obiektu.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
-1. Oczekiwanie, ze pola beda dzialaly jak metody (pola nie sa polimorficzne).
-2. Mylenie przeciazania z dynamicznym wiazaniem.
-3. Zakladanie, ze `private` i `static` metody sa wiazane dynamicznie.
+1. Oczekiwanie, że pola będą działały jak metody (pola nie są polimorficzne).
+2. Mylenie przeciążania z dynamicznym wiązaniem.
+3. Zakładanie, że `private` i `static` metody są wiązane dynamicznie.
 
 ---
 

@@ -1,13 +1,13 @@
-# Modul 3.1: Pojecie dziedziczenia i implementacja w Javie
+﻿# Moduł 3.1: Pojęcie dziedziczenia i implementacja w Javie
 
 ## Wprowadzenie
 
-Dziedziczenie pozwala budowac nowy typ na bazie istniejacego typu. W Javie realizujemy to przez `extends`, a glowna korzyscia jest wspolny kontrakt `is-a` oraz mozliwosc ponownego uzycia kodu.
+Dziedziczenie pozwala budować nowy typ na bazie istniejącego typu. W Javie realizujemy to przez `extends`, a główną korzyścią jest wspólny kontrakt `is-a` oraz możliwość ponownego użycia kodu.
 
-### Czego nauczysz sie w tym module?
-- odrozniania relacji `is-a` od relacji `has-a`,
+### Czego nauczysz się w tym module?
+- odróżniania relacji `is-a` od relacji `has-a`,
 - projektowania prostych hierarchii klas,
-- swiadomego uzycia `override` w klasie potomnej.
+- świadomego użycia `override` w klasie potomnej.
 
 ---
 
@@ -19,9 +19,9 @@ Diagram PlantUML: [`diagrams/inheritance_intro.puml`](diagrams/inheritance_intro
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t01/InheritanceIntroDemo.java`](src/inheritance/t01/InheritanceIntroDemo.java)
 
 Fragment:
@@ -31,15 +31,15 @@ Animal animal = new Dog();
 System.out.println(animal.speak());
 ```
 
-Wynik pokazuje, ze referencja typu bazowego (`Animal`) moze wskazywac na obiekt klasy potomnej (`Dog`).
+Wynik pokazuje, że referencja typu bazowego (`Animal`) może wskazywać na obiekt klasy potomnej (`Dog`).
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
-1. Projektowanie dziedziczenia tylko po to, by wspoldzielic kod (zamiast przemyslanej relacji `is-a`).
+1. Projektowanie dziedziczenia tylko po to, by współdzielić kod (zamiast przemyślanej relacji `is-a`).
 2. Brak `@Override` przy nadpisywaniu metod.
-3. Nadmiernie glebokie hierarchie klas, utrudniajace utrzymanie.
+3. Nadmiernie głębokie hierarchie klas, utrudniające utrzymanie.
 
 ---
 
@@ -53,7 +53,7 @@ Z katalogu `02_OOP/src/_03-dziedziczenie`:
 
 ---
 
-## Materialy dodatkowe
+## Materiały dodatkowe
 
 - Oracle Tutorials: <https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html>
-- Effective Java, rozdzial o projektowaniu klas i interfejsow
+- Effective Java, rozdział o projektowaniu klas i interfejsów

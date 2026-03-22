@@ -1,19 +1,19 @@
-# Modul 3.12: Zadania do samodzielnego rozwiazania
+﻿# Moduł 3.12: Zadania do samodzielnego rozwiązania
 
 ## Wprowadzenie
 
-Ten temat domyka modul dziedziczenia. Zadania sa nieco trudniejsze od przykladow z poprzednich sekcji, ale mozliwe do wykonania na bazie poznanych koncepcji.
+Ten temat domyka moduł dziedziczenia. Zadania są nieco trudniejsze od przykładów z poprzednich sekcji, ale możliwe do wykonania na bazie poznanych koncepcji.
 
-### Czego nauczysz sie w tym module?
-- laczenia wielu mechanizmow (dziedziczenie, `super`, `override`, `final`),
+### Czego nauczysz się w tym module?
+- łączenia wielu mechanizmów (dziedziczenie, `super`, `override`, `final`),
 - projektowania hierarchii klas pod testy,
 - dokumentowania decyzji projektowych.
 
 ---
 
-## Diagram przegladowy
+## Diagram przeglądowy
 
-![Diagram zadan](diagrams/tasks_overview.png)
+![Diagram zadań](diagrams/tasks_overview.png)
 
 Diagram PlantUML: [`diagrams/tasks_overview.puml`](diagrams/tasks_overview.puml)
 
@@ -21,28 +21,28 @@ Diagram PlantUML: [`diagrams/tasks_overview.puml`](diagrams/tasks_overview.puml)
 
 ## Zadania
 
-1. **Hierarchia pracownikow (poziom 1):**
-   Zaimplementuj `Employee -> Manager -> Director` i pokaz upcasting oraz `override`.
+1. **Hierarchia pracowników (poziom 1):**
+   Zaimplementuj `Employee -> Manager -> Director` i pokaż upcasting oraz `override`.
 2. **Raporty i abstrakcja (poziom 2):**
-   Dodaj klase abstrakcyjna `Report` i co najmniej dwie implementacje.
+   Dodaj klasę abstrakcyjną `Report` i co najmniej dwie implementacje.
 3. **Niemutowalny kontrakt (poziom 3):**
-   Uzyj `final` tak, aby zabezpieczyc API klasy niemutowalnej.
+   Użyj `final` tak, aby zabezpieczyć API klasy niemutowalnej.
 
 ---
 
 ## Pliki w tym temacie
 
-- Przyklady uruchomieniowe: [`src/inheritance/t12/TasksDemo.java`](src/inheritance/t12/TasksDemo.java)
-- Rozwiazania: [`solutions/InheritanceTaskSolution.java`](solutions/InheritanceTaskSolution.java)
+- Przykłady uruchomieniowe: [`src/inheritance/t12/TasksDemo.java`](src/inheritance/t12/TasksDemo.java)
+- Rozwiązania: [`solutions/InheritanceTaskSolution.java`](solutions/InheritanceTaskSolution.java)
 - Testy: [`tests/InheritanceTaskSolutionTest.java`](tests/InheritanceTaskSolutionTest.java)
 
 ---
 
 ## Kryteria sukcesu
 
-- kompilacja bez ostrzezen krytycznych,
-- przejscie testow jednostkowych,
-- poprawne uzycie dziedziczenia bez zbednej duplikacji kodu,
+- kompilacja bez ostrzeżeń krytycznych,
+- przejście testów jednostkowych,
+- poprawne użycie dziedziczenia bez zbędnej duplikacji kodu,
 - czytelne nazwy klas, metod i komentarze tam, gdzie to potrzebne.
 
 ---

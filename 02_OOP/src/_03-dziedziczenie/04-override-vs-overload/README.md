@@ -1,13 +1,13 @@
-# Modul 3.4: Nadpisywanie vs przeciazanie metod
+﻿# Moduł 3.4: Nadpisywanie vs przeciążanie metod
 
 ## Wprowadzenie
 
-`overload` i `override` to dwa rozne mechanizmy, ktore studenci czesto myla. `Overload` dotyczy wielu metod o tej samej nazwie w jednej klasie, a `override` dotyczy redefinicji zachowania odziedziczonego.
+`overload` i `override` to dwa różne mechanizmy, które studenci często mylą. `Overload` dotyczy wielu metod o tej samej nazwie w jednej klasie, a `override` dotyczy redefinicji zachowania odziedziczonego.
 
-### Czego nauczysz sie w tym module?
-- jak odroznic `overload` od `override`,
-- jak JVM wybiera metode przy przeciazaniu i nadpisaniu,
-- dlaczego `@Override` powinno byc standardem.
+### Czego nauczysz się w tym module?
+- jak odróżnić `overload` od `override`,
+- jak JVM wybiera metodę przy przeciążaniu i nadpisaniu,
+- dlaczego `@Override` powinno być standardem.
 
 ---
 
@@ -19,23 +19,23 @@ Diagram PlantUML: [`diagrams/override_vs_overload.puml`](diagrams/override_vs_ov
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t04/OverrideVsOverloadDemo.java`](src/inheritance/t04/OverrideVsOverloadDemo.java)
 
-W przykladzie zobaczysz jednoczesnie:
-- przeciazanie metody po sygnaturze,
+W przykładzie zobaczysz jednocześnie:
+- przeciążanie metody po sygnaturze,
 - nadpisanie metody z klasy bazowej,
-- roznice widoczne na etapie kompilacji i uruchomienia.
+- różnice widoczne na etapie kompilacji i uruchomienia.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
-1. Traktowanie zmiany typu zwracanego jako przeciazania (to nie dziala samodzielnie).
-2. Literowki w nazwie metody przy `override` bez adnotacji `@Override`.
-3. Oczekiwanie dynamicznego wyboru metody dla przeciazania (to decyzja kompilatora).
+1. Traktowanie zmiany typu zwracanego jako przeciążania (to nie działa samodzielnie).
+2. Literówki w nazwie metody przy `override` bez adnotacji `@Override`.
+3. Oczekiwanie dynamicznego wyboru metody dla przeciążania (to decyzja kompilatora).
 
 ---
 

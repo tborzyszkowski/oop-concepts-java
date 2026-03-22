@@ -1,27 +1,27 @@
-# Modul 3.2: Zgodnosc typow w hierarchii dziedziczenia
+﻿# Moduł 3.2: Zgodność typów w hierarchii dziedziczenia
 
 ## Wprowadzenie
 
-W Javie typ referencji moze byc ogolniejszy niz typ obiektu. To podstawa polimorfizmu i bezpiecznego API. W druga strone (downcasting) potrzebna jest ostroznosc i najczesciej sprawdzenie `instanceof`.
+W Javie typ referencji może być ogólniejszy niż typ obiektu. To podstawa polimorfizmu i bezpiecznego API. W drugą stronę (downcasting) potrzebna jest ostrożność i najczęściej sprawdzenie `instanceof`.
 
-### Czego nauczysz sie w tym module?
-- jak dziala upcasting i downcasting,
+### Czego nauczysz się w tym module?
+- jak działa upcasting i downcasting,
 - kiedy rzutowanie jest bezpieczne,
-- jak uzywac `instanceof` z pattern matchingiem.
+- jak używać `instanceof` z pattern matchingiem.
 
 ---
 
 ## Diagram koncepcji
 
-![Diagram zgodnosci typow](diagrams/type_compatibility.png)
+![Diagram zgodności typów](diagrams/type_compatibility.png)
 
 Diagram PlantUML: [`diagrams/type_compatibility.puml`](diagrams/type_compatibility.puml)
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t02/TypeCompatibilityDemo.java`](src/inheritance/t02/TypeCompatibilityDemo.java)
 
 Fragment:
@@ -33,15 +33,15 @@ if (upcasted instanceof Car car) {
 }
 ```
 
-To nowoczesny styl Javy (pattern variable `car`) bez recznego rzutowania.
+To nowoczesny styl Javy (pattern variable `car`) bez ręcznego rzutowania.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
 1. Rzutowanie bez sprawdzenia typu (`ClassCastException`).
-2. Zakladanie, ze typ referencji decyduje o implementacji metody.
-3. Naduzywanie `instanceof` zamiast projektowania lepszego API.
+2. Zakładanie, że typ referencji decyduje o implementacji metody.
+3. Nadużywanie `instanceof` zamiast projektowania lepszego API.
 
 ---
 
@@ -54,6 +54,6 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_03-dziedziczenie"
 
 ---
 
-## Materialy dodatkowe
+## Materiały dodatkowe
 
-- JLS, rozdzial 5 (Conversions and Promotions): <https://docs.oracle.com/javase/specs/jls/se21/html/jls-5.html>
+- JLS, rozdział 5 (Conversions and Promotions): <https://docs.oracle.com/javase/specs/jls/se21/html/jls-5.html>

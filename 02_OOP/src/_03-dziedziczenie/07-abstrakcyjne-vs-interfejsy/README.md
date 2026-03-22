@@ -1,13 +1,13 @@
-# Modul 3.7: Klasy abstrakcyjne vs interfejsy
+﻿# Moduł 3.7: Klasy abstrakcyjne vs interfejsy
 
 ## Wprowadzenie
 
-Klasa abstrakcyjna i interfejs rozwiazuja podobny problem (abstrakcja), ale robia to inaczej. Klasa abstrakcyjna nadaje wspolny stan i czesc implementacji, a interfejs definiuje kontrakt i daje wieksza elastycznosc.
+Klasa abstrakcyjna i interfejs rozwiązują podobny problem (abstrakcja), ale robią to inaczej. Klasa abstrakcyjna nadaje wspólny stan i część implementacji, a interfejs definiuje kontrakt i daje większą elastyczność.
 
-### Czego nauczysz sie w tym module?
-- kiedy wybrac klase abstrakcyjna,
+### Czego nauczysz się w tym module?
+- kiedy wybrać klasę abstrakcyjną,
 - kiedy lepszy jest interfejs,
-- jak laczyc oba podejscia w jednym projekcie.
+- jak łączyć oba podejścia w jednym projekcie.
 
 ---
 
@@ -19,23 +19,23 @@ Diagram PlantUML: [`diagrams/abstract_vs_interface.puml`](diagrams/abstract_vs_i
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t07/AbstractVsInterfaceDemo.java`](src/inheritance/t07/AbstractVsInterfaceDemo.java)
 
-W przykladzie porownano:
-- wspolny stan i implementacje (klasa abstrakcyjna),
+W przykładzie porównano:
+- wspólny stan i implementacje (klasa abstrakcyjna),
 - kontrakt zachowania (interfejs),
-- mozliwosc wielokrotnej implementacji interfejsow.
+- możliwość wielokrotnej implementacji interfejsów.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
-1. Uzywanie klasy abstrakcyjnej tam, gdzie potrzebny jest tylko kontrakt.
-2. Przechowywanie stanu w interfejsie (poza stalymi `public static final`).
-3. Projektowanie klas bazowych, ktore wiedza zbyt wiele o potomkach.
+1. Używanie klasy abstrakcyjnej tam, gdzie potrzebny jest tylko kontrakt.
+2. Przechowywanie stanu w interfejsie (poza stałymi `public static final`).
+3. Projektowanie klas bazowych, które wiedzą zbyt wiele o potomkach.
 
 ---
 

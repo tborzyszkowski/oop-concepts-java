@@ -1,13 +1,13 @@
-# Modul 3.10: Klasa `Object` i kontrakty metod bazowych
+﻿# Moduł 3.10: Klasa `Object` i kontrakty metod bazowych
 
 ## Wprowadzenie
 
-Kazda klasa w Javie dziedziczy po `Object`. Oznacza to, ze wszystkie obiekty dziela wspolne API, m.in. `equals`, `hashCode`, `toString` oraz `getClass`.
+Każda klasa w Javie dziedziczy po `Object`. Oznacza to, że wszystkie obiekty dzielą wspólne API, m.in. `equals`, `hashCode`, `toString` oraz `getClass`.
 
-### Czego nauczysz sie w tym module?
-- jak poprawnie nadpisywac `equals` i `hashCode`,
-- po co definiowac czytelne `toString`,
-- jakie sa konsekwencje zlamania kontraktow metod bazowych.
+### Czego nauczysz się w tym module?
+- jak poprawnie nadpisywać `equals` i `hashCode`,
+- po co definiować czytelne `toString`,
+- jakie są konsekwencje złamania kontraktów metod bazowych.
 
 ---
 
@@ -19,20 +19,20 @@ Diagram PlantUML: [`diagrams/object_hierarchy.puml`](diagrams/object_hierarchy.p
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t10/ObjectClassDemo.java`](src/inheritance/t10/ObjectClassDemo.java)
 
-Przyklad pokazuje zachowanie obiektow w kolekcjach oraz znaczenie spojnosci `equals` i `hashCode`.
+Przykład pokazuje zachowanie obiektów w kolekcjach oraz znaczenie spójności `equals` i `hashCode`.
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
 1. Nadpisanie `equals` bez `hashCode`.
-2. Uzywanie zmiennych mutowalnych jako podstawy `hashCode`.
-3. Brak testow kontraktowych dla rownosci obiektow.
+2. Używanie zmiennych mutowalnych jako podstawy `hashCode`.
+3. Brak testów kontraktowych dla równości obiektów.
 
 ---
 

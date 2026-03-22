@@ -1,13 +1,13 @@
-# Modul 3.11: Javadoc i dokumentowanie API
+﻿# Moduł 3.11: Javadoc i dokumentowanie API
 
 ## Wprowadzenie
 
-Javadoc tworzy dokumentacje API bezposrednio z komentarzy `/** ... */`. Dzieki temu dokumentacja jest blisko kodu i moze byc utrzymywana razem z implementacja.
+Javadoc tworzy dokumentację API bezpośrednio z komentarzy `/** ... */`. Dzięki temu dokumentacja jest blisko kodu i może być utrzymywana razem z implementacją.
 
-### Czego nauczysz sie w tym module?
-- jak pisac komentarze Javadoc dla klas i metod,
-- jak generowac dokumentacje HTML,
-- jak utrzymac spojny styl opisu API.
+### Czego nauczysz się w tym module?
+- jak pisać komentarze Javadoc dla klas i metod,
+- jak generować dokumentację HTML,
+- jak utrzymać spójny styl opisu API.
 
 ---
 
@@ -19,16 +19,16 @@ Diagram PlantUML: [`diagrams/javadoc_flow.puml`](diagrams/javadoc_flow.puml)
 
 ---
 
-## Kod i omowienie
+## Kod i omówienie
 
-Plik z przykladem:
+Plik z przykładem:
 - [`src/inheritance/t11/JavadocDemo.java`](src/inheritance/t11/JavadocDemo.java)
 
-W przykladzie zobaczysz opis klasy, metod publicznych i parametrow.
+W przykładzie zobaczysz opis klasy, metod publicznych i parametrów.
 
 ---
 
-## Przykladowe polecenia
+## Przykładowe polecenia
 
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_03-dziedziczenie"
@@ -41,8 +41,8 @@ javadoc -d out-docs src\inheritance\t11\JavadocDemo.java
 
 ---
 
-## Najczestsze bledy
+## Najczęstsze błędy
 
 1. Komentarze niezgodne z zachowaniem metody po zmianach kodu.
 2. Brak `@param` i `@return` dla metod publicznych.
-3. Traktowanie Javadoc jako formalnosci, a nie czesci API.
+3. Traktowanie Javadoc jako formalności, a nie części API.
