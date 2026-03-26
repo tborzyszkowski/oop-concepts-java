@@ -1,18 +1,35 @@
 @startuml
 abstract class Shape {
   {abstract} +area(): double
+  +kind(): String
+  {static} +category(): String
 }
 class Circle {
   +area(): double
+  +kind(): String
+  {static} +category(): String
 }
 class Rectangle {
   +area(): double
+  +kind(): String
+}
+class ShapeReporter {
+  +report(shape: Shape): void
+  +report(circle: Circle): void
 }
 Shape <|-- Circle
 Shape <|-- Rectangle
+ShapeReporter ..> Shape
+ShapeReporter ..> Circle
+note right of ShapeReporter
+Wiazanie wczesne (compile-time):
+przeciazanie report(...)
+oraz metody static
+end note
 note right of Shape
-Pozne wiazanie: metoda wybierana
-na podstawie rzeczywistego typu obiektu
+Wiazanie pozne (runtime):
+override kind() i area()
+po rzeczywistym typie obiektu
 end note
 @enduml
 

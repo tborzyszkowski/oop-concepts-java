@@ -22,7 +22,12 @@ class Student extends Person {
 
     @Override
     String describe() {
-        return super.describe() + ", index=" + indexNumber;
+        String inheritedName = super.name;
+        return super.describe() + ", inheritedName=" + inheritedName + ", index=" + indexNumber;
+    }
+
+    String describeWithFieldReference() {
+        return "Student(super.name=" + super.name + ", index=" + indexNumber + ")";
     }
 }
 
@@ -30,6 +35,7 @@ public class SuperKeywordDemo {
     public static void main(String[] args) {
         Student student = new Student("Ala", "s12345");
         System.out.println(student.describe());
+        System.out.println(student.describeWithFieldReference());
     }
 }
 

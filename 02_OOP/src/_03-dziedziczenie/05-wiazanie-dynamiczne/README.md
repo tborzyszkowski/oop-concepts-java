@@ -24,7 +24,45 @@ Diagram PlantUML: [`diagrams/dynamic_binding.puml`](diagrams/dynamic_binding.pum
 Plik z przykładem:
 - [`src/inheritance/t05/DynamicBindingDemo.java`](src/inheritance/t05/DynamicBindingDemo.java)
 
-W przykładzie ta sama referencja bazowa wywołuje różne implementacje, zależne od typu obiektu.
+W przykładzie znajdują się dwie wyraźne sekcje:
+- **wiązanie wczesne (compile-time)**: przeciążanie (`report(Shape)` vs `report(Circle)`) i metody `static`,
+- **wiązanie późne (runtime)**: nadpisane metody instancyjne (`kind()` i `area()`) wywoływane przez referencję `Shape`.
+
+### Fragment: wiązanie wczesne
+
+```java
+Circle circle = new Circle(2);
+Shape circleAsShape = circle;
+
+reporter.report(circle);        // report(Circle)
+reporter.report(circleAsShape); // report(Shape)
+
+System.out.println(Shape.category());
+System.out.println(Circle.category());
+System.out.println(circleAsShape.category());
+```
+
+Kluczowa obserwacja: kompilator wybiera przeciążoną metodę po **typie referencji**, a nie po rzeczywistym typie obiektu.
+
+### Fragment: wiązanie późne
+
+```java
+Shape[] shapes = { new Circle(2), new Rectangle(3, 4) };
+for (Shape shape : shapes) {
+	System.out.printf("runtimeType=%s kind=%s area=%.2f%n",
+			shape.getClass().getSimpleName(),
+			shape.kind(),
+			shape.area());
+}
+```
+
+Tutaj JVM wybiera implementację metod instancyjnych na podstawie rzeczywistego typu obiektu (`Circle` / `Rectangle`).
+
+### Co warto podkreślić studentom
+
+1. Przeciążanie (`overload`) to decyzja kompilatora.
+2. Nadpisywanie (`override`) to decyzja JVM w runtime.
+3. Metody `static` nie są polimorficzne jak metody instancyjne.
 
 ---
 

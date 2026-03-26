@@ -10,6 +10,7 @@ class Student {
 Person <|-- Student
 note bottom of Student
 super(name) w konstruktorze
+super.name jako odwolanie do pola klasy bazowej
 super.describe() w metodzie
 end note
 @enduml
