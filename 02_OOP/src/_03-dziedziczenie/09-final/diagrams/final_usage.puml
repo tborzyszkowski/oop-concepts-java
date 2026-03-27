@@ -5,8 +5,18 @@ class BaseService {
   +audit(): void <<final>>
 }
 class SessionToken <<final>>
+class AppConstants <<utility>> {
+  {static} APP_NAME: String
+  {static} MAX_RETRIES: int
+  {static} VAT_RATE: BigDecimal
+}
+class ReadOnlyConfig <<record>>
+class "List (read-only view)" as ReadOnlyView
+class "List (snapshot)" as SnapshotList
 
 ImmutablePoint ..> Money : inspiruje
+AppConstants ..> ReadOnlyConfig : kontrast
+ReadOnlyView ..> SnapshotList : widok vs kopia
 note right of ImmutablePoint
 final class: brak dziedziczenia
 final fields: niemutowalnosc
@@ -23,6 +33,22 @@ note right of SessionToken
 Niemutowalny,
 ale moze reprezentowac encje
 (tozsamosc, nie wartosc)
+end note
+
+note right of AppConstants
+Stale aplikacyjne:
+- static final
+- wspolne wartosci konfiguracyjne
+end note
+
+note right of ReadOnlyView
+Read-only API nie gwarantuje,
+ze dane zrodlowe sie nie zmienia.
+end note
+
+note right of SnapshotList
+List.copyOf tworzy niemutowalny
+snapshot stanu.
 end note
 @enduml
 

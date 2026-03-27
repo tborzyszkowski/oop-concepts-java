@@ -1,5 +1,8 @@
 package inheritance.t09;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -95,7 +98,70 @@ class BaseService {
     }
 }
 
+final class AppConstants {
+    static final String APP_NAME = "OOP-LAB";
+    static final int MAX_RETRIES = 3;
+    static final BigDecimal VAT_RATE = new BigDecimal("0.23");
+
+    private AppConstants() {
+    }
+}
+
+record ReadOnlyConfig(String environment, int timeoutSeconds) {
+    ReadOnlyConfig {
+        if (environment == null || environment.isBlank()) {
+            throw new IllegalArgumentException("environment nie moze byc puste");
+        }
+        if (timeoutSeconds <= 0) {
+            throw new IllegalArgumentException("timeout musi byc dodatni");
+        }
+    }
+}
+
 public class FinalKeywordDemo {
+    private static void constantsDemo() {
+        System.out.println("\n=== Stale (constant) ===");
+        System.out.println("AppConstants.APP_NAME = " + AppConstants.APP_NAME);
+        System.out.println("AppConstants.MAX_RETRIES = " + AppConstants.MAX_RETRIES);
+        System.out.println("AppConstants.VAT_RATE = " + AppConstants.VAT_RATE);
+    }
+
+    private static void finalReferenceDemo() {
+        System.out.println("\n=== final referencja != read-only obiekt ===");
+        final List<String> tags = new ArrayList<>();
+        tags.add("java");
+        tags.add("oop");
+        System.out.println("Po dodaniu: " + tags);
+        tags.add("solid");
+        System.out.println("Po kolejnej modyfikacji: " + tags);
+        System.out.println("Referencja jest stala, ale obiekt dalej mutowalny.");
+    }
+
+    private static void readOnlyCollectionsDemo() {
+        System.out.println("\n=== Read-only: widok vs snapshot ===");
+        List<String> source = new ArrayList<>(List.of("A", "B"));
+        List<String> unmodifiableView = Collections.unmodifiableList(source);
+        List<String> snapshot = List.copyOf(source);
+
+        source.add("C");
+        System.out.println("source = " + source);
+        System.out.println("unmodifiableView (widzi zmiane) = " + unmodifiableView);
+        System.out.println("snapshot (bez zmiany) = " + snapshot);
+
+        try {
+            unmodifiableView.add("X");
+        } catch (UnsupportedOperationException ex) {
+            System.out.println("Modyfikacja read-only widoku: " + ex.getClass().getSimpleName());
+        }
+    }
+
+    private static void recordReadOnlyDemo() {
+        System.out.println("\n=== Read-only obiekt przez record ===");
+        ReadOnlyConfig config = new ReadOnlyConfig("prod", 30);
+        System.out.println("config = " + config);
+        System.out.println("Record daje niemutowalne pola i semantyke wartosci.");
+    }
+
     public static void main(String[] args) {
         ImmutablePoint p = new ImmutablePoint(3, 4);
         System.out.println("(" + p.x() + "," + p.y() + ")");
@@ -115,6 +181,11 @@ public class FinalKeywordDemo {
         SessionToken t2 = new SessionToken("tok-1", "ala");
         System.out.println("SessionToken t1 == t2 po equals? " + t1.equals(t2));
         System.out.println("To nadal niemutowalny obiekt, ale nie Value Object.");
+
+        constantsDemo();
+        finalReferenceDemo();
+        readOnlyCollectionsDemo();
+        recordReadOnlyDemo();
     }
 }
 
