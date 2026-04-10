@@ -1,0 +1,24 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "imports.simple" {
+  class SimpleImportDemo
+}
+
+package "imports.complex.billing" {
+  class "Order" as BillingOrder
+}
+
+package "imports.complex.shipping" {
+  class "Order" as ShippingOrder
+}
+
+package "imports.complex.reporting" {
+  class ImportCollisionDemo
+}
+
+ImportCollisionDemo ..> BillingOrder
+ImportCollisionDemo ..> ShippingOrder
+@enduml
+
+

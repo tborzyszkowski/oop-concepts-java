@@ -1,0 +1,26 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "exercises.tasks" {
+  class PackageTask1
+  class PackageTask2
+  class PackageTask3
+}
+
+package "exercises.solutions" {
+  class PackageSolutions
+  class Teacher
+  class BillingOrder
+  class ShippingOrder
+}
+
+package "exercises.tests" {
+  class PackageExercisesTest
+}
+
+PackageExercisesTest --> PackageSolutions
+PackageSolutions --> Teacher
+PackageSolutions --> BillingOrder
+PackageSolutions --> ShippingOrder
+@enduml
+

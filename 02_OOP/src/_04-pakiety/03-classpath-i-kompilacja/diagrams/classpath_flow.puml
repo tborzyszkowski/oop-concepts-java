@@ -1,0 +1,20 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "classpathdemo.api" {
+  interface GreetingService
+}
+
+package "classpathdemo.impl" {
+  class PolishGreetingService
+}
+
+package "classpathdemo.app" {
+  class ClasspathDemo
+}
+
+PolishGreetingService ..|> GreetingService
+ClasspathDemo --> GreetingService
+ClasspathDemo --> PolishGreetingService
+@enduml
+
