@@ -1,0 +1,10 @@
+﻿@startuml
+package "_12_zadania" {
+  class TasksDemo
+  class UpperCaseFormatter
+  interface Formatter
+}
+Formatter <|.. UpperCaseFormatter
+TasksDemo --> Formatter
+@enduml
+

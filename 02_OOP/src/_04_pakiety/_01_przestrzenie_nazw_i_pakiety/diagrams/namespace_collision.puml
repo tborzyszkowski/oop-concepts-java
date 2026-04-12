@@ -1,0 +1,22 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "pakiety.t01.account" {
+  class "User" as AccountUser
+}
+
+package "pakiety.t01.admin" {
+  class "User" as AdminUser
+}
+
+class NamespaceCollisionDemo
+NamespaceCollisionDemo ..> AccountUser : uzywa FQN
+NamespaceCollisionDemo ..> AdminUser : uzywa FQN
+
+note right of NamespaceCollisionDemo
+Kolizja nazw klas User jest rozwiazywana
+przez pelne kwalifikowanie nazw pakietowych.
+end note
+@enduml
+
+
