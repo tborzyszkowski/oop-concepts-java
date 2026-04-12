@@ -1,4 +1,4 @@
-﻿# Moduł 3.7: Klasy abstrakcyjne vs interfejsy
+# Moduł 3.7: Klasy abstrakcyjne vs interfejsy
 
 ## Wprowadzenie
 

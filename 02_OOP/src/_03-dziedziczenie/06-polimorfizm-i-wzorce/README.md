@@ -1,4 +1,4 @@
-﻿# Moduł 3.6: Polimorfizm i wzorce projektowe
+# Moduł 3.6: Polimorfizm i wzorce projektowe
 
 ## Wprowadzenie
 

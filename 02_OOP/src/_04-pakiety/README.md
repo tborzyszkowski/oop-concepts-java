@@ -1,7 +1,7 @@
 # Moduł 04 — Pakiety i przestrzenie nazw w Javie
 
 Moduł pokazuje, jak pakiety porządkują kod, zapobiegają kolizjom nazw i tworzą granicę hermetyzacji API.
-Styl i struktura są spójne z modułami `_02-interfaces` i `_03-dziedziczenie`.
+Styl i struktura są spójne z modułami `_02_interfaces` i `_03-dziedziczenie`.
 
 ---
 

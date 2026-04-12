@@ -1,4 +1,4 @@
-﻿# Moduł 3.9: `final` dla klas, metod i pól
+# Moduł 3.9: `final` dla klas, metod i pól
 
 ## Wprowadzenie
 

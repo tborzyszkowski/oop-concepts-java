@@ -1,4 +1,4 @@
-﻿# Moduł 3.8: Abstrakcje, DI i wstrzykiwanie zależności
+# Moduł 3.8: Abstrakcje, DI i wstrzykiwanie zależności
 
 ## Wprowadzenie
 

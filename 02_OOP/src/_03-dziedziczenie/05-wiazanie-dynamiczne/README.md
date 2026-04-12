@@ -1,4 +1,4 @@
-﻿# Moduł 3.5: Dynamiczne wiązanie metod
+# Moduł 3.5: Dynamiczne wiązanie metod
 
 ## Wprowadzenie
 

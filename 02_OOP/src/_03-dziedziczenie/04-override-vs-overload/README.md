@@ -1,4 +1,4 @@
-﻿# Moduł 3.4: Nadpisywanie vs przeciążanie metod
+# Moduł 3.4: Nadpisywanie vs przeciążanie metod
 
 ## Wprowadzenie
 

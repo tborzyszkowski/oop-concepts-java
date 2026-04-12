@@ -1,4 +1,4 @@
-﻿# Moduł 03 - Dziedziczenie i polimorfizm w Javie
+# Moduł 03 - Dziedziczenie i polimorfizm w Javie
 
 ## Spis treści
 

@@ -1,4 +1,4 @@
-﻿# Moduł 3.1: Pojęcie dziedziczenia i implementacja w Javie
+# Moduł 3.1: Pojęcie dziedziczenia i implementacja w Javie
 
 ## Wprowadzenie
 

@@ -1,4 +1,4 @@
-﻿# Moduł 3.11: Javadoc i dokumentowanie API
+# Moduł 3.11: Javadoc i dokumentowanie API
 
 ## Wprowadzenie
 
