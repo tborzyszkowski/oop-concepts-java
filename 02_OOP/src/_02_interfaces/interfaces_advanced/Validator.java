@@ -1,4 +1,4 @@
-package interfaces_advanced;
+package _02_interfaces.interfaces_advanced;
 
 /**
  * Własny interfejs funkcyjny — dokładnie jedna abstrakcyjna metoda.
