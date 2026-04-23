@@ -123,9 +123,9 @@ Pełne demo w skrypcie [`run-examples.ps1`](run-examples.ps1) — zawiera etap t
 
 ## Kod referencyjny
 
-- [`src/classpathdemo/api/GreetingService.java`](src/classpathdemo/api/GreetingService.java) — interfejs (kontrakt),
-- [`src/classpathdemo/impl/PolishGreetingService.java`](src/classpathdemo/impl/PolishGreetingService.java) — implementacja,
-- [`src/classpathdemo/app/ClasspathDemo.java`](src/classpathdemo/app/ClasspathDemo.java) — klasa główna.
+- [`src/classpathdemo/api/GreetingService.java`](code/api/GreetingService.java) — interfejs (kontrakt),
+- [`src/classpathdemo/impl/PolishGreetingService.java`](code/impl/PolishGreetingService.java) — implementacja,
+- [`src/classpathdemo/app/ClasspathDemo.java`](code/app/ClasspathDemo.java) — klasa główna.
 
 ---
 

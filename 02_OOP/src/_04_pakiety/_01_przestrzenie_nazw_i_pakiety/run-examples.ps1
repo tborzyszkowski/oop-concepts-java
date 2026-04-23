@@ -9,8 +9,8 @@ $sources = Get-ChildItem -Path (Join-Path $root 'src') -Recurse -Filter *.java |
 javac --release 21 -d $out $sources
 
 Write-Host "`n--- NamespaceCollisionDemo ---" -ForegroundColor Cyan
-java -cp $out pakiety.t01.NamespaceCollisionDemo
+java -cp $out _04_pakiety._01_przestrzenie_nazw_i_pakiety.code.NamespaceCollisionDemo
 
 Write-Host "`n--- ReverseDomainsDemo ---" -ForegroundColor Cyan
-java -cp $out pakiety.t01.ReverseDomainsDemo
+java -cp $out _04_pakiety._01_przestrzenie_nazw_i_pakiety.code.ReverseDomainsDemo
 

@@ -55,7 +55,7 @@ double obwod = 2 * PI * r;        // zamiast: 2 * Math.PI * r
 double pierwiastek = sqrt(16.0);   // zamiast: Math.sqrt(16.0)
 ```
 
-Kod przykładowy: [`src/imports/staticdemo/StaticImportDemo.java`](src/imports/staticdemo/StaticImportDemo.java)
+Kod przykładowy: [`src/imports/staticdemo/StaticImportDemo.java`](code/staticdemo/StaticImportDemo.java)
 
 ---
 
@@ -64,14 +64,14 @@ Kod przykładowy: [`src/imports/staticdemo/StaticImportDemo.java`](src/imports/s
 Gdy dwa pakiety mają klasę o tej samej nazwie, `import` może zaimportować **tylko jedną**:
 
 ```java
-import imports.complex.billing.Order;   // można zaimportować jedną
+import _04_pakiety._05_importy_i_kolizje.code.complex.shipping.Order;
 
 // drugą trzeba użyć przez FQN:
-imports.complex.shipping.Order shippingOrder =
-    new imports.complex.shipping.Order("S-01", "Warszawa");
+Order shippingOrder =
+        new Order("S-01", "Warszawa");
 ```
 
-Kod: [`src/imports/complex/reporting/ImportCollisionDemo.java`](src/imports/complex/reporting/ImportCollisionDemo.java)
+Kod: [`src/imports/complex/reporting/ImportCollisionDemo.java`](code/complex/reporting/ImportCollisionDemo.java)
 
 ---
 
@@ -108,11 +108,11 @@ java.awt.List awtList = new java.awt.List();  // OK — FQN
 
 | Plik | Opis |
 |------|------|
-| [`src/imports/simple/SimpleImportDemo.java`](src/imports/simple/SimpleImportDemo.java) | Prosty import — `ArrayList`, `List` |
-| [`src/imports/staticdemo/StaticImportDemo.java`](src/imports/staticdemo/StaticImportDemo.java) | `import static` — Math, Collections |
-| [`src/imports/complex/billing/Order.java`](src/imports/complex/billing/Order.java) | Klasa `Order` w pakiecie billing |
-| [`src/imports/complex/shipping/Order.java`](src/imports/complex/shipping/Order.java) | Klasa `Order` w pakiecie shipping |
-| [`src/imports/complex/reporting/ImportCollisionDemo.java`](src/imports/complex/reporting/ImportCollisionDemo.java) | Użycie obu `Order` przez FQN |
+| [`src/imports/simple/SimpleImportDemo.java`](code/simple/SimpleImportDemo.java) | Prosty import — `ArrayList`, `List` |
+| [`src/imports/staticdemo/StaticImportDemo.java`](code/staticdemo/StaticImportDemo.java) | `import static` — Math, Collections |
+| [`src/imports/complex/billing/Order.java`](code/complex/billing/Order.java) | Klasa `Order` w pakiecie billing |
+| [`src/imports/complex/shipping/Order.java`](code/complex/shipping/Order.java) | Klasa `Order` w pakiecie shipping |
+| [`src/imports/complex/reporting/ImportCollisionDemo.java`](code/complex/reporting/ImportCollisionDemo.java) | Użycie obu `Order` przez FQN |
 
 ---
 
