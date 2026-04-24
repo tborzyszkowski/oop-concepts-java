@@ -8,8 +8,10 @@ public class NamespaceCollisionDemo {
         System.out.println("java.util.Date: " + utilDate);
         System.out.println("java.sql.Date: " + sqlDate);
 
-        pakiety.t01.account.User accountUser = new pakiety.t01.account.User("anna");
-        pakiety.t01.admin.User adminUser = new pakiety.t01.admin.User("root");
+        _04_pakiety._01_przestrzenie_nazw_i_pakiety.code.account.User accountUser =
+                new _04_pakiety._01_przestrzenie_nazw_i_pakiety.code.account.User("anna");
+        _04_pakiety._01_przestrzenie_nazw_i_pakiety.code.admin.User adminUser =
+                new _04_pakiety._01_przestrzenie_nazw_i_pakiety.code.admin.User("root");
 
         System.out.println("Uzytkownik konta: " + accountUser.username());
         System.out.println("Uzytkownik administracyjny: " + adminUser.username());
