@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #FAFAFA
+
+title Ewolucja niemutowalnych obiektów w językach OOP
+
+node "Java" {
+  rectangle "Java 1.0-13\nfinal fields\n+ konstruktor\n+ brak setterów" as J1
+  rectangle "Java 14+\nrecord\n(kompilator\ngeneruje wszystko)" as J2
+}
+
+node "Kotlin" {
+  rectangle "data class\n(copy(), componentN())" as K1
+}
+
+node "Python" {
+  rectangle "namedtuple (2.6)\ndataclass (3.7)\n@dataclass(frozen=True)" as P1
+}
+
+node "C#" {
+  rectangle "record (C# 9)\nrecord struct (C# 10)\ninit-only setters" as CS1
+}
+
+node "Scala" {
+  rectangle "case class\n(copy(), pattern matching)" as SC1
+}
+
+note "Wszędzie ten sam problem:\nobiekty reprezentujące WARTOŚCI\n(Money, Point, UserId)\npowinny być niemutowalne\ni porównywalne przez wartość" as N
+
+@enduml
+

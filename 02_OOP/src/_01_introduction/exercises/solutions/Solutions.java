@@ -155,3 +155,118 @@ public class Solutions {
     }
 }
 
+// ================================================================
+// Rozwiązania Zadania 5 — Temperature i GeoPoint (record, Value Object)
+// ================================================================
+
+/**
+ * Zadanie 5a: Temperature — niemutowalny Value Object reprezentujący temperaturę.
+ */
+record Temperature(double value, String scale) {
+
+    private static final java.util.Set<String> VALID_SCALES =
+        java.util.Set.of("C", "F", "K");
+
+    Temperature {
+        if (!VALID_SCALES.contains(scale))
+            throw new IllegalArgumentException(
+                "Nieznana skala: " + scale + ". Dopuszczalne: C, F, K");
+        if ("K".equals(scale) && value < 0)
+            throw new IllegalArgumentException(
+                "Temperatura w Kelvinach nie może być ujemna: " + value);
+    }
+
+    /** Zwraca nowy obiekt Temperature w skali Celsius. */
+    public Temperature toCelsius() {
+        return switch (scale) {
+            case "C" -> this;
+            case "F" -> new Temperature((value - 32.0) * 5.0 / 9.0, "C");
+            case "K" -> new Temperature(value - 273.15, "C");
+            default  -> throw new AssertionError("Nieznana skala: " + scale);
+        };
+    }
+
+    /** Zwraca nowy obiekt Temperature w skali Fahrenheit. */
+    public Temperature toFahrenheit() {
+        return switch (scale) {
+            case "F" -> this;
+            case "C" -> new Temperature(value * 9.0 / 5.0 + 32.0, "F");
+            case "K" -> new Temperature((value - 273.15) * 9.0 / 5.0 + 32.0, "F");
+            default  -> throw new AssertionError("Nieznana skala: " + scale);
+        };
+    }
+
+    @Override public String toString() {
+        return "%.2f°%s".formatted(value, scale);
+    }
+}
+
+/**
+ * Zadanie 5b: GeoPoint — niemutowalny Value Object reprezentujący punkt geograficzny.
+ */
+record GeoPoint(double latitude, double longitude) {
+
+    private static final double EARTH_RADIUS_KM = 6371.0;
+
+    GeoPoint {
+        if (latitude < -90.0 || latitude > 90.0)
+            throw new IllegalArgumentException(
+                "Szerokość geograficzna poza zakresem [-90, 90]: " + latitude);
+        if (longitude < -180.0 || longitude > 180.0)
+            throw new IllegalArgumentException(
+                "Długość geograficzna poza zakresem [-180, 180]: " + longitude);
+    }
+
+    /**
+     * Odległość w km — uproszczona formuła (bez krzywizny Ziemi).
+     * Dla dokładnych obliczeń użyj wzoru Haversine.
+     */
+    public double distanceTo(GeoPoint other) {
+        double latDiff = Math.toRadians(other.latitude  - this.latitude);
+        double lonDiff = Math.toRadians(other.longitude - this.longitude);
+        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2)
+                 + Math.cos(Math.toRadians(this.latitude))
+                   * Math.cos(Math.toRadians(other.latitude))
+                   * Math.sin(lonDiff / 2) * Math.sin(lonDiff / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return EARTH_RADIUS_KM * c;
+    }
+
+    /** Czy ten punkt leży na północ od podanego? */
+    public boolean isNorthOf(GeoPoint other) {
+        return this.latitude > other.latitude;
+    }
+
+    @Override public String toString() {
+        return "(%.4f°N, %.4f°E)".formatted(latitude, longitude);
+    }
+
+    /** Demo rozwiązania — uruchamialny main */
+    public static void main(String[] args) {
+        System.out.println("=== Zadanie 5 — rozwiązania ===");
+
+        Temperature boiling = new Temperature(100.0, "C");
+        System.out.println("100°C → F: " + boiling.toFahrenheit());     // 212.00°F
+
+        Temperature absZero = new Temperature(0.0, "K");
+        System.out.println("0 K → C: " + absZero.toCelsius());           // -273.15°C
+
+        Temperature bodyTemp = new Temperature(98.6, "F");
+        System.out.println("98.6°F → C: " + bodyTemp.toCelsius());       // 37.00°C
+
+        GeoPoint warsaw = new GeoPoint(52.23, 21.01);
+        GeoPoint krakow = new GeoPoint(50.06, 19.94);
+        System.out.println("Warszawa: " + warsaw);
+        System.out.println("Kraków:   " + krakow);
+        System.out.printf("Odległość: %.1f km%n", warsaw.distanceTo(krakow));
+        System.out.println("Warszawa jest na północ od Krakowa: " + warsaw.isNorthOf(krakow));
+
+        try { new Temperature(-1.0, "K"); }
+        catch (IllegalArgumentException e) { System.out.println("Walidacja K: " + e.getMessage()); }
+
+        try { new GeoPoint(91.0, 0.0); }
+        catch (IllegalArgumentException e) { System.out.println("Walidacja lat: " + e.getMessage()); }
+    }
+}
+
+

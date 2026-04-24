@@ -9,6 +9,7 @@
 | [`object_lifecycle/`](object_lifecycle/README.md) | Cykl życia obiektów | Konstruktory, kopia płytka/głęboka, Prototype, GC, `try-with-resources` |
 | [`control_flow/`](control_flow/README.md) | Instrukcje sterujące | `if/else`, `switch`, pętle — Java vs C vs Python |
 | [`tdd/`](tdd/README.md) | TDD — Test-Driven Development | Red-Green-Refactor, JUnit 5, Stack jako przykład |
+| [`value_objects/`](value_objects/README.md) | Record, niemutowalność, DTO, stałe | `record`, Value Object, DTO, `final`, porównanie z Kotlin/Python/C# |
 | [`exercises/`](exercises/README.md) | Zadania dla studentów | Rectangle, TeamCopy, Prototype, Calculator z TDD |
 
 ## Wymagania
@@ -154,6 +155,15 @@ java -jar plantuml.jar "01-introduction/**/diagrams/*.puml"
 │   │   └── Stack.java                     ← generyczny stos — implementacja TDD
 │   └── tests/
 │       └── StackTest.java                 ← JUnit 5: 19 testów (6 cykli R-G-R)
+│
+├── value_objects/
+│   ├── README.md                          ← record, niemutowalność, DTO, stałe, porównanie języków
+│   ├── run-examples.ps1
+│   ├── code/
+│   │   └── RecordsAndValuesDemo.java      ← stary DTO, record, Money VO, ImmutablePoint, Pattern Matching
+│   └── diagrams/
+│       ├── records_and_values.puml / .png ← DTO vs record vs Value Object
+│       └── languages_comparison.puml / .png ← Java/Kotlin/Python/C#/Scala
 │
 └── exercises/
     ├── README.md                          ← opisy zadań dla studentów

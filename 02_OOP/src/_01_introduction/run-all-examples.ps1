@@ -12,10 +12,11 @@ $scripts = @(
     "$introRoot\classes\run-classes-examples.ps1",
     "$introRoot\fields_and_methods\run-fields-examples.ps1",
     "$introRoot\object_lifecycle\run-lifecycle-examples.ps1",
-    "$introRoot\control_flow\run-controlflow-examples.ps1"
+    "$introRoot\control_flow\run-controlflow-examples.ps1",
+    "$introRoot\value_objects\run-examples.ps1"
 )
 
-$names = @("classes", "fields_and_methods", "object_lifecycle", "control_flow")
+$names = @("classes", "fields_and_methods", "object_lifecycle", "control_flow", "value_objects")
 
 for ($i = 0; $i -lt $scripts.Length; $i++) {
     Write-Host ""

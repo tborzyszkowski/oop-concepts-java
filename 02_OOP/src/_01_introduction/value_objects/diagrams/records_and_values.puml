@@ -1,0 +1,49 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+package "Stary DTO (Java < 14)" {
+  class UserDtoOld {
+    -id: long
+    -email: String
+    -name: String
+    +UserDtoOld(id, email, name)
+    +getId(): long
+    +getEmail(): String
+    +getName(): String
+    +equals(o): boolean
+    +hashCode(): int
+    +toString(): String
+    ' ~60 linii boilerplate
+  }
+}
+
+package "Nowoczesny record (Java 14+)" {
+  class "record UserDto\n(long id, String email, String name)" as UserDto {
+    ' Kompilator generuje:
+    ' - konstruktor kanonikczny
+    ' - gettery (bez get-prefix)
+    ' - equals, hashCode, toString
+    ' automatycznie!
+  }
+}
+
+package "Immutable Value Object" {
+  class Money {
+    -amount: BigDecimal {final}
+    -currency: String {final}
+    +Money(amount, currency)
+    +add(other: Money): Money
+    +multiply(factor: BigDecimal): Money
+    ' Nie ma setterów — niezmienialny
+  }
+}
+
+package "DTO vs Value Object vs Entity" {
+  note "DTO:\n  przenosić dane między warstwami\n  brak logiki biznesowej\n  może być mutowalny lub nie" as DTO
+  note "Value Object (DDD):\n  definiowany przez wartości\n  zawsze niemutowalny\n  equals po wartościach" as VO
+  note "Entity:\n  ma tożsamość (id)\n  mutowalny stan\n  equals po id" as ENT
+}
+
+@enduml
+

@@ -13,6 +13,7 @@
 | 2 | [`tasks/TeamCopyTask.java`](tasks/TeamCopyTask.java) | ⭐⭐ Średni | Głęboka kopia, konstruktor kopiujący | `object_lifecycle/copies/` |
 | 3 | [`tasks/PrototypeConfigTask.java`](tasks/PrototypeConfigTask.java) | ⭐⭐⭐ Trudny | Wzorzec Prototype, interfejsy | `object_lifecycle/copies/` |
 | 4 | [`tasks/CalcTask.java`](tasks/CalcTask.java) | ⭐⭐ Średni | TDD — napisz testy PRZED implementacją | `tdd/` |
+| 5 | [`tasks/ValueObjectTask.java`](tasks/ValueObjectTask.java) | ⭐⭐ Średni | record, Value Object — Temperature, GeoPoint | `value_objects/` |
 
 ---
 
@@ -163,4 +164,77 @@ Rozwiązania dostępne po terminie oddania zadań:
 3. **Deep copy** — dla każdego mutowalnego pola (List, Map, tablice) utwórz nową kopię
 4. **TDD** — nie pisz kodu bez czerwonego testu
 5. **assertEquals dla double** — zawsze podaj deltę: `assertEquals(3.14, result, 1e-9)`
+6. **record** — pola są `final` z definicji; do walidacji użyj kompaktowego konstruktora
+
+---
+
+## Zadanie 5 — ValueObjectTask ⭐⭐
+
+**Plik:** `tasks/ValueObjectTask.java`
+
+Zaimplementuj dwa typy jako **record** w Javie:
+
+### 5a. `Temperature`
+
+Reprezentuje temperaturę w wybranej skali (Celsius, Fahrenheit, Kelvin).
+
+```java
+record Temperature(double value, String scale) { ... }
+```
+
+Wymagania:
+- Walidacja: `scale` musi być jednym z `"C"`, `"F"`, `"K"`.
+- Walidacja: temperatura w Kelvinach nie może być ujemna (`value >= 0` jeśli skala = `"K"`).
+- Metoda `toCelsius()` zwracająca nowy `Temperature` w skali Celsius.
+- Metoda `toFahrenheit()` zwracająca nowy `Temperature` w skali Fahrenheit.
+
+Wzory przeliczania:
+```
+C → F:  F = C × 9/5 + 32
+F → C:  C = (F - 32) × 5/9
+K → C:  C = K - 273.15
+C → K:  K = C + 273.15
+```
+
+**Oczekiwane zachowanie:**
+```java
+Temperature boiling = new Temperature(100.0, "C");
+boiling.toFahrenheit().value();   // 212.0
+boiling.toCelsius().value();      // 100.0 (już w C)
+
+Temperature absZero = new Temperature(0.0, "K");
+absZero.toCelsius().value();      // -273.15
+
+// Walidacja
+new Temperature(-1.0, "K");       // IllegalArgumentException
+new Temperature(20.0, "X");       // IllegalArgumentException
+```
+
+### 5b. `GeoPoint`
+
+Reprezentuje punkt geograficzny (szerokość, długość).
+
+```java
+record GeoPoint(double latitude, double longitude) { ... }
+```
+
+Wymagania:
+- Walidacja: `latitude` w zakresie [-90, 90], `longitude` w zakresie [-180, 180].
+- Metoda `distanceTo(GeoPoint other)` — oblicza odległość w kilometrach (wzór Haversine lub uproszczony euklidesowy).
+- Metoda `isNorthOf(GeoPoint other)` — czy ten punkt leży na północ od `other`.
+
+**Oczekiwane zachowanie:**
+```java
+GeoPoint warsaw  = new GeoPoint(52.23, 21.01);
+GeoPoint krakow  = new GeoPoint(50.06, 19.94);
+warsaw.isNorthOf(krakow);    // true
+
+new GeoPoint(91.0, 0.0);     // IllegalArgumentException
+```
+
+### Rozwiązanie referencyjne
+
+W pliku `solutions/Solutions.java` znajdziesz wzorcową implementację obu klas.
+
+**Wskazówki:** patrz [`../value_objects/README.md`](../value_objects/README.md)
 
