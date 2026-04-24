@@ -1,0 +1,54 @@
+@startuml
+skinparam backgroundColor #FAFAFA
+
+rectangle "Źródło" as SRC {
+  note as SRCnote
+    Collection.stream()
+    Arrays.stream(arr)
+    Stream.of(a, b, c)
+    IntStream.range(0, n)
+    Files.lines(path)
+  end note
+}
+
+rectangle "Operacje pośrednie\n(lazy — nie wykonują się od razu)" as INTER {
+  note as INTERnote
+    filter(Predicate)
+    map(Function)
+    flatMap(Function)
+    distinct()
+    sorted(Comparator)
+    peek(Consumer)
+    limit(n)
+    skip(n)
+  end note
+}
+
+rectangle "Operacja terminalna\n(wyzwala wykonanie)" as TERM {
+  note as TERMnote
+    collect(Collector)
+    forEach(Consumer)
+    count()
+    min() / max()
+    findFirst() / findAny()
+    anyMatch() / allMatch()
+    reduce(BinaryOperator)
+    toList() (Java 16+)
+  end note
+}
+
+SRC --> INTER : stream()
+INTER --> TERM : potok
+
+note bottom of TERM
+  Collectors.toList()
+  Collectors.toSet()
+  Collectors.toMap()
+  Collectors.groupingBy()
+  Collectors.joining()
+  Collectors.counting()
+  Collectors.averagingDouble()
+end note
+
+@enduml
+

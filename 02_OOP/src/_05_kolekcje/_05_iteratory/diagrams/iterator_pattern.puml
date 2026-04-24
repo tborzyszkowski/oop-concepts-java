@@ -1,0 +1,54 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+interface Iterable<E> {
+  +iterator(): Iterator<E>
+  +forEach(action: Consumer<E>): void
+}
+
+interface Iterator<E> {
+  +hasNext(): boolean
+  +next(): E
+  +remove(): void
+}
+
+interface ListIterator<E> extends Iterator {
+  +hasPrevious(): boolean
+  +previous(): E
+  +nextIndex(): int
+  +previousIndex(): int
+  +set(e: E): void
+  +add(e: E): void
+}
+
+class ArrayList implements Iterable
+class LinkedList implements Iterable
+class HashSet implements Iterable
+class TreeSet implements Iterable
+
+class Range implements Iterable {
+  -start: int
+  -end: int
+}
+
+Iterable --> Iterator : <<creates>>
+
+note right of Iterator
+  for-each jest cukrem syntaktycznym:
+  for (T x : col) { ... }
+  ↓
+  Iterator<T> it = col.iterator();
+  while (it.hasNext()) {
+    T x = it.next(); ...
+  }
+end note
+
+note bottom of ListIterator
+  Tylko dla List
+  Umożliwia iterację wstecz
+  oraz modyfikację (set, add)
+end note
+
+@enduml
+

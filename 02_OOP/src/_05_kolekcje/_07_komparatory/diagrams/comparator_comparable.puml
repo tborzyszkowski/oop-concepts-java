@@ -1,0 +1,50 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+interface "Comparable<T>" {
+  +compareTo(other: T): int
+}
+
+interface "Comparator<T>" {
+  +compare(a: T, b: T): int
+  +reversed(): Comparator<T>
+  +thenComparing(other): Comparator<T>
+  +{static} comparing(keyExtractor): Comparator<T>
+  +{static} comparingInt(keyExtractor): Comparator<T>
+  +{static} naturalOrder(): Comparator<T>
+  +{static} reverseOrder(): Comparator<T>
+  +{static} nullsFirst(c): Comparator<T>
+  +{static} nullsLast(c): Comparator<T>
+}
+
+class User implements "Comparable<T>" {
+  -name: String
+  -age: int
+  -salary: double
+  +compareTo(other): int
+}
+
+note right of "Comparable<T>"
+  Naturalny porządek klasy.
+  Implementowany przez klasę samą.
+  Używany przez Collections.sort(),
+  TreeSet, TreeMap (bez Comparator).
+end note
+
+note right of "Comparator<T>"
+  Zewnętrzny, alternatywny porządek.
+  Tworzony osobno (lambda, metoda statyczna).
+  Stosowany: sort(list, cmp), new TreeSet(cmp),
+  Stream.sorted(cmp), PriorityQueue(cmp).
+end note
+
+note bottom of "Comparator<T>"
+  Reguła zwracanych wartości:
+  < 0  → a przed b
+  = 0  → a równy b
+  > 0  → b przed a
+end note
+
+@enduml
+

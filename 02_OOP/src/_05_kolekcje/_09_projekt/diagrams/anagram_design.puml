@@ -1,0 +1,30 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+class AnagramSolver {
+  -{static} canonical(word: String): String
+  +{static} groupAnagramsImperative(words): Map<String,List<String>>
+  +{static} groupAnagramsStream(words): Map<String,List<String>>
+  +{static} findAnagramsOf(word, dict): List<String>
+  +{static} topNGroups(groups, n): void
+}
+
+note right of AnagramSolver
+  Kluczowa idea:
+  canonical("rak") = "akr"
+  canonical("kar") = "akr"
+  canonical("ark") = "akr"
+  → te same → ten sam klucz w mapie
+end note
+
+package "Podejście\nimperatywne" {
+  note "HashMap + computeIfAbsent\nfor-each + Iterator\nO(n * k log k)\ngdzie k = długość słowa" as IMP
+}
+
+package "Podejście\nfunkcyjne (Stream)" {
+  note "Stream.collect(\n  groupingBy(canonical))\nfilter + toMap\nczytelny, deklaratywny kod" as FUN
+}
+
+@enduml
+

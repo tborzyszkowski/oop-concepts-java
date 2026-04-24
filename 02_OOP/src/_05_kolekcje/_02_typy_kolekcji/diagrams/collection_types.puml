@@ -1,0 +1,49 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+package "List — kolejność + duplikaty" {
+  class ArrayList {
+    get(i): O(1)
+    add na końcu: O(1)*
+    add w środku: O(n)
+  }
+  class LinkedList {
+    addFirst/Last: O(1)
+    get(i): O(n)
+    Implementuje też Deque
+  }
+}
+
+package "Set — bez duplikatów" {
+  class HashSet {
+    add/contains: O(1)
+    kolejność: BRAK
+  }
+  class LinkedHashSet {
+    add/contains: O(1)
+    kolejność: WSTAWIANIA
+  }
+  class TreeSet {
+    add/contains: O(log n)
+    kolejność: POSORTOWANA
+  }
+}
+
+package "Queue / Deque" {
+  class PriorityQueue {
+    offer/poll: O(log n)
+    peek: O(1)
+    strategia: min-heap
+  }
+  class ArrayDeque {
+    offerFirst/Last: O(1)
+    pollFirst/Last: O(1)
+    zastępuje Stack
+  }
+}
+
+note "Wybór kolekcji:\n• losowy dostęp → ArrayList\n• częste wstawianie na pocz. → LinkedList\n• unikalność+porządek → TreeSet\n• kolejka FIFO → ArrayDeque\n• priorytetyzacja → PriorityQueue" as N1
+
+@enduml
+

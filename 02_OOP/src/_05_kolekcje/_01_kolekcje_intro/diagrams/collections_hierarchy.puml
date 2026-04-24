@@ -1,0 +1,82 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam backgroundColor #FAFAFA
+
+interface Iterable<E> {
+    +iterator() : Iterator<E>
+}
+
+interface Collection<E> extends Iterable {
+    +add(e: E) : boolean
+    +remove(o: Object) : boolean
+    +size() : int
+    +contains(o: Object) : boolean
+    +iterator() : Iterator<E>
+    +toArray() : Object[]
+}
+
+interface List<E> extends Collection {
+    +get(index: int) : E
+    +set(index: int, e: E) : E
+    +add(index: int, e: E) : void
+    +indexOf(o: Object) : int
+}
+
+interface Set<E> extends Collection {
+    ' Brak duplikatów
+}
+
+interface Queue<E> extends Collection {
+    +offer(e: E) : boolean
+    +poll() : E
+    +peek() : E
+}
+
+interface Deque<E> extends Queue {
+    +addFirst(e: E) : void
+    +addLast(e: E) : void
+    +peekFirst() : E
+    +peekLast() : E
+}
+
+interface SortedSet<E> extends Set {
+    +first() : E
+    +last() : E
+    +headSet(toE: E) : SortedSet<E>
+}
+
+interface Map<K,V> {
+    +put(k: K, v: V) : V
+    +get(k: Object) : V
+    +remove(k: Object) : V
+    +containsKey(k: Object) : boolean
+    +keySet() : Set<K>
+    +values() : Collection<V>
+    +entrySet() : Set<Map.Entry<K,V>>
+}
+
+class ArrayList<E> implements List
+class LinkedList<E> implements List
+class LinkedList<E> implements Deque
+
+class HashSet<E> implements Set
+class LinkedHashSet<E> implements Set
+class TreeSet<E> implements SortedSet
+
+class PriorityQueue<E> implements Queue
+class ArrayDeque<E> implements Deque
+
+class HashMap<K,V> implements Map
+class LinkedHashMap<K,V> implements Map
+class TreeMap<K,V> implements Map
+
+note bottom of ArrayList : Tablicowa, O(1) dostęp indeksowy
+note bottom of LinkedList : Węzłowa, O(1) insert na końcu
+note bottom of HashSet : Hash table, O(1) add/contains
+note bottom of TreeSet : Drzewo czerwono-czarne, O(log n)
+note bottom of HashMap : Hash table, O(1) put/get
+note bottom of TreeMap : Drzewo czerwono-czarne, klucze posortowane
+
+@enduml
+

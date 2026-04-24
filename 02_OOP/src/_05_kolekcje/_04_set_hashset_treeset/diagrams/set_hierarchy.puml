@@ -1,0 +1,38 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+interface Set<E>
+interface SortedSet<E> extends Set
+interface NavigableSet<E> extends SortedSet
+
+class HashSet<E> implements Set {
+  hash table
+  add/contains: O(1)
+  kolejność: losowa
+}
+class LinkedHashSet<E> implements Set {
+  hash table + lista
+  add/contains: O(1)
+  kolejność: wstawiania
+}
+class TreeSet<E> implements NavigableSet {
+  drzewo czerwono-czarne
+  add/contains: O(log n)
+  kolejność: naturalna/Comparator
+}
+
+note right of HashSet
+  Wymaga: equals() + hashCode()
+  Bez nich duplikaty nie są wykrywane!
+end note
+
+note right of TreeSet
+  Wymaga: Comparable lub Comparator
+  Metody: first(), last(),
+  headSet(), tailSet(), subSet(),
+  floor(), ceiling(), higher(), lower()
+end note
+
+@enduml
+

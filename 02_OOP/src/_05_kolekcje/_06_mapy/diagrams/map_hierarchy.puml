@@ -1,0 +1,54 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+interface Map<K,V> {
+  +put(k:K, v:V): V
+  +get(k:Object): V
+  +remove(k:Object): V
+  +containsKey(k:Object): boolean
+  +keySet(): Set<K>
+  +values(): Collection<V>
+  +entrySet(): Set<Map.Entry<K,V>>
+  +getOrDefault(k, def): V
+  +merge(k, v, remapping): V
+  +computeIfAbsent(k, f): V
+  +forEach(action): void
+}
+
+interface SortedMap<K,V> extends Map
+interface NavigableMap<K,V> extends SortedMap
+
+class HashMap<K,V> implements Map {
+  hash table
+  put/get: O(1)
+  kolejność: brak
+}
+class LinkedHashMap<K,V> extends HashMap {
+  + insertion-order lub access-order
+  użycie: LRU cache
+}
+class TreeMap<K,V> implements NavigableMap {
+  drzewo cz.-czarne
+  put/get: O(log n)
+  klucze: posortowane
+}
+class EnumMap<K,V> implements Map {
+  tylko klucze enum
+  bardzo wydajny
+}
+
+note right of HashMap
+  Wymaga: klucz musi mieć
+  equals() + hashCode()
+end note
+
+note right of TreeMap
+  Klucz musi mieć Comparable
+  lub podać Comparator
+  firstKey(), lastKey()
+  headMap(), tailMap(), subMap()
+end note
+
+@enduml
+

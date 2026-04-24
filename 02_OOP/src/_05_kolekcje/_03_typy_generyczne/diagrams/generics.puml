@@ -1,0 +1,28 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+
+class "Pair<A,B>" {
+  -first: A
+  -second: B
+  +getFirst(): A
+  +getSecond(): B
+  +<C> withSecond(c:C): Pair<A,C>
+}
+
+class "Stack<T>" {
+  -storage: Deque<T>
+  +push(item: T): void
+  +pop(): T
+  +peek(): T
+  +isEmpty(): boolean
+}
+
+note top of "Pair<A,B>" : Klasa generyczna z\ndwoma parametrami typów
+
+note "? extends Number\n= producent (tylko czytamy)\n? super Integer\n= konsument (tylko piszemy)\nREGUŁA PECS" as PECS
+
+note "Type Erasure:\nList<String> i List<Integer>\nto w runtime ten sam typ:\njava.util.ArrayList" as Erasure
+
+@enduml
+
