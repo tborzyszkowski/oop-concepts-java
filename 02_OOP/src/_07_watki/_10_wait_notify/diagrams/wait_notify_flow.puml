@@ -1,0 +1,28 @@
+@startuml wait_notify_flow
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title wait() / notify() — przepływ
+
+participant "Wątek A (producer)" as PA
+participant "Monitor (obj)" as MON
+participant "Wątek B (consumer)" as PB
+
+PA -> MON : synchronized(obj)
+PA -> MON : obj.notify()
+note right : Budzi jeden\nwątek z wait set
+
+PB -> MON : synchronized(obj)
+PB -> MON : while(!condition)\n  obj.wait()  ← WAITING
+note right of MON : B zwolnił monitor\ni czeka w wait set
+
+MON --> PB : po notify()\npróbuje wrócić\ndo synchronized
+note right of PB
+  ZAWSZE używaj while, nie if:
+  while (!condition) {
+    wait();
+  }
+  Ochrona przed spurious wakeup!
+end note
+
+@enduml
+

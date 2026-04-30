@@ -1,0 +1,30 @@
+@startuml deadlock
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Zakleszczenie — wzajemne blokowanie
+
+rectangle "Zasób A\n(synchronized)" as RA #LightSalmon
+rectangle "Zasób B\n(synchronized)" as RB #LightBlue
+
+agent "Wątek 1" as T1
+agent "Wątek 2" as T2
+
+T1 -right-> RA : trzyma
+T1 -down-> RB : czeka na
+T2 -left-> RB : trzyma
+T2 -up-> RA : czeka na
+
+note bottom
+  Zakleszczenie (Deadlock):
+  T1 czeka na T2, T2 czeka na T1.
+  Żaden wątek nie może kontynuować.
+
+  Warunki Coffmana (wszystkie 4 muszą zajść):
+  1. Wzajemne wykluczanie (mutex)
+  2. Hold and wait (trzymaj i czekaj)
+  3. No preemption (brak wywłaszczenia)
+  4. Circular wait (czekanie cykliczne)
+end note
+
+@enduml
+

@@ -1,0 +1,42 @@
+@startuml thread_lifecycle
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Cykl życia wątku Java (Thread.State)
+
+[*] --> NEW : new Thread()
+
+NEW --> RUNNABLE : start()
+
+RUNNABLE --> TIMED_WAITING : sleep(ms)\nwait(ms)\njoin(ms)
+TIMED_WAITING --> RUNNABLE : upłynął czas\nlub interrupt()
+
+RUNNABLE --> WAITING : wait()\njoin()\nLockSupport.park()
+WAITING --> RUNNABLE : notify()\nnotifyAll()\njoin zakończony
+
+RUNNABLE --> BLOCKED : synchronized\n(oczekiwanie na monitor)
+BLOCKED --> RUNNABLE : monitor zwolniony
+
+RUNNABLE --> TERMINATED : run() zakończona\nlub wyjątek
+
+TERMINATED --> [*]
+
+note right of RUNNABLE
+  Wątek ma zasoby CPU
+  lub jest gotowy do przydziału.
+  JVM/OS decyduje o harmonogramie.
+end note
+
+note right of BLOCKED
+  Czeka na wejście do bloku
+  synchronized lub metody synchronized.
+  Nie można go przerwać przez interrupt().
+end note
+
+note right of WAITING
+  Zrezygnował z CPU.
+  Czeka na jawny sygnał.
+  Może być przerwany przez interrupt() → InterruptedException.
+end note
+
+@enduml
+

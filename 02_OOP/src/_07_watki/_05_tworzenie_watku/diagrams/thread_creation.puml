@@ -1,0 +1,54 @@
+@startuml thread_creation
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Trzy sposoby tworzenia wątków
+
+class Thread {
+  + start()
+  + run()
+  + join()
+  + sleep(ms)
+}
+
+class "MyThread\nextends Thread" as MT {
+  + run() <<override>>
+}
+
+interface Runnable {
+  + run()
+}
+
+class "MyRunnable\nimplements Runnable" as MR {
+  + run() <<override>>
+}
+
+class "Lambda\n() -> { ... }" as LA
+
+Thread <|-- MT : dziedziczenie
+Runnable <|.. MR : implementacja
+Runnable <|.. LA : anonimowa klasa / lambda
+
+Thread --> Runnable : "new Thread(runnable)"
+
+note right of MT
+  extends Thread:
+  - prosty kod
+  - blokuje dziedziczenie!
+end note
+
+note right of MR
+  implements Runnable:
+  - wolne dziedziczenie
+  - separacja logiki od wątku
+  + rekomendowane
+end note
+
+note right of LA
+  Lambda (Java 8+):
+  - najzwięźlejszy zapis
+  - dla małych zadań
+end note
+
+@enduml
+

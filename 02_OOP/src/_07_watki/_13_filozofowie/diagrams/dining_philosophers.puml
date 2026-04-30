@@ -1,0 +1,40 @@
+@startuml dining_philosophers
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Pięciu Filozofów — stół
+
+circle "Filozof 0" as P0
+circle "Filozof 1" as P1
+circle "Filozof 2" as P2
+circle "Filozof 3" as P3
+circle "Filozof 4" as P4
+
+rectangle "Widelec 0" as F0 #LightYellow
+rectangle "Widelec 1" as F1 #LightYellow
+rectangle "Widelec 2" as F2 #LightYellow
+rectangle "Widelec 3" as F3 #LightYellow
+rectangle "Widelec 4" as F4 #LightYellow
+
+P0 -- F0 : lewy
+P0 -- F1 : prawy
+P1 -- F1 : lewy
+P1 -- F2 : prawy
+P2 -- F2 : lewy
+P2 -- F3 : prawy
+P3 -- F3 : lewy
+P3 -- F4 : prawy
+P4 -- F4 : lewy
+P4 -- F0 : prawy
+
+note bottom
+  Zakleszczenie gdy każdy bierze lewy widelec i czeka na prawy.
+
+  Rozwiązania:
+  1. Jeden filozof odwrócony (asymetryczna kolejność)
+  2. Kelner (arbitraż globalny)
+  3. tryLock z wycofaniem
+  4. Chandy-Misra (token passing)
+end note
+
+@enduml
+

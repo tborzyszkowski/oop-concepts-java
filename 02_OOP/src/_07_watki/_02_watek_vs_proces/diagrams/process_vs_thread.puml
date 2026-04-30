@@ -1,0 +1,42 @@
+@startuml process_vs_thread
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Proces vs Wątek
+
+package "Proces A" #LightBlue {
+  rectangle "Przestrzeń adresowa" {
+    rectangle "kod"
+    rectangle "dane"
+    rectangle "stos T1"
+    rectangle "stos T2"
+    [Wątek 1] as T1
+    [Wątek 2] as T2
+  }
+}
+
+package "Proces B" #LightGreen {
+  rectangle "Przestrzeń adresowa B" {
+    rectangle "kod B"
+    rectangle "dane B"
+    rectangle "stos TB"
+    [Wątek 3] as T3
+  }
+}
+
+note bottom of T1
+  Wątki w tym samym procesie:
+  - współdzielą pamięć (dane, kod)
+  - mają ODRĘBNE stosy
+  - szybka komunikacja
+  - ryzyko: race condition
+end note
+
+note bottom of T3
+  Procesy mają ODDZIELNĄ
+  przestrzeń adresową.
+  Komunikacja przez IPC
+  (pipe, socket, shared memory).
+end note
+
+@enduml
+

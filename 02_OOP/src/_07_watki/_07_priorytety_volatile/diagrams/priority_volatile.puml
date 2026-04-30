@@ -1,0 +1,33 @@
+@startuml priority_volatile
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Priorytety wątków i volatile
+
+rectangle "CPU Scheduler" as SCH #LightYellow
+rectangle "Wątek LOW\np=1" as TL #LightBlue
+rectangle "Wątek MID\np=5" as TM #LightGreen
+rectangle "Wątek HIGH\np=10" as TH #LightSalmon
+
+SCH -down-> TH : więcej czasu CPU\n(większy priorytet)
+SCH --> TM : normalny czas
+SCH --> TL : mniej czasu
+
+note right of SCH
+  Priorytety to wskazówka dla schedulera.
+  Nie są gwarantowane!
+  Zależy od OS, JVM, liczby rdzeni.
+end note
+
+note bottom
+  volatile boolean running = true;
+
+  Bez volatile: JIT może skeszować zmienną lokalnie.
+  Z volatile: zapis widoczny natychmiast dla wszystkich wątków.
+
+  volatile ≠ synchronized
+  - widoczność: tak
+  - atomowość count++: NIE
+end note
+
+@enduml
+

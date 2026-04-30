@@ -1,0 +1,32 @@
+@startuml producer_consumer
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Producent-Konsument — bufor jednoelementowy
+
+participant "Producent" as P #LightBlue
+participant "Bufor\n(synchronized)" as B #LightYellow
+participant "Konsument" as C #LightGreen
+
+P -> B : put(1)
+note right of B : hasValue=false\n→ zapisz 1\nhasValue=true\nnotify()
+B --> C : notify
+C -> B : get()
+note right of B : hasValue=true\n→ zwróć 1\nhasValue=false\nnotify()
+B --> P : notify
+
+P -> B : put(2)
+note right of B : hasValue=false\n→ zapisz 2\nnotify()
+B --> C : notify
+
+P -> B : put(3)
+note over B #LightSalmon : hasValue=true!\nProducent wykonuje wait()\nBlokuje się!
+
+C -> B : get()
+note right of B : zwróć 2\nhasValue=false\nnotify → budzi Producenta
+
+B --> P : notify
+P -> B : put(3) [po wait()]
+note right of B : hasValue=false\n→ zapisz 3\nnotify()
+
+@enduml
+

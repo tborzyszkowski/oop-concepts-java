@@ -1,0 +1,30 @@
+@startuml main_thread
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Wątek główny i metoda currentThread()
+
+participant "JVM Launch" as JVM
+participant "main thread\n(Thread.currentThread())" as MAIN
+participant "Worker Thread" as W
+
+JVM -> MAIN : tworzy i startuje
+note right of MAIN
+  Thread.currentThread()
+    .getName()     : "main"
+    .getId()       : systemowe ID
+    .getPriority() : 5 (NORM)
+    .isDaemon()    : false
+    .getState()    : RUNNABLE
+end note
+
+MAIN -> W : new Thread(...).start()
+activate W
+MAIN -> MAIN : Thread.sleep(ms) → TIMED_WAITING
+W --> MAIN : notify / join
+MAIN <-- W : run() zakończony
+deactivate W
+
+MAIN -> MAIN : zakończenie main()\n→ JVM kończy się\n  (gdy brak user threads)
+
+@enduml
+

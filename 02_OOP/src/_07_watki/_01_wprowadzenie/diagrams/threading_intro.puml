@@ -1,0 +1,30 @@
+@startuml threading_intro
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Sekwencyjne vs Równoległe przetwarzanie
+
+|Sekwencyjne|
+start
+:Zadanie A;
+:Zadanie B;
+:Zadanie C;
+:Zadanie D;
+stop
+
+|Równoległe|
+fork
+  :Zadanie A;
+  :Zadanie B;
+fork again
+  :Zadanie C;
+  :Zadanie D;
+end fork
+stop
+
+note right
+  Równoległe 2× szybsze
+  przy niezależnych zadaniach
+  na wielordzeniowym CPU.
+end note
+@enduml
+

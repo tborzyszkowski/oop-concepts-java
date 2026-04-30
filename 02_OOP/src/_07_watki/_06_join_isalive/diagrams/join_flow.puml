@@ -1,0 +1,28 @@
+@startuml join_flow
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title join() — synchronizacja zakończenia
+
+participant "Wątek główny" as MAIN
+participant "Worker 1" as W1
+participant "Worker 2" as W2
+
+MAIN -> W1 : start()
+activate W1
+MAIN -> W2 : start()
+activate W2
+
+MAIN -> MAIN : W1.join() → WAITING
+W1 --> MAIN : run() zakończony
+deactivate W1
+
+MAIN -> MAIN : isAlive(W1) = false
+
+MAIN -> MAIN : W2.join() → WAITING
+W2 --> MAIN : run() zakończony
+deactivate W2
+
+MAIN -> MAIN : Oba wątki zakończone.\nMożna bezpiecznie\nodczytać wyniki.
+
+@enduml
+

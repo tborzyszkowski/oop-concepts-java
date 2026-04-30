@@ -1,0 +1,24 @@
+@startuml race_condition
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Wyścig danych (race condition) — count++
+
+participant "Wątek T1" as T1
+participant "Pamięć\ncount=5" as MEM
+participant "Wątek T2" as T2
+
+T1 -> MEM : ODCZYT count=5
+T2 -> MEM : ODCZYT count=5
+T1 -> T1  : oblicz 5+1=6
+T2 -> T2  : oblicz 5+1=6
+T1 -> MEM : ZAPIS count=6
+T2 -> MEM : ZAPIS count=6
+
+note over MEM #LightSalmon
+  Oczekiwane: count=7
+  Faktyczne:  count=6
+  Utracona jedna aktualizacja!
+end note
+
+@enduml
+

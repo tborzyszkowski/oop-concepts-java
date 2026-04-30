@@ -1,0 +1,32 @@
+@startuml synchronized_monitor
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Monitor — mechanizm synchronized
+
+rectangle "Obiekt z monitorem" as OBJ {
+  rectangle "Zamek (lock)" as LOCK #LightSalmon
+  rectangle "Kolejka wejścia\n(Entry Set)" as ES #LightBlue
+  rectangle "Kolejka oczekiwania\n(Wait Set)" as WS #LightGreen
+  rectangle "Sekcja krytyczna" as CS #LightYellow
+}
+
+agent "Wątek A" as TA
+agent "Wątek B" as TB
+agent "Wątek C" as TC
+
+TA --> LOCK : acquires lock\n→ wchodzi do CS
+TB --> ES   : czeka (BLOCKED)
+TC --> WS   : wait() → (WAITING)
+
+note right
+  synchronized(obj) {
+     // sekcja krytyczna
+  }
+
+  Tylko JEDEN wątek może
+  być w sekcji krytycznej
+  naraz (mutual exclusion).
+end note
+
+@enduml
+
