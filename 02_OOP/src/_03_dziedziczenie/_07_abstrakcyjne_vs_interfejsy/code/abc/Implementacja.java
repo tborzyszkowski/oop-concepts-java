@@ -9,7 +9,6 @@ interface AA{
 }
 
 class B extends A implements AA{
-
 }
 
 public class Implementacja{

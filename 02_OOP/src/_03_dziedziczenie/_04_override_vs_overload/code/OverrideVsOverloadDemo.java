@@ -19,6 +19,10 @@ class ColorPrinter extends Printer {
     String mode() {
         return "color";
     }
+
+    String supermode() {
+        return super.mode();
+    }
 }
 
 public class OverrideVsOverloadDemo {
@@ -27,6 +31,10 @@ public class OverrideVsOverloadDemo {
         System.out.println(p.print(7));
         System.out.println(p.print("abc"));
         System.out.println("mode=" + p.mode());
+        System.out.println(p.getClass().getName());
+        if(p instanceof ColorPrinter cp) {
+            System.out.println("supermode=" + cp.supermode());
+        }
     }
 }
 
