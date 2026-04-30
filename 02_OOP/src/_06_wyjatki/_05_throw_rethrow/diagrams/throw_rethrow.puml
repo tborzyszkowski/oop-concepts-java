@@ -1,0 +1,38 @@
+@startuml throw_rethrow
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title throw, rethrow i exception chaining
+
+participant "main()" as main
+participant "service()" as svc
+participant "repository()" as repo
+
+main -> svc : wywołanie
+activate svc
+svc -> repo : query()
+activate repo
+
+repo -> repo : throw new SQLException(...)
+note right of repo : Miejsce TWORZENIA\ni RZUCENIA wyjątku
+
+repo --> svc : propagacja checked
+deactivate repo
+
+svc -> svc : catch(SQLException e)
+note right of svc #LightYellow
+  Opcja A: rethrow
+  throw e;
+  (stack trace bez zmian)
+
+  Opcja B: wrap
+  throw new ServiceException(msg, e);
+  (e staje się cause)
+end note
+
+svc --> main : propagacja
+deactivate svc
+
+main -> main : catch(ServiceException e)
+note right : e.getCause() → SQLException\ne.getStackTrace() → ServiceException
+@enduml
+

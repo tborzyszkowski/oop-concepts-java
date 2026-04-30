@@ -1,0 +1,42 @@
+@startuml finally_flow
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Sekcja finally — gwarancja wykonania
+
+start
+
+partition "try" {
+  :otwórz zasób;
+  if (wyjątek?) then (tak)
+    :throw Exception;
+  else (nie)
+    :normalny kod;
+    :return value;
+  endif
+}
+
+note right
+  finally wykona się
+  ZAWSZE — niezależnie
+  od wyjątku lub return
+end note
+
+partition "catch (opcjonalny)" {
+  if (wyjątek pasuje?) then (tak)
+    :obsługa;
+  endif
+}
+
+partition "finally (zawsze)" {
+  :zamknij zasób;
+  note right #LightSalmon
+    NIE używaj tu return/throw!
+    Pochłonie wyjątki z try/catch.
+  end note
+}
+
+:kontynuacja (jeśli brak nieobsłużonego wyjątku);
+stop
+
+@enduml
+

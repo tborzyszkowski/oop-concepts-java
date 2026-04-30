@@ -1,0 +1,22 @@
+@startuml nested_try
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Zagnieżdżone bloki try-catch
+
+rectangle "Zewnętrzny try" #LightBlue {
+  rectangle "Wewnętrzny try" #LightGreen {
+    :instrukcje;
+    note right: Wyjątek wewnętrzny\nmożna obsłużyć lokalnie\nlub propagować na zewnątrz
+  }
+  rectangle "catch wewnętrzny" #LightYellow {
+    :obsługa lokalna;
+    note right: Opcjonalnie: throw e\nlub throw new WrapEx(e)
+  }
+  :więcej instrukcji;
+}
+rectangle "catch zewnętrzny" #LightSalmon {
+  :obsługa zewnętrzna;
+}
+
+@enduml
+

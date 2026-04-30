@@ -1,0 +1,37 @@
+@startuml throws_declaration
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Deklaracja throws — checked vs unchecked
+
+package "Checked Exceptions (wymagają throws)" #LightBlue {
+  class IOException
+  class SQLException
+  class ParseException
+  note bottom of IOException : Kompilator WYMAGA\nobsługi lub deklaracji
+}
+
+package "Unchecked Exceptions (throws opcjonalne)" #LightYellow {
+  class RuntimeException
+  class NullPointerException
+  class IllegalArgumentException
+  note bottom of RuntimeException : Kompilator NIE wymaga\ndeklaracji
+}
+
+package "Przykład interfejsu z throws" #LightGreen {
+  interface DataLoader {
+    + load(src: String) : String\n  throws IOException
+  }
+  class FileLoader implements DataLoader {
+    + load(src: String) : String\n  throws IOException
+  }
+  class MemLoader implements DataLoader {
+    + load(src: String) : String
+    note: może ZAWĘZIĆ — nie rzucać
+  }
+}
+
+DataLoader <|.. FileLoader
+DataLoader <|.. MemLoader
+@enduml
+

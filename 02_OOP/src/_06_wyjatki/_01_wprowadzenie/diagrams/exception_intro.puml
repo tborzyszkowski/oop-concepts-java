@@ -1,0 +1,40 @@
+@startuml exception_intro
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Przepływ sterowania z wyjągiem
+
+participant "Wywołujący" as Caller
+participant "metoda()" as Method
+participant "JVM" as JVM
+
+Caller -> Method : wywołanie
+activate Method
+
+Method -> Method : normalny kod
+Method -> JVM : throw new Exception()
+activate JVM #red
+
+note right of JVM
+  1. Tworzy obiekt wyjątku
+  2. Zapisuje stack trace
+  3. Szuka najbliższego catch
+end note
+
+JVM --> Method : brak catch — propagacja
+deactivate JVM
+Method --> Caller : propagacja wyjątku
+activate Caller #orange
+
+alt try-catch w Caller
+    Caller -> Caller : catch (Exception e)
+    note right : Obsługa — program\nkontynuuje
+else brak catch
+    Caller --> JVM : propagacja dalej
+end
+
+deactivate Caller
+deactivate Method
+
+@enduml
+

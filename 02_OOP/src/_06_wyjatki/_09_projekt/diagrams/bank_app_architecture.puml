@@ -1,0 +1,51 @@
+@startuml bank_app_architecture
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title BankApp — architektura i przepływ wyjątków
+
+package "Model" {
+  class Account {
+    - number: String
+    - owner: String
+    - balance: double
+    - frozen: boolean
+    + deposit(amount: double)
+    + withdraw(amount: double)
+    + transferTo(target, amount, desc)
+  }
+  class AccountRepository {
+    + add(account: Account)
+    + find(number: String)
+  }
+}
+
+package "Serwis" {
+  class BankService {
+    + deposit(no, amount)
+    + withdraw(no, amount)
+    + transfer(from, to, amount, desc)
+    + printHistory(no)
+  }
+}
+
+package "Wyjątki (checked)" {
+  class BankException {
+    + getCode() : String
+  }
+  class InsufficientFundsException extends BankException
+  class AccountNotFoundException extends BankException
+  class AccountFrozenException extends BankException
+  class InvalidInputException extends BankException
+}
+
+BankService --> AccountRepository : używa
+AccountRepository --> Account : zarządza
+Account ..> InsufficientFundsException : throws
+Account ..> AccountFrozenException : throws
+Account ..> InvalidInputException : throws
+AccountRepository ..> AccountNotFoundException : throws
+BankService ..> BankException : catches all
+
+@enduml
+

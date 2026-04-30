@@ -1,0 +1,40 @@
+@startuml throw_catch_flow
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Mechanizm throw-catch — przepływ
+
+start
+
+:Wejście do bloku try;
+
+if (rzucono wyjątek?) then (tak)
+  :JVM tworzy obiekt Exception;
+  :Przerywa wykonanie bloku try;
+
+  while (czy jest jeszcze blok catch?) is (tak)
+    if (typ pasuje?) then (tak)
+      :Wykonaj blok catch;
+      break
+    endif
+  endwhile (nie — brak dopasowania)
+
+  if (jest blok finally?) then (tak)
+    :Wykonaj finally;
+  endif
+
+  :Propagacja do wywołującego;
+  stop
+
+else (nie)
+  :Kontynuuj blok try;
+endif
+
+if (jest blok finally?) then (tak)
+  :Wykonaj finally;
+endif
+
+:Kontynuuj po try-catch-finally;
+stop
+
+@enduml
+

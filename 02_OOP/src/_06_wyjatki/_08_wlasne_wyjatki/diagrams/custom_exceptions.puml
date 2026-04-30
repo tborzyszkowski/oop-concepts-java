@@ -1,0 +1,49 @@
+@startuml custom_exceptions
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Hierarchia własnych wyjątków — przykład bankowy
+
+class Throwable
+class Exception extends Throwable
+class RuntimeException extends Exception
+
+abstract class AppException extends RuntimeException {
+  - errorCode: String
+  + getErrorCode() : String
+}
+
+class ValidationException extends AppException {
+  - violations: List<String>
+  + getViolations() : List<String>
+}
+
+class ResourceException extends AppException {
+  - resourceId: String
+  + getResourceId() : String
+}
+
+class BankException extends Exception {
+  - code: String
+  + getCode() : String
+}
+
+class InsufficientFundsException extends BankException {
+  - balance: double
+  - requested: double
+}
+
+class AccountNotFoundException extends BankException {
+  - accountNumber: String
+}
+
+class AccountFrozenException extends BankException
+class InvalidInputException extends BankException {
+  - violations: List<String>
+}
+
+note right of AppException : unchecked —\nbez throws w sygnaturze
+note right of BankException : checked —\nwymaga throws lub catch
+
+@enduml
+

@@ -1,0 +1,73 @@
+@startuml exception_hierarchy
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Hierarchia klas wyjątków w Javie
+
+class Throwable {
+  + getMessage() : String
+  + getCause() : Throwable
+  + getStackTrace() : StackTraceElement[]
+  + printStackTrace() : void
+}
+
+class Error {
+  <<nieodwracalne>>
+}
+
+class Exception {
+  <<checked i unchecked>>
+}
+
+class RuntimeException {
+  <<unchecked>>
+}
+
+class OutOfMemoryError
+class StackOverflowError
+class AssertionError
+
+class IOException {
+  <<checked>>
+}
+class SQLException {
+  <<checked>>
+}
+class CloneNotSupportedException {
+  <<checked>>
+}
+
+class NullPointerException
+class IllegalArgumentException
+class ArithmeticException
+class IndexOutOfBoundsException
+class ClassCastException
+class IllegalStateException
+
+class NumberFormatException
+class ArrayIndexOutOfBoundsException
+
+Throwable <|-- Error
+Throwable <|-- Exception
+Error <|-- OutOfMemoryError
+Error <|-- StackOverflowError
+Error <|-- AssertionError
+Exception <|-- RuntimeException
+Exception <|-- IOException
+Exception <|-- SQLException
+Exception <|-- CloneNotSupportedException
+RuntimeException <|-- NullPointerException
+RuntimeException <|-- IllegalArgumentException
+RuntimeException <|-- ArithmeticException
+RuntimeException <|-- IndexOutOfBoundsException
+RuntimeException <|-- ClassCastException
+RuntimeException <|-- IllegalStateException
+IllegalArgumentException <|-- NumberFormatException
+IndexOutOfBoundsException <|-- ArrayIndexOutOfBoundsException
+
+note right of Error : Błędy JVM — zwykle\nNIE należy przechwytywać
+note right of RuntimeException : Unchecked — kompilator\nnie wymaga obsługi
+note right of IOException : Checked — MUSI być\nobsłużona lub zadeklarowana
+
+@enduml
+
