@@ -1,9 +1,9 @@
 package _03_dziedziczenie._03_super.code;
 
 class Person {
-    protected final String name;
+    protected String name;
 
-    Person(){ this.name = ""; }
+    Person(){ this.name = "Kowalski"; }
     Person(String name) {
         this.name = name;
     }

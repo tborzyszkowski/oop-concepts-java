@@ -8,7 +8,6 @@ class Printer {
     String print(String value) {
         return "String=" + value;
     }
-
     String mode() {
         return "base";
     }
@@ -34,7 +33,9 @@ public class OverrideVsOverloadDemo {
         System.out.println(p.getClass().getName());
         if(p instanceof ColorPrinter cp) {
             System.out.println("supermode=" + cp.supermode());
+            System.out.println("supermode=" + cp.mode());
         }
+        System.out.println("supermode=" + p.mode());
     }
 }
 
