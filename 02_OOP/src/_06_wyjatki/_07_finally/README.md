@@ -8,6 +8,20 @@ Zrozumienie gwarancji sekcji `finally`, jej interakcji z `return`, `throw` i `Sy
 
 ## 1. Diagram przepływu finally
 
+#### Notatka do slajdu
+
+**Co dokładnie gwarantuje `finally`**
+- `finally` to mechanizm „cleanup”, nie „naprawa logiki biznesowej”.
+- Wykona się przy normalnym zakończeniu, `return` i wyjątku (poza wyjątkami procesu/JVM).
+
+
+#### Notatka do slajdu
+
+**Kiedy klasyczne `finally` nadal ma sens**
+- Gdy sprzątasz coś, co nie implementuje `AutoCloseable` (np. lock/unlock).
+- Gdy wymagane jest wykonanie kodu niezależnie od ścieżki wyjścia.
+
+
 ![Przepływ finally](diagrams/finally_flow.png)
 
 ---
@@ -35,6 +49,13 @@ try {
 ---
 
 ## 3. Interakcja finally z return ⚠️
+
+#### Notatka do slajdu
+
+**Dlaczego `return` w `finally` jest groźny**
+- Nadpisuje wynik z `try` i może ukryć wyjątek.
+- To jeden z najbardziej kosztownych błędów utrzymaniowych, bo maskuje symptomy awarii.
+
 
 ```java
 static int methodWithReturn() {
@@ -108,6 +129,13 @@ Ten kod jest **verbose** i podatny na błędy — stąd Java 7 wprowadza try-wit
 
 ## 5. Try-with-resources (Java 7+) — nowoczesna alternatywa
 
+#### Notatka do slajdu
+
+**try-with-resources jako domyślny wybór**
+- Dla zasobów `AutoCloseable` preferuj TWR zamiast ręcznego `finally`.
+- Podkreśl korzyść: suppressed exceptions i mniej kodu boilerplate.
+
+
 ```java
 // Interfejs AutoCloseable — wystarczy zaimplementować close()
 try (Connection conn = DriverManager.getConnection(url);
@@ -162,32 +190,16 @@ W klasycznym `finally` drugi wyjątek **zastępował** pierwszy — traciliśmy 
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Kod demonstracyjny
 
-### Slajd: Co dokładnie gwarantuje `finally`
-- `finally` to mechanizm „cleanup”, nie „naprawa logiki biznesowej”.
-- Wykona się przy normalnym zakończeniu, `return` i wyjątku (poza wyjątkami procesu/JVM).
+## Pytania kontrolne
 
-### Slajd: Dlaczego `return` w `finally` jest groźny
-- Nadpisuje wynik z `try` i może ukryć wyjątek.
-- To jeden z najbardziej kosztownych błędów utrzymaniowych, bo maskuje symptomy awarii.
-
-### Slajd: try-with-resources jako domyślny wybór
-- Dla zasobów `AutoCloseable` preferuj TWR zamiast ręcznego `finally`.
-- Podkreśl korzyść: suppressed exceptions i mniej kodu boilerplate.
-
-### Slajd: Kiedy klasyczne `finally` nadal ma sens
-- Gdy sprzątasz coś, co nie implementuje `AutoCloseable` (np. lock/unlock).
-- Gdy wymagane jest wykonanie kodu niezależnie od ścieżki wyjścia.
-
-### Pytania kontrolne
 1. Co stanie się, gdy `try` rzuci wyjątek, a `finally` wykona `return`?
 2. Jaką przewagę diagnostyczną daje suppressed exception?
 3. Kiedy `try-finally` jest nadal poprawnym wyborem mimo TWR?
 
 ---
 
-## Kod demonstracyjny
 
 📄 [`code/FinallyDemo.java`](code/FinallyDemo.java)
 

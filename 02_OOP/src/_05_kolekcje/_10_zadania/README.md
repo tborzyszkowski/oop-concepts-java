@@ -6,6 +6,14 @@ Sekcja utrwala materiał z modułów 5.1–5.9: kolekcje, typy generyczne, Set, 
 
 ## Zadanie 1 ⭐ — Usuń duplikaty zachowując kolejność
 
+#### Notatka do slajdu
+
+**Jak pracowac z zadaniami**
+- Zadania 1-4 traktuj jako rozgrzewke utrwalajaca API.
+- Zadania 5-8 buduja abstrahowanie (generyki, porzadek, transformacje struktur).
+- Zadania 9-10 to mini-projekty integrujace caly modul.
+
+
 **Problem:** Masz listę z duplikatami. Usuń powtórzenia, zachowując oryginalną kolejność pierwszego wystąpienia każdego elementu.
 
 **Przykład:**
@@ -29,6 +37,15 @@ public static <T> List<T> removeDuplicatesPreserveOrder(List<T> list) {
 
 ## Zadanie 2 ⭐ — Odwrócona mapa
 
+#### Notatka do slajdu
+
+**Jak wdrozyc TDD na cwiczeniach**
+- Red: najpierw test opisujacy wymaganie.
+- Green: minimalna implementacja.
+- Refactor: uproszczenie kodu bez zmiany zachowania.
+- Powtorz cykl dla kolejnych podprzypadkow.
+
+
 **Problem:** Dana jest mapa `Map<K, V>`. Odwróć ją — zamień klucze i wartości miejscami.
 
 **Przykład:**
@@ -51,6 +68,14 @@ public static <K, V> Map<V, K> invertMap(Map<K, V> original) {
 ---
 
 ## Zadanie 3 ⭐⭐ — Najczęstszy element
+
+#### Notatka do slajdu
+
+**Typowe pułapki studentow**
+- Nadmierna komplikacja rozwiazania prostego zadania.
+- Uzycie niewlasciwej kolekcji (np. `List` tam, gdzie potrzebny `Set`).
+- Brak testu dla przypadkow z duplikatami i wartosciami granicznymi.
+
 
 **Problem:** Znajdź element, który najczęściej występuje w liście.
 
@@ -216,11 +241,29 @@ String[] words = text.toLowerCase().replaceAll("[^a-ząęóśłżźćń ]", "").
 
 ## Rozwiązania referencyjne
 
+#### Notatka do slajdu
+
+**Kryteria oceny rozwiazania**
+- Poprawnosc funkcjonalna (czy wynik jest zgodny ze specyfikacja).
+- Dobor struktur danych (czy kolekcja odpowiada semantyce problemu).
+- Czytelnosc i testowalnosc (nazewnictwo, podzial metod, brak duplikacji).
+- Obsluga przypadkow brzegowych (puste dane, duze dane, kolizje).
+
+
 Gotowe implementacje znajdziesz w: [`solutions/CollectionsExercisesSolutions.java`](solutions/CollectionsExercisesSolutions.java)
 
 ---
 
 ## Uruchomienie rozwiązań
+
+## Pytania kontrolne
+
+1. Ktore zadanie najlepiej pokazuje przewage `Map` nad `List` i dlaczego?
+2. Jak rozpoznac, ze zadanie wymaga `Comparator` zamiast `Comparable`?
+3. Jakie dodatkowe testy dodalbys do zadania 9 (magazyn)?
+
+---
+
 
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_10_zadania"
@@ -236,37 +279,6 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_10_zadan
 3. Dodaj minimalną implementację.
 4. Uruchom test — powinien być zielony.
 5. Zrefaktoryzuj i uruchom ponownie.
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Jak pracowac z zadaniami
-- Zadania 1-4 traktuj jako rozgrzewke utrwalajaca API.
-- Zadania 5-8 buduja abstrahowanie (generyki, porzadek, transformacje struktur).
-- Zadania 9-10 to mini-projekty integrujace caly modul.
-
-### Slajd: Kryteria oceny rozwiazania
-- Poprawnosc funkcjonalna (czy wynik jest zgodny ze specyfikacja).
-- Dobor struktur danych (czy kolekcja odpowiada semantyce problemu).
-- Czytelnosc i testowalnosc (nazewnictwo, podzial metod, brak duplikacji).
-- Obsluga przypadkow brzegowych (puste dane, duze dane, kolizje).
-
-### Slajd: Jak wdrozyc TDD na cwiczeniach
-- Red: najpierw test opisujacy wymaganie.
-- Green: minimalna implementacja.
-- Refactor: uproszczenie kodu bez zmiany zachowania.
-- Powtorz cykl dla kolejnych podprzypadkow.
-
-### Slajd: Typowe pułapki studentow
-- Nadmierna komplikacja rozwiazania prostego zadania.
-- Uzycie niewlasciwej kolekcji (np. `List` tam, gdzie potrzebny `Set`).
-- Brak testu dla przypadkow z duplikatami i wartosciami granicznymi.
-
-### Pytania kontrolne
-1. Ktore zadanie najlepiej pokazuje przewage `Map` nad `List` i dlaczego?
-2. Jak rozpoznac, ze zadanie wymaga `Comparator` zamiast `Comparable`?
-3. Jakie dodatkowe testy dodalbys do zadania 9 (magazyn)?
 
 ---
 

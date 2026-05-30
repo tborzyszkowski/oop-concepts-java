@@ -8,11 +8,26 @@ Większy przykład intensywnego wykorzystania wyjątków: pełna hierarchia wyj�
 
 ## 1. Architektura
 
+#### Notatka do slajdu
+
+**Granice warstw**
+- Repozytorium: techniczne wyjątki infrastruktury.
+- Serwis: tłumaczenie na język domeny i decyzje biznesowe.
+- UI/API: mapowanie na odpowiedź dla użytkownika i kody błędów.
+
+
 ![Architektura BankApp](diagrams/bank_app_architecture.png)
 
 ---
 
 ## 2. Hierarchia wyjątków
+
+#### Notatka do slajdu
+
+**Hierarchia wyjątków bankowych**
+- Jeden bazowy typ (`BankException`) upraszcza centralną obsługę.
+- Specjalizacje niosą dane do komunikatu użytkownika i logów (saldo, żądana kwota, numer konta).
+
 
 ```java
 Exception
@@ -54,6 +69,13 @@ class InsufficientFundsException extends BankException {
 
 ## 3. Walidacja przy tworzeniu obiektu (fail-fast)
 
+#### Notatka do slajdu
+
+**Fail-fast i niezmienniki**
+- Konstruktor odrzuca niepoprawny stan - obiekt po utworzeniu jest spójny.
+- To zmniejsza liczbę „defensywnych ifów” w dalszym kodzie.
+
+
 ```java
 class Account {
     Account(String number, String owner, double initialBalance)
@@ -94,6 +116,13 @@ void withdraw(double amount) throws BankException {
 ---
 
 ## 5. Serwis — obsługa błędów i dziennik audytowy
+
+#### Notatka do slajdu
+
+**Audyt i obserwowalność**
+- Każda operacja (udana i nieudana) zostawia ślad.
+- To nie tylko debugowanie, ale też wymaganie compliance i bezpieczeństwa.
+
 
 ```java
 class BankService {
@@ -159,6 +188,15 @@ class BankService {
 
 ## Kod demonstracyjny
 
+## Pytania kontrolne
+
+1. Dlaczego w tym projekcie checked exceptions są uzasadnione?
+2. Jakie dane wyjątku są kluczowe dla UX, a jakie dla audytu?
+3. W którym miejscu najlepiej tłumaczyć wyjątki infrastrukturalne na domenowe?
+
+---
+
+
 📄 [`code/BankApp.java`](code/BankApp.java)
 
 ### Uruchomienie
@@ -171,37 +209,14 @@ java  -cp out _06_wyjatki._09_projekt.code.BankApp
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Lekcje wyniesione z projektu
 
-### Slajd: Dlaczego ten projekt jest „realny”
+#### Notatka do slajdu
+
+**Dlaczego ten projekt jest „realny”**
 - Pokazuje pełną ścieżkę: walidacja wejścia -> wyjątek domenowy -> obsługa w serwisie -> audyt.
 - Uczy, że wyjątki to element architektury, nie tylko składnia języka.
 
-### Slajd: Hierarchia wyjątków bankowych
-- Jeden bazowy typ (`BankException`) upraszcza centralną obsługę.
-- Specjalizacje niosą dane do komunikatu użytkownika i logów (saldo, żądana kwota, numer konta).
-
-### Slajd: Fail-fast i niezmienniki
-- Konstruktor odrzuca niepoprawny stan - obiekt po utworzeniu jest spójny.
-- To zmniejsza liczbę „defensywnych ifów” w dalszym kodzie.
-
-### Slajd: Granice warstw
-- Repozytorium: techniczne wyjątki infrastruktury.
-- Serwis: tłumaczenie na język domeny i decyzje biznesowe.
-- UI/API: mapowanie na odpowiedź dla użytkownika i kody błędów.
-
-### Slajd: Audyt i obserwowalność
-- Każda operacja (udana i nieudana) zostawia ślad.
-- To nie tylko debugowanie, ale też wymaganie compliance i bezpieczeństwa.
-
-### Pytania kontrolne
-1. Dlaczego w tym projekcie checked exceptions są uzasadnione?
-2. Jakie dane wyjątku są kluczowe dla UX, a jakie dla audytu?
-3. W którym miejscu najlepiej tłumaczyć wyjątki infrastrukturalne na domenowe?
-
----
-
-## Lekcje wyniesione z projektu
 
 | Temat | Zastosowanie w BankApp |
 |-------|----------------------|

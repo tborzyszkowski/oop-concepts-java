@@ -2,12 +2,29 @@
 
 ## Wymagania wstępne
 
+#### Notatka do slajdu
+
+**Strategia pracy z zadaniami**
+- Zadania 1-2: utrwalenie podstaw i kontraktów API.
+- Zadania 3-4: projektowanie wyjątków i zasobów (`AutoCloseable`).
+- Zadania 5-7: propagacja przez warstwy i model domenowy.
+
+
 - Znajomość modułów 01–09 niniejszego rozdziału
 - Java 21+, brak zewnętrznych zależności
 
 ---
 
 ## Zadanie 1 — Bezpieczne parsowanie ⭐
+
+#### Notatka do slajdu
+
+**Kryteria oceny**
+- Poprawność semantyczna (czy wyjątek reprezentuje właściwy problem).
+- Jakość komunikatu i kontekstu (`cause`, dane wejściowe).
+- Dobór checked/unchecked zgodny z charakterem błędu.
+- Testy przypadków brzegowych i ścieżek awaryjnych.
+
 
 Napisz metodę `OptionalInt safeParseInt(String s)`, która:
 - Zwraca `OptionalInt.of(n)` gdy `s` jest poprawną liczbą całkowitą (z możliwymi białymi spacjami)
@@ -25,6 +42,14 @@ OptionalInt safeParseInt(String s) {
 ---
 
 ## Zadanie 2 — BoundedStack z wyjątkami ⭐⭐
+
+#### Notatka do slajdu
+
+**Typowe błędy studentów**
+- Łapanie zbyt szerokie (`Exception`) zbyt wcześnie.
+- Brak `cause` przy translacji wyjątków.
+- Użycie wyjątku tam, gdzie wystarcza walidacja i `Optional`.
+
 
 Zaimplementuj stos o ograniczonej pojemności:
 
@@ -45,6 +70,14 @@ Napisz kod demonstrujący każdy wyjątek.
 ---
 
 ## Zadanie 3 — Własny wyjątek walidacyjny ⭐⭐
+
+#### Notatka do slajdu
+
+**Mini-TDD dla wyjątków**
+- Testuj nie tylko „happy path”, ale też typ i treść wyjątku.
+- Sprawdzaj, czy zachowany jest `cause`.
+- Sprawdzaj, czy zasób zamyka się także po błędzie.
+
 
 Utwórz klasę `PasswordException extends RuntimeException` z:
 - Polem `List<String> violations`
@@ -116,37 +149,16 @@ Przetestuj rejestrację tego samego użytkownika dwa razy.
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Rozwiązania
 
-### Slajd: Strategia pracy z zadaniami
-- Zadania 1-2: utrwalenie podstaw i kontraktów API.
-- Zadania 3-4: projektowanie wyjątków i zasobów (`AutoCloseable`).
-- Zadania 5-7: propagacja przez warstwy i model domenowy.
+## Pytania kontrolne
 
-### Slajd: Kryteria oceny
-- Poprawność semantyczna (czy wyjątek reprezentuje właściwy problem).
-- Jakość komunikatu i kontekstu (`cause`, dane wejściowe).
-- Dobór checked/unchecked zgodny z charakterem błędu.
-- Testy przypadków brzegowych i ścieżek awaryjnych.
-
-### Slajd: Typowe błędy studentów
-- Łapanie zbyt szerokie (`Exception`) zbyt wcześnie.
-- Brak `cause` przy translacji wyjątków.
-- Użycie wyjątku tam, gdzie wystarcza walidacja i `Optional`.
-
-### Slajd: Mini-TDD dla wyjątków
-- Testuj nie tylko „happy path”, ale też typ i treść wyjątku.
-- Sprawdzaj, czy zachowany jest `cause`.
-- Sprawdzaj, czy zasób zamyka się także po błędzie.
-
-### Pytania kontrolne
 1. Które zadanie najlepiej pokazuje sens `try-with-resources` i dlaczego?
 2. W którym zadaniu najbardziej widać różnicę checked vs unchecked?
 3. Jakie testy dodałbyś do zadania 7 pod kątem regresji?
 
 ---
 
-## Rozwiązania
 
 📄 [`solutions/ExceptionExercisesSolutions.java`](solutions/ExceptionExercisesSolutions.java) — zawiera rozwiązania zadań 1–5.
 

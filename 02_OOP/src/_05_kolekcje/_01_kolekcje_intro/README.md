@@ -14,6 +14,14 @@
 
 ## Geneza — dlaczego kolekcje?
 
+#### Notatka do slajdu
+
+**Dlaczego kolekcje zamiast tablic?**
+- Podkresl kompromis: tablica daje szybki dostep po indeksie, ale slaba elastycznosc przy zmianach rozmiaru.
+- Pokaz scenariusz biznesowy: dynamiczna lista zamowien, gdzie rozmiar nie jest znany na etapie kompilacji.
+- Wyjasnij, ze JCF to nie tylko "wygoda", ale standaryzacja API i algorytmow.
+
+
 ### Java 1.0 (1996) — brak spójnych kolekcji
 
 Pierwsze wersje Javy oferowały tylko:
@@ -39,6 +47,14 @@ Joshua Bloch zaprojektował **Java Collections Framework (JCF)**, który wprowad
 
 ## Hierarchia interfejsów JCF
 
+#### Notatka do slajdu
+
+**Hierarchia JCF**
+- Omow zaleznosc `Iterable -> Collection -> (List/Set/Queue)` oraz osobna galaz `Map`.
+- Zaznacz, ze interfejs definiuje kontrakt, a implementacja szczegoly wydajnosciowe.
+- Daj studentom mini-zasade: najpierw wybierz semantyke (unikalnosc, kolejnosc), potem implementacje.
+
+
 ![Hierarchia Java Collections Framework](diagrams/collections_hierarchy.png)
 
 *Źródło: `diagrams/collections_hierarchy.puml`*
@@ -60,6 +76,13 @@ Kluczowe punkty hierarchii:
 ---
 
 ## Programowanie przez interfejsy
+
+#### Notatka do slajdu
+
+**Programowanie przez interfejs**
+- Pokaz korzysc dla testow: latwa podmiana `ArrayList` na `LinkedList` lub mock/fake.
+- Wspomnij o DIP (SOLID): kod wyzszego poziomu nie powinien zalezec od szczegolow implementacji.
+
 
 Zapisuj typ zmiennej jako interfejs, nie jako klasę konkretną:
 
@@ -123,6 +146,13 @@ System.out.println(queue.poll());     // "zadanie-1" (pobranie + usunięcie)
 
 ## Klasa narzędziowa Collections
 
+#### Notatka do slajdu
+
+**`Collections` jako warstwa algorytmow**
+- Wyjasnij roznice `Collection` (interfejs) vs `Collections` (klasa narzedziowa).
+- Pokaz praktyczny efekt: sortowanie, odwracanie i wrappery niemutowalne bez pisania algorytmow od zera.
+
+
 ```java
 List<Integer> nums = new ArrayList<>(List.of(4, 1, 9, 2, 7));
 Collections.sort(nums);                           // [1, 2, 4, 7, 9]
@@ -159,34 +189,16 @@ List<String> modern = new ArrayList<>();
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Uruchomienie przykładów
 
-### Slajd: Dlaczego kolekcje zamiast tablic?
-- Podkresl kompromis: tablica daje szybki dostep po indeksie, ale slaba elastycznosc przy zmianach rozmiaru.
-- Pokaz scenariusz biznesowy: dynamiczna lista zamowien, gdzie rozmiar nie jest znany na etapie kompilacji.
-- Wyjasnij, ze JCF to nie tylko "wygoda", ale standaryzacja API i algorytmow.
+## Pytania kontrolne
 
-### Slajd: Hierarchia JCF
-- Omow zaleznosc `Iterable -> Collection -> (List/Set/Queue)` oraz osobna galaz `Map`.
-- Zaznacz, ze interfejs definiuje kontrakt, a implementacja szczegoly wydajnosciowe.
-- Daj studentom mini-zasade: najpierw wybierz semantyke (unikalnosc, kolejnosc), potem implementacje.
-
-### Slajd: Programowanie przez interfejs
-- Pokaz korzysc dla testow: latwa podmiana `ArrayList` na `LinkedList` lub mock/fake.
-- Wspomnij o DIP (SOLID): kod wyzszego poziomu nie powinien zalezec od szczegolow implementacji.
-
-### Slajd: `Collections` jako warstwa algorytmow
-- Wyjasnij roznice `Collection` (interfejs) vs `Collections` (klasa narzedziowa).
-- Pokaz praktyczny efekt: sortowanie, odwracanie i wrappery niemutowalne bez pisania algorytmow od zera.
-
-### Pytania kontrolne
 1. Dlaczego `Map` nie rozszerza `Collection`?
 2. Kiedy `Set` jest lepszym wyborem niz `List`?
 3. Co zyskujemy, deklarujac `List<T>` zamiast `ArrayList<T>`?
 
 ---
 
-## Uruchomienie przykładów
 
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_01_kolekcje_intro"

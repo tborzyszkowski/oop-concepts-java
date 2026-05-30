@@ -8,6 +8,21 @@ Opanowanie jawnego rzucania wyjątków (`throw new …`), re-rzucania (`throw e`
 
 ## 1. Diagram — throw, rethrow, chaining
 
+#### Notatka do slajdu
+
+**`throw` jako kontrakt walidacyjny**
+- `throw` w guard clause dokumentuje niepoprawne wejście i zatrzymuje błąd blisko źródła.
+- Podkreśl, że komunikat wyjątku to część jakości API.
+
+
+#### Notatka do slajdu
+
+**Re-throw vs wrap**
+- Re-throw (`throw e`) zachowuje typ i oryginalny kontekst.
+- Wrap (`throw new X(..., e)`) stosuj przy zmianie poziomu abstrakcji.
+- Reguła: nie tłumacz wyjątku „w ciemno”, tłumacz tylko na granicy warstw.
+
+
 ![throw rethrow](diagrams/throw_rethrow.png)
 
 ---
@@ -69,6 +84,13 @@ try {
 
 ## 4. Exception chaining — zawinięcie w inny wyjątek
 
+#### Notatka do slajdu
+
+**Exception chaining**
+- Bez `cause` trace diagnostyczny jest niepełny.
+- Z `cause` zachowujesz historię awarii od biblioteki do domeny.
+
+
 ```java
 static int loadConfig(String key) {
     try {
@@ -105,6 +127,13 @@ throw new ServiceException("Błąd serwisu", e);
 ---
 
 ## 5. Niezależne miejsce tworzenia i rzucania
+
+#### Notatka do slajdu
+
+**Miejsce tworzenia a miejsce rzucenia**
+- Pokaz, że stack trace wskazuje moment tworzenia obiektu wyjątku.
+- To ważne przy fabrykach wyjątków i helperach walidacyjnych.
+
 
 Obiekt wyjątku można stworzyć w **jednym miejscu** i rzucić w **innym**:
 
@@ -158,6 +187,15 @@ paths.forEach(path -> {
 
 ## Kod demonstracyjny
 
+## Pytania kontrolne
+
+1. Kiedy lepiej re-throw, a kiedy wrap?
+2. Co tracimy przy `throw new X("...")` bez `cause`?
+3. Dlaczego wyjątek domenowy powinien „mówić językiem domeny”, a nie SQL/IO?
+
+---
+
+
 📄 [`code/ThrowRethrowDemo.java`](code/ThrowRethrowDemo.java)
 
 ### Uruchomienie
@@ -167,32 +205,6 @@ cd C:\home\gitHub\oop-concepts-java\02_OOP\src
 javac -d out _06_wyjatki/_05_throw_rethrow/code/ThrowRethrowDemo.java
 java  -cp out _06_wyjatki._05_throw_rethrow.code.ThrowRethrowDemo
 ```
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: `throw` jako kontrakt walidacyjny
-- `throw` w guard clause dokumentuje niepoprawne wejście i zatrzymuje błąd blisko źródła.
-- Podkreśl, że komunikat wyjątku to część jakości API.
-
-### Slajd: Re-throw vs wrap
-- Re-throw (`throw e`) zachowuje typ i oryginalny kontekst.
-- Wrap (`throw new X(..., e)`) stosuj przy zmianie poziomu abstrakcji.
-- Reguła: nie tłumacz wyjątku „w ciemno”, tłumacz tylko na granicy warstw.
-
-### Slajd: Exception chaining
-- Bez `cause` trace diagnostyczny jest niepełny.
-- Z `cause` zachowujesz historię awarii od biblioteki do domeny.
-
-### Slajd: Miejsce tworzenia a miejsce rzucenia
-- Pokaz, że stack trace wskazuje moment tworzenia obiektu wyjątku.
-- To ważne przy fabrykach wyjątków i helperach walidacyjnych.
-
-### Pytania kontrolne
-1. Kiedy lepiej re-throw, a kiedy wrap?
-2. Co tracimy przy `throw new X("...")` bez `cause`?
-3. Dlaczego wyjątek domenowy powinien „mówić językiem domeny”, a nie SQL/IO?
 
 ---
 

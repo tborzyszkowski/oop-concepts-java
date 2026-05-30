@@ -8,6 +8,21 @@ Zrozumienie struktury klasy `Throwable` i jej podrzędnych klas. Rozróżnienie 
 
 ## 1. Klasa Throwable — korzeń hierarchii
 
+#### Notatka do slajdu
+
+**Drzewo `Throwable` jako mapa decyzji**
+- Nie ucz tylko nazw klas - ucz decyzji: czy błąd jest odzyskiwalny, czy programistyczny, czy systemowy.
+- Pokaż, że zła klasyfikacja wyjątku psuje API i utrudnia obsługę po stronie klienta.
+
+
+#### Notatka do slajdu
+
+**Checked vs unchecked**
+- Checked: gdy wywołujący realnie może podjąć akcję (retry, fallback, komunikat UX).
+- Unchecked: gdy naruszono kontrakt metody lub stan obiektu.
+- Daj studentom heurystykę: "czy klient API ma sensowny plan naprawy?".
+
+
 Każdy obiekt, który może być **rzucony** (instrukcją `throw`) lub **przechwycony** (klauzulą `catch`), musi być instancją klasy `Throwable`.
 
 ```java
@@ -32,6 +47,13 @@ public class Throwable {
 ---
 
 ## 3. Error — błędy JVM
+
+#### Notatka do slajdu
+
+**`Error` vs `Exception`**
+- `Error` to sygnał: „środowisko/JVM ma problem”, a nie „użytkownik podał złą wartość”.
+- Podkreśl, że łapanie `Error` bywa diagnostyczne, ale rzadko naprawcze.
+
 
 Klasa `Error` reprezentuje **nieodwracalne** błędy środowiska JVM. Aplikacje **nie powinny** ich przechwytywać.
 
@@ -123,6 +145,13 @@ static int divide(int a, int b) {
 
 ## 6. Multi-catch — jeden handler dla wielu typów (Java 7+)
 
+#### Notatka do slajdu
+
+**Multi-catch i czytelność**
+- Multi-catch redukuje duplikację, ale używaj go tylko gdy obsługa rzeczywiście jest identyczna.
+- Jeśli reakcja różni się semantycznie, lepiej rozdzielić `catch`.
+
+
 ```java
 try {
     riskyOperation();
@@ -180,6 +209,15 @@ catch (SpecificException e) {
 
 ## Kod demonstracyjny
 
+## Pytania kontrolne
+
+1. Dlaczego `StackOverflowError` i `OutOfMemoryError` nie są `Exception`?
+2. Kiedy `IllegalArgumentException` jest lepsze niż checked custom exception?
+3. Jakie ryzyko niesie `catch (Throwable)`?
+
+---
+
+
 📄 [`code/ExceptionHierarchyDemo.java`](code/ExceptionHierarchyDemo.java)
 
 ### Uruchomienie
@@ -189,32 +227,6 @@ cd C:\home\gitHub\oop-concepts-java\02_OOP\src
 javac -d out _06_wyjatki/_02_hierarchia_klas/code/ExceptionHierarchyDemo.java
 java  -cp out _06_wyjatki._02_hierarchia_klas.code.ExceptionHierarchyDemo
 ```
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Drzewo `Throwable` jako mapa decyzji
-- Nie ucz tylko nazw klas - ucz decyzji: czy błąd jest odzyskiwalny, czy programistyczny, czy systemowy.
-- Pokaż, że zła klasyfikacja wyjątku psuje API i utrudnia obsługę po stronie klienta.
-
-### Slajd: `Error` vs `Exception`
-- `Error` to sygnał: „środowisko/JVM ma problem”, a nie „użytkownik podał złą wartość”.
-- Podkreśl, że łapanie `Error` bywa diagnostyczne, ale rzadko naprawcze.
-
-### Slajd: Checked vs unchecked
-- Checked: gdy wywołujący realnie może podjąć akcję (retry, fallback, komunikat UX).
-- Unchecked: gdy naruszono kontrakt metody lub stan obiektu.
-- Daj studentom heurystykę: "czy klient API ma sensowny plan naprawy?".
-
-### Slajd: Multi-catch i czytelność
-- Multi-catch redukuje duplikację, ale używaj go tylko gdy obsługa rzeczywiście jest identyczna.
-- Jeśli reakcja różni się semantycznie, lepiej rozdzielić `catch`.
-
-### Pytania kontrolne
-1. Dlaczego `StackOverflowError` i `OutOfMemoryError` nie są `Exception`?
-2. Kiedy `IllegalArgumentException` jest lepsze niż checked custom exception?
-3. Jakie ryzyko niesie `catch (Throwable)`?
 
 ---
 

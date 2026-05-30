@@ -14,6 +14,13 @@
 
 ## Map a Collection — kluczowa różnica
 
+#### Notatka do slajdu
+
+**Dlaczego `Map` to osobna abstrakcja**
+- Podkresl, ze `Map` modeluje relacje klucz->wartosc, a nie zwykla kolekcje elementow.
+- Pokaz typowe przypadki: cache, indeks, slownik tlumaczen, agregacja.
+
+
 `Map<K,V>` **nie dziedziczy** po `Collection`. Przechowuje pary (klucz, wartość) a nie pojedyncze elementy:
 
 | Aspekt | Collection | Map |
@@ -26,6 +33,15 @@
 ---
 
 ## Diagram — hierarchia Map
+
+#### Notatka do slajdu
+
+**Projektowanie kluczy**
+- Klucz musi byc stabilny i najlepiej niemutowalny.
+- Wspomnij o konsekwencjach mutowalnego klucza (utrata mozliwosci odnalezienia wpisu).
+
+---
+
 
 ![Hierarchia Map](diagrams/map_hierarchy.png)
 
@@ -130,6 +146,13 @@ pop.tailMap("Kraków")    // {Kraków=780000, Warszawa=1800000}
 
 ## computeIfAbsent — grupowanie
 
+#### Notatka do slajdu
+
+**Operacje Java 8+ (`merge`, `computeIfAbsent`)**
+- Pokaz, jak te metody zmniejszaja "boilerplate" i ryzyko bledow z `null`.
+- Porownaj styl stary (`containsKey` + `put`) vs nowy (`merge`).
+
+
 ```java
 Map<Character, List<String>> byInitial = new TreeMap<>();
 for (String name : names) {
@@ -143,6 +166,15 @@ for (String name : names) {
 ---
 
 ## Tabela porównawcza implementacji Map
+
+#### Notatka do slajdu
+
+**Dobor implementacji mapy**
+- `HashMap`: domyslny wybor dla szybkiego lookup.
+- `LinkedHashMap`: gdy kolejnosc ma znaczenie (np. API/UI, LRU).
+- `TreeMap`: gdy potrzebujesz zakresow i sortowania po kluczu.
+- Zaznacz koszt i zysk kazdego wariantu w jednym zdaniu.
+
 
 | | HashMap | LinkedHashMap | TreeMap | EnumMap |
 |--|---------|--------------|---------|---------|
@@ -158,28 +190,6 @@ for (String name : names) {
 1. **`NullPointerException` z `get()`** — jeśli wartość jest `null` lub klucz nie istnieje. Zawsze używaj `getOrDefault()` lub `containsKey()` przed `get()`.
 2. **Mutitowalny klucz w `HashMap`** — zmiana klucza po wstawieniu „gubi" element (podobny problem jak w `HashSet`).
 3. **Porównywanie `null` z `TreeMap`** — `TreeMap` nie akceptuje `null` jako klucza (rzuca `NullPointerException`).
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Dlaczego `Map` to osobna abstrakcja
-- Podkresl, ze `Map` modeluje relacje klucz->wartosc, a nie zwykla kolekcje elementow.
-- Pokaz typowe przypadki: cache, indeks, slownik tlumaczen, agregacja.
-
-### Slajd: Dobor implementacji mapy
-- `HashMap`: domyslny wybor dla szybkiego lookup.
-- `LinkedHashMap`: gdy kolejnosc ma znaczenie (np. API/UI, LRU).
-- `TreeMap`: gdy potrzebujesz zakresow i sortowania po kluczu.
-- Zaznacz koszt i zysk kazdego wariantu w jednym zdaniu.
-
-### Slajd: Operacje Java 8+ (`merge`, `computeIfAbsent`)
-- Pokaz, jak te metody zmniejszaja "boilerplate" i ryzyko bledow z `null`.
-- Porownaj styl stary (`containsKey` + `put`) vs nowy (`merge`).
-
-### Slajd: Projektowanie kluczy
-- Klucz musi byc stabilny i najlepiej niemutowalny.
-- Wspomnij o konsekwencjach mutowalnego klucza (utrata mozliwosci odnalezienia wpisu).
 
 ---
 

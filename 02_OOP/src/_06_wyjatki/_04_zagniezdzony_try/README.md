@@ -8,11 +8,24 @@ Zrozumienie konsekwencji zagnieżdżania bloków `try-catch` oraz nauka refaktor
 
 ## 1. Schemat zagnieżdżenia
 
+#### Notatka do slajdu
+
+**Dlaczego zagnieżdżony `try` bywa problemem**
+- Głębokie zagnieżdżenia zwiększają złożoność poznawczą i utrudniają analizę przepływu.
+- Każdy dodatkowy poziom to większe ryzyko błędnej propagacji lub utraty kontekstu.
+
+
 ![Zagnieżdżone try](diagrams/nested_try.png)
 
 ---
 
 ## 2. Kiedy wewnętrzny catch obsługuje wyjątek
+
+#### Notatka do slajdu
+
+**Chaining przy zmianie poziomu abstrakcji**
+- Jeśli zmieniasz typ wyjątku, zachowaj przyczynę (`cause`), aby nie zgubić źródła awarii.
+
 
 ```java
 try {                                       // zewnętrzny
@@ -87,6 +100,13 @@ Przyczyna: NullPointerException
 
 ## 5. Refaktoryzacja — wydzielenie metody
 
+#### Notatka do slajdu
+
+**Refaktoryzacja**
+- Wydziel metodę dla operacji ryzykownej i zawęź odpowiedzialność `catch`.
+- Zachowaj czytelny „happy path”, a obsługę błędów przenieś do granic modułu.
+
+
 Głębokie zagnieżdżenie `try-catch` jest sygnałem, że kod należy zrefaktoryzować:
 
 ```java
@@ -125,6 +145,13 @@ try {
 
 ## 6. Kiedy zagnieżdżanie jest uzasadnione
 
+#### Notatka do slajdu
+
+**Kiedy zagnieżdżenie jest uzasadnione**
+- Lokalna naprawa jednego kroku bez wpływu na cały algorytm.
+- Retry i kompensacja, gdzie wewnętrzny błąd ma osobną politykę obsługi.
+
+
 - Wewnętrzna operacja ma **lokalną** obsługę błędu niezwiązaną z zewnętrzną
 - Próba ponowna (`retry`) — wewnętrzny try obsługuje jedno wywołanie w pętli
 - Operacje kompensacyjne w `catch` są same podatne na wyjątki
@@ -143,31 +170,16 @@ for (int attempt = 1; attempt <= 3; attempt++) {
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Kod demonstracyjny
 
-### Slajd: Dlaczego zagnieżdżony `try` bywa problemem
-- Głębokie zagnieżdżenia zwiększają złożoność poznawczą i utrudniają analizę przepływu.
-- Każdy dodatkowy poziom to większe ryzyko błędnej propagacji lub utraty kontekstu.
+## Pytania kontrolne
 
-### Slajd: Kiedy zagnieżdżenie jest uzasadnione
-- Lokalna naprawa jednego kroku bez wpływu na cały algorytm.
-- Retry i kompensacja, gdzie wewnętrzny błąd ma osobną politykę obsługi.
-
-### Slajd: Refaktoryzacja
-- Wydziel metodę dla operacji ryzykownej i zawęź odpowiedzialność `catch`.
-- Zachowaj czytelny „happy path”, a obsługę błędów przenieś do granic modułu.
-
-### Slajd: Chaining przy zmianie poziomu abstrakcji
-- Jeśli zmieniasz typ wyjątku, zachowaj przyczynę (`cause`), aby nie zgubić źródła awarii.
-
-### Pytania kontrolne
 1. Po czym poznać, że zagnieżdżony `try` powinien zostać zrefaktoryzowany?
 2. Co dzieje się z wyjątkiem obsłużonym w wewnętrznym `catch` bez `throw`?
 3. Kiedy warto rzucić nowy wyjątek zamiast re-throw tego samego?
 
 ---
 
-## Kod demonstracyjny
 
 📄 [`code/NestedTryDemo.java`](code/NestedTryDemo.java)
 

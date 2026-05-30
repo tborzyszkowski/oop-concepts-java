@@ -13,6 +13,13 @@
 
 ## Diagram — hierarchia Set
 
+#### Notatka do slajdu
+
+**Ryzyko mutowalnosci elementow**
+- Jesli pole uzyte w `hashCode`/`compareTo` zmieni sie po dodaniu do zbioru, element moze stac sie "niewidzialny".
+- To argument za niemutowalnymi value objects jako kluczami/elementami zbiorow.
+
+
 ![Hierarchia Set](diagrams/set_hierarchy.png)
 
 *Źródło: `diagrams/set_hierarchy.puml`*
@@ -20,6 +27,14 @@
 ---
 
 ## Kontrakt equals/hashCode
+
+#### Notatka do slajdu
+
+**Dlaczego `equals/hashCode` to temat krytyczny**
+- Pokaz, ze `HashSet` dziala poprawnie tylko przy spelnionym kontrakcie.
+- Omow symptom blednego kodu: duplikaty logiczne mimo uzycia zbioru.
+- Dodaj praktyke zespolowa: dla klas modelu zawsze testy kontraktu `equals/hashCode`.
+
 
 `HashSet` wewnętrznie używa tablicy skrzynek (buckets). Dla każdego elementu:
 1. Wywołuje `hashCode()` → wyznacza skrzynkę,
@@ -67,6 +82,14 @@ Pełny przykład: [`code/SetComparisonDemo.java`](code/SetComparisonDemo.java)
 
 ## HashSet vs TreeSet
 
+#### Notatka do slajdu
+
+**HashSet vs TreeSet jako wybor architektoniczny**
+- `HashSet` gdy liczy sie predkosc i brak wymogu stalego porzadku.
+- `TreeSet` gdy porzadek jest elementem wymagania biznesowego (np. rankingi, zakresy, nearest-value).
+- Podkresl koszt: O(1) srednio vs O(log n), ale tez roznica pamieciowa i semantyczna.
+
+
 ```java
 List<String> words = List.of("banan", "jabłko", "banan", "gruszka", "ananas", "jabłko");
 
@@ -89,34 +112,14 @@ System.out.println(tree);  // [ananas, banan, gruszka, jabłko] — zawsze posor
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## SortedSet / NavigableSet — operacje na zakresach
 
-### Slajd: Dlaczego `equals/hashCode` to temat krytyczny
-- Pokaz, ze `HashSet` dziala poprawnie tylko przy spelnionym kontrakcie.
-- Omow symptom blednego kodu: duplikaty logiczne mimo uzycia zbioru.
-- Dodaj praktyke zespolowa: dla klas modelu zawsze testy kontraktu `equals/hashCode`.
+#### Notatka do slajdu
 
-### Slajd: HashSet vs TreeSet jako wybor architektoniczny
-- `HashSet` gdy liczy sie predkosc i brak wymogu stalego porzadku.
-- `TreeSet` gdy porzadek jest elementem wymagania biznesowego (np. rankingi, zakresy, nearest-value).
-- Podkresl koszt: O(1) srednio vs O(log n), ale tez roznica pamieciowa i semantyczna.
-
-### Slajd: Operacje zakresowe (`NavigableSet`)
+**Operacje zakresowe (`NavigableSet`)**
 - `floor/ceiling/lower/higher` pokazuja, ze `TreeSet` to nie tylko "posortowany Set".
 - Daj przypadek uzycia: wyszukiwanie najblizszego terminu lub progow cenowych.
 
-### Slajd: Ryzyko mutowalnosci elementow
-- Jesli pole uzyte w `hashCode`/`compareTo` zmieni sie po dodaniu do zbioru, element moze stac sie "niewidzialny".
-- To argument za niemutowalnymi value objects jako kluczami/elementami zbiorow.
-
-### Pytania kontrolne
-1. Dlaczego dwa obiekty "takie same" moga byc jednoczesnie w `HashSet`?
-2. Kiedy `TreeSet` daje przewage nad `HashSet`, mimo wolniejszych operacji?
-3. Jakie ryzyko niesie mutowanie elementu po dodaniu do zbioru?
-
----
-
-## SortedSet / NavigableSet — operacje na zakresach
 
 `TreeSet` implementuje `NavigableSet`, który rozszerza `SortedSet` o metody nawigacji:
 
@@ -169,6 +172,15 @@ Chcesz zachować kolejność wstawiania?            → LinkedHashSet
 ---
 
 ## Uruchomienie przykładów
+
+## Pytania kontrolne
+
+1. Dlaczego dwa obiekty "takie same" moga byc jednoczesnie w `HashSet`?
+2. Kiedy `TreeSet` daje przewage nad `HashSet`, mimo wolniejszych operacji?
+3. Jakie ryzyko niesie mutowanie elementu po dodaniu do zbioru?
+
+---
+
 
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_04_set_hashset_treeset"

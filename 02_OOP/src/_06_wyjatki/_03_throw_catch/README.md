@@ -8,11 +8,33 @@ Opanowanie wszystkich wariantów składniowych `try-catch`: jeden typ, łańcuch
 
 ## 1. Diagram przepływu
 
+#### Notatka do slajdu
+
+**Precyzja obsługi**
+- Im bliżej źródła i im bardziej precyzyjny typ, tym lepsza diagnoza i reakcja.
+- Ogólny `catch (Exception)` traktuj jako ostatnią linię obrony, nie domyślny styl.
+
+
 ![Przepływ throw-catch](diagrams/throw_catch_flow.png)
 
 ---
 
 ## 2. Struktura bloku try-catch
+
+#### Notatka do slajdu
+
+**Mechanika dopasowania `catch`**
+- JVM wybiera pierwszy pasujący `catch`, więc kolejność to część logiki programu.
+- Ucz studentów czytać łańcuch `catch` jak drzewo decyzji.
+
+
+#### Notatka do slajdu
+
+**Antywzorce**
+- Pusty `catch` ukrywa awarię.
+- „Log i nic więcej” bez decyzji biznesowej.
+- Łapanie zbyt szeroko, co zaciera źródło problemu.
+
 
 ```java
 try {
@@ -58,32 +80,6 @@ try {
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Mechanika dopasowania `catch`
-- JVM wybiera pierwszy pasujący `catch`, więc kolejność to część logiki programu.
-- Ucz studentów czytać łańcuch `catch` jak drzewo decyzji.
-
-### Slajd: Precyzja obsługi
-- Im bliżej źródła i im bardziej precyzyjny typ, tym lepsza diagnoza i reakcja.
-- Ogólny `catch (Exception)` traktuj jako ostatnią linię obrony, nie domyślny styl.
-
-### Slajd: Multi-catch
-- Dobre, gdy reakcja jest identyczna i nie potrzebujesz specyficznych danych wyjątku.
-- Gdy logika różna (np. retry tylko dla jednego typu), rozdziel bloki.
-
-### Slajd: Antywzorce
-- Pusty `catch` ukrywa awarię.
-- „Log i nic więcej” bez decyzji biznesowej.
-- Łapanie zbyt szeroko, co zaciera źródło problemu.
-
-### Pytania kontrolne
-1. Co stanie się, gdy zamienimy kolejność `NumberFormatException` i `IllegalArgumentException`?
-2. Kiedy multi-catch zmniejsza jakość kodu zamiast ją poprawiać?
-3. Jak odróżnić błąd użytkownika od błędu programisty w `catch`?
-
----
-
 ## 4. Łańcuch catch — przykład
 
 ```java
@@ -110,6 +106,13 @@ try {
 ---
 
 ## 5. Multi-catch (Java 7+)
+
+#### Notatka do slajdu
+
+**Multi-catch**
+- Dobre, gdy reakcja jest identyczna i nie potrzebujesz specyficznych danych wyjątku.
+- Gdy logika różna (np. retry tylko dla jednego typu), rozdziel bloki.
+
 
 ```java
 try {
@@ -182,6 +185,15 @@ static int safeDivide(int a, int b) {
 ---
 
 ## Kod demonstracyjny
+
+## Pytania kontrolne
+
+1. Co stanie się, gdy zamienimy kolejność `NumberFormatException` i `IllegalArgumentException`?
+2. Kiedy multi-catch zmniejsza jakość kodu zamiast ją poprawiać?
+3. Jak odróżnić błąd użytkownika od błędu programisty w `catch`?
+
+---
+
 
 📄 [`code/ThrowCatchDemo.java`](code/ThrowCatchDemo.java)
 

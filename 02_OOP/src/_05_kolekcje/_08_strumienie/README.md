@@ -25,6 +25,14 @@
 
 ## Diagram — potok strumienia
 
+#### Notatka do slajdu
+
+**Model mentalny strumienia**
+- Stream to "przepis" na obliczenie, a nie pojemnik na dane.
+- Operacje posrednie buduja plan wykonania, terminalna uruchamia plan.
+- Podkresl jednorazowosc strumienia i brak mozliwosci ponownego uzycia.
+
+
 ![Potok Stream API](diagrams/streams_pipeline.png)
 
 *Źródło: `diagrams/streams_pipeline.puml`*
@@ -32,6 +40,14 @@
 ---
 
 ## Kluczowa różnica: Stream ≠ Collection
+
+#### Notatka do slajdu
+
+**`collect` vs `reduce`**
+- `reduce` dla agregacji do jednej wartosci (suma, max, iloczyn).
+- `collect` dla budowy struktur wynikowych (`List`, `Map`, grupowania).
+- Wspomnij o czytelnosci: semantycznie dobrany operator poprawia utrzymanie kodu.
+
 
 | Aspekt | Collection | Stream |
 |--------|-----------|--------|
@@ -58,6 +74,13 @@ Pełny przykład: [`code/StreamsDemo.java`](code/StreamsDemo.java)
 ---
 
 ## Operacje pośrednie (lazy)
+
+#### Notatka do slajdu
+
+**Lazy evaluation i optymalizacja**
+- Wyjasnij, ze laziness pozwala przetwarzac tylko potrzebna czesc danych (`limit`, short-circuit).
+- Pokaz korzysc wydajnosciowa na prostym przykladzie z `findFirst`.
+
 
 Nie są wykonywane dopóki nie zostanie wywołana operacja terminalna:
 
@@ -154,6 +177,16 @@ Optional<Integer> max = nums.stream().reduce(Integer::max); // Optional[5]
 
 ## IntStream — strumienie prymitywów (bez autoboxing)
 
+#### Notatka do slajdu
+
+**Strumienie rownolegle - kiedy tak, kiedy nie**
+- Tak: duze dane i obliczenia CPU-bound bez efektow ubocznych.
+- Nie: male dane, I/O, mutowalny wspolny stan.
+- Dodaj praktyke: decyzje o parallel stream podejmowac po pomiarze, nie intuicji.
+
+---
+
+
 ```java
 // range (exclusive) i rangeClosed (inclusive)
 IntStream.range(0, 5).forEach(i -> System.out.print(i + " "));     // 0 1 2 3 4
@@ -192,29 +225,6 @@ long count = products.parallelStream()
 1. **Ponowne użycie strumienia** — `stream()` po operacji terminalnej rzuca `IllegalStateException`. Zawsze twórz nowy strumień.
 2. **Efekty uboczne w `map`** — `map` powinno być czystą funkcją. Efekty uboczne (zapis, mutowanie stanu) daj do `forEach`.
 3. **`collect(Collectors.toList())` vs `toList()`** — `Stream.toList()` (Java 16+) zwraca niemutowalną listę; `Collectors.toList()` zwraca mutowalną. Pamiętaj o różnicy!
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Model mentalny strumienia
-- Stream to "przepis" na obliczenie, a nie pojemnik na dane.
-- Operacje posrednie buduja plan wykonania, terminalna uruchamia plan.
-- Podkresl jednorazowosc strumienia i brak mozliwosci ponownego uzycia.
-
-### Slajd: Lazy evaluation i optymalizacja
-- Wyjasnij, ze laziness pozwala przetwarzac tylko potrzebna czesc danych (`limit`, short-circuit).
-- Pokaz korzysc wydajnosciowa na prostym przykladzie z `findFirst`.
-
-### Slajd: `collect` vs `reduce`
-- `reduce` dla agregacji do jednej wartosci (suma, max, iloczyn).
-- `collect` dla budowy struktur wynikowych (`List`, `Map`, grupowania).
-- Wspomnij o czytelnosci: semantycznie dobrany operator poprawia utrzymanie kodu.
-
-### Slajd: Strumienie rownolegle - kiedy tak, kiedy nie
-- Tak: duze dane i obliczenia CPU-bound bez efektow ubocznych.
-- Nie: male dane, I/O, mutowalny wspolny stan.
-- Dodaj praktyke: decyzje o parallel stream podejmowac po pomiarze, nie intuicji.
 
 ---
 

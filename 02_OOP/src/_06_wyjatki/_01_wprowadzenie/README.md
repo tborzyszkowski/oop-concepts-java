@@ -8,6 +8,20 @@ Zrozumienie czym są wyjątki, dlaczego powstały i jak zmieniają sposób pisan
 
 ## 1. Geneza — problem z kodami błędów
 
+#### Notatka do slajdu
+
+**Problem kodów błędów**
+- W kodzie proceduralnym łatwo „zgubić” błąd, bo jest tylko wartością liczbową.
+- Wyjaśnij studentom, że wyjątek wymusza świadomą decyzję: obsłużyć albo propagować.
+
+
+#### Notatka do slajdu
+
+**Co przenosi obiekt wyjątku**
+- Typ błędu, komunikat, stack trace, opcjonalna przyczyna.
+- To czyni wyjątek nośnikiem diagnostyki, a nie tylko sygnałem "coś się popsuło".
+
+
 ### Historyczny kontekst
 
 W językach C i starszych bibliotekach błędy sygnalizowane były przez **wartości zwracane**:
@@ -48,6 +62,20 @@ int result = parseLengthC("abc");
 ---
 
 ## 2. Wyjątek — definicja i idea
+
+#### Notatka do slajdu
+
+**Stack trace jako narzędzie analizy**
+- Czytaj od dołu (wejście) do góry (miejsce awarii).
+- Pokaż jak szybko odnaleźć pierwszą linię kodu aplikacji (poza bibliotekami).
+
+
+#### Notatka do slajdu
+
+**Wyjątek to nie pętla sterująca**
+- Rzucanie i łapanie wyjątków ma koszt i semantykę "sytuacji wyjątkowej".
+- Do normalnych warunków używaj warunków i walidacji (`if`, `guard clauses`).
+
 
 **Wyjątek** to zdarzenie, które zakłóca normalny przepływ programu i jest sygnalizowane przez obiekt klasy `Throwable`.
 
@@ -170,6 +198,15 @@ for (int i = 0; i < array.length; i++) {
 
 ## Kod demonstracyjny
 
+## Pytania kontrolne
+
+1. Co zyskujemy względem kodów błędów poza samą czytelnością?
+2. Dlaczego stack trace bywa ważniejszy niż komunikat?
+3. Kiedy brak wartości to wyjątek, a kiedy `Optional`?
+
+---
+
+
 📄 [`code/ExceptionIntroDemo.java`](code/ExceptionIntroDemo.java)
 
 Części:
@@ -186,31 +223,6 @@ cd C:\home\gitHub\oop-concepts-java\02_OOP\src
 javac -d out _06_wyjatki/_01_wprowadzenie/code/ExceptionIntroDemo.java
 java  -cp out _06_wyjatki._01_wprowadzenie.code.ExceptionIntroDemo
 ```
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Problem kodów błędów
-- W kodzie proceduralnym łatwo „zgubić” błąd, bo jest tylko wartością liczbową.
-- Wyjaśnij studentom, że wyjątek wymusza świadomą decyzję: obsłużyć albo propagować.
-
-### Slajd: Co przenosi obiekt wyjątku
-- Typ błędu, komunikat, stack trace, opcjonalna przyczyna.
-- To czyni wyjątek nośnikiem diagnostyki, a nie tylko sygnałem "coś się popsuło".
-
-### Slajd: Stack trace jako narzędzie analizy
-- Czytaj od dołu (wejście) do góry (miejsce awarii).
-- Pokaż jak szybko odnaleźć pierwszą linię kodu aplikacji (poza bibliotekami).
-
-### Slajd: Wyjątek to nie pętla sterująca
-- Rzucanie i łapanie wyjątków ma koszt i semantykę "sytuacji wyjątkowej".
-- Do normalnych warunków używaj warunków i walidacji (`if`, `guard clauses`).
-
-### Pytania kontrolne
-1. Co zyskujemy względem kodów błędów poza samą czytelnością?
-2. Dlaczego stack trace bywa ważniejszy niż komunikat?
-3. Kiedy brak wartości to wyjątek, a kiedy `Optional`?
 
 ---
 

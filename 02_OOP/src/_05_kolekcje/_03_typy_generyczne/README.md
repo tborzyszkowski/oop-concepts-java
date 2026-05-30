@@ -14,6 +14,14 @@
 
 ## Kontekst historyczny
 
+#### Notatka do slajdu
+
+**Dobre praktyki**
+- Unikaj raw types.
+- Preferuj interfejsy generyczne (`List<T>`) zamiast implementacji.
+- Uzywaj granic typu (`extends`) tylko wtedy, gdy sa semantycznie uzasadnione.
+
+
 | Wersja | Rok | Zmiana |
 |--------|-----|--------|
 | Java 1.0 | 1996 | Brak generyków; kolekcje operują na `Object` |
@@ -38,6 +46,14 @@ Pełny przykład: [`code/GenericsDemo.java`](code/GenericsDemo.java)
 ---
 
 ## Diagram — klasy generyczne i reguła PECS
+
+#### Notatka do slajdu
+
+**PECS jako praktyczna regula API**
+- Producent (`extends`) - gdy API oddaje elementy.
+- Konsument (`super`) - gdy API przyjmuje elementy.
+- Zaznacz, ze dobrze zaprojektowane API generyczne jest bardziej elastyczne i mniej kruche przy refaktoryzacji.
+
 
 ![Typy generyczne — koncepcje](diagrams/generics.png)
 
@@ -136,6 +152,22 @@ Robisz i jedno, i drugie?                       → użyj T
 
 ## Type Erasure — jak JVM obsługuje generyki
 
+#### Notatka do slajdu
+
+**Po co powstaly generyki?**
+- Pokaz blad projektowy ery pre-generics: wszystko jako `Object` i opoznione bledy w runtime.
+- Podkresl, ze generyki przesuwaja wykrywanie bledow do etapu kompilacji.
+- Wspomnij o ograniczeniu kompatybilnosci wstecznej, ktore doprowadzilo do type erasure.
+
+
+#### Notatka do slajdu
+
+**Type erasure i konsekwencje**
+- Wyjasnij, ze JVM nie zna `List<String>` vs `List<Integer>` jako odrebnych typow runtime.
+- Omow ograniczenia: brak `new T[]`, brak `instanceof List<String>`.
+- Dodaj praktyczna wskazowke: gdy potrzebujesz typu runtime, przekaz `Class<T>` lub uzyj recordow/adapterow.
+
+
 Kompilator **usuwa** parametry typów w bytecode:
 
 ```java
@@ -181,36 +213,16 @@ System.out.println(stack.pop());   // "Generics"
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Uruchomienie przykładów
 
-### Slajd: Po co powstaly generyki?
-- Pokaz blad projektowy ery pre-generics: wszystko jako `Object` i opoznione bledy w runtime.
-- Podkresl, ze generyki przesuwaja wykrywanie bledow do etapu kompilacji.
-- Wspomnij o ograniczeniu kompatybilnosci wstecznej, ktore doprowadzilo do type erasure.
+## Pytania kontrolne
 
-### Slajd: PECS jako praktyczna regula API
-- Producent (`extends`) - gdy API oddaje elementy.
-- Konsument (`super`) - gdy API przyjmuje elementy.
-- Zaznacz, ze dobrze zaprojektowane API generyczne jest bardziej elastyczne i mniej kruche przy refaktoryzacji.
-
-### Slajd: Type erasure i konsekwencje
-- Wyjasnij, ze JVM nie zna `List<String>` vs `List<Integer>` jako odrebnych typow runtime.
-- Omow ograniczenia: brak `new T[]`, brak `instanceof List<String>`.
-- Dodaj praktyczna wskazowke: gdy potrzebujesz typu runtime, przekaz `Class<T>` lub uzyj recordow/adapterow.
-
-### Slajd: Dobre praktyki
-- Unikaj raw types.
-- Preferuj interfejsy generyczne (`List<T>`) zamiast implementacji.
-- Uzywaj granic typu (`extends`) tylko wtedy, gdy sa semantycznie uzasadnione.
-
-### Pytania kontrolne
 1. Dlaczego `List<Object>` nie jest nadtypem `List<String>`?
 2. Kiedy stosujemy `? super T`, a kiedy `? extends T`?
 3. Jaki problem rozwiazuje type erasure, a jaki tworzy?
 
 ---
 
-## Uruchomienie przykładów
 
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_03_typy_generyczne"

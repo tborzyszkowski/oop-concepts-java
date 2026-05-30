@@ -13,6 +13,13 @@
 
 ## Diagram — Comparable vs Comparator
 
+#### Notatka do slajdu
+
+**Kontrakt porownania**
+- Omow antysymetrie, przechodniosc i spojnosc wyniku.
+- Podkresl, ze bledny comparator psuje `TreeSet`/`TreeMap` i prowadzi do trudnych bugow.
+
+
 ![Comparable i Comparator](diagrams/comparator_comparable.png)
 
 *Źródło: `diagrams/comparator_comparable.puml`*
@@ -20,6 +27,21 @@
 ---
 
 ## Comparable — porządek naturalny
+
+#### Notatka do slajdu
+
+**Porzadek naturalny vs porzadek kontekstowy**
+- `Comparable` traktuj jako "domyslna tozsamosc sortowania" typu.
+- `Comparator` traktuj jako strategie zalezne od przypadku uzycia (np. ranking, UI, raport).
+- Pokaz, ze obie techniki moga wspolistniec i nie sa konkurencyjne.
+
+
+#### Notatka do slajdu
+
+**Kompozycja comparatorow**
+- Pokaz `comparing` + `thenComparing` jako wzorzec budowania czytelnych, testowalnych reguł.
+- Dodaj `nullsFirst/nullsLast` jako element odpornosci API na nieidealne dane.
+
 
 `Comparable<T>` jest **implementowany przez samą klasę** i definiuje jej **naturalny porządek**.
 
@@ -53,6 +75,13 @@ a.compareTo(b) > 0   → a "większy" niż b (b przed a przy sortowaniu rosnący
 ---
 
 ## Comparator — porządek zewnętrzny
+
+#### Notatka do slajdu
+
+**Praktyka zespolowa**
+- Dla modelu domenowego ustal jeden naturalny porzadek albo zrezygnuj z `Comparable`.
+- Pozostale porzadki trzymaj jako stale `Comparator` w klasie narzedziowej.
+
 
 `Comparator<T>` jest **obiektem zewnętrznym** — definiujemy go osobno (np. lambda).
 Pozwala na **wiele różnych porządków** bez modyfikowania klasy.
@@ -133,32 +162,6 @@ withNulls.sort(Comparator.nullsLast(Comparator.naturalOrder()));
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Porzadek naturalny vs porzadek kontekstowy
-- `Comparable` traktuj jako "domyslna tozsamosc sortowania" typu.
-- `Comparator` traktuj jako strategie zalezne od przypadku uzycia (np. ranking, UI, raport).
-- Pokaz, ze obie techniki moga wspolistniec i nie sa konkurencyjne.
-
-### Slajd: Kontrakt porownania
-- Omow antysymetrie, przechodniosc i spojnosc wyniku.
-- Podkresl, ze bledny comparator psuje `TreeSet`/`TreeMap` i prowadzi do trudnych bugow.
-
-### Slajd: Kompozycja comparatorow
-- Pokaz `comparing` + `thenComparing` jako wzorzec budowania czytelnych, testowalnych reguł.
-- Dodaj `nullsFirst/nullsLast` jako element odpornosci API na nieidealne dane.
-
-### Slajd: Praktyka zespolowa
-- Dla modelu domenowego ustal jeden naturalny porzadek albo zrezygnuj z `Comparable`.
-- Pozostale porzadki trzymaj jako stale `Comparator` w klasie narzedziowej.
-
-### Pytania kontrolne
-1. Kiedy lepiej nie implementowac `Comparable`?
-2. Dlaczego `return a - b` to zly pomysl w `compare`?
-3. Jakie problemy daje comparator niespojny z `equals`?
-
----
-
 ## ⚠️ Najczęstsze błędy
 
 1. **Niespójny `compareTo`** — `compareTo` musi być spójny z `equals`: jeśli `a.compareTo(b) == 0`, to `a.equals(b) == true` (nie jest to wymuszone przez kompilator, ale kolekcje na tym polegają).
@@ -168,6 +171,15 @@ withNulls.sort(Comparator.nullsLast(Comparator.naturalOrder()));
 ---
 
 ## Uruchomienie przykładów
+
+## Pytania kontrolne
+
+1. Kiedy lepiej nie implementowac `Comparable`?
+2. Dlaczego `return a - b` to zly pomysl w `compare`?
+3. Jakie problemy daje comparator niespojny z `equals`?
+
+---
+
 
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_07_komparatory"

@@ -15,6 +15,13 @@
 
 ## Diagram — wzorzec Iterator
 
+#### Notatka do slajdu
+
+**Iterator jako wzorzec projektowy**
+- Wyjasnij separacje odpowiedzialnosci: kolekcja przechowuje dane, iterator odpowiada za nawigacje.
+- Pokaz, ze ten sam algorytm dziala dla `List`, `Set`, `Queue` i klas wlasnych przez `Iterable`.
+
+
 ![Wzorzec Iterator](diagrams/iterator_pattern.png)
 
 *Źródło: `diagrams/iterator_pattern.puml`*
@@ -57,6 +64,13 @@ Pełny przykład: [`code/IteratorDemo.java`](code/IteratorDemo.java)
 
 ## Pętla for-each — cukier syntaktyczny
 
+#### Notatka do slajdu
+
+**for-each to nie magia**
+- Pokaz tlumaczenie for-each na `Iterator` i konsekwencje (np. ograniczenia modyfikacji).
+- Wytlumacz, kiedy trzeba zejsc do iteratora jawnego (`remove`, zlozona kontrola przejscia).
+
+
 Pętla for-each jest **cukrem syntaktycznym** — kompilator tłumaczy ją na iterator jawny:
 
 ```java
@@ -78,6 +92,15 @@ while (it.hasNext()) {
 ---
 
 ## ListIterator — dwukierunkowy iterator
+
+#### Notatka do slajdu
+
+**ListIterator**
+- Omow przewage `ListIterator` przy edycji in-place i przejsciu wstecz.
+- Daj scenariusz praktyczny: normalizacja danych tekstowych w liscie bez tworzenia kopii.
+
+---
+
 
 ```java
 List<String> words = new ArrayList<>(List.of("raz", "dwa", "trzy", "cztery"));
@@ -131,6 +154,13 @@ for (int i : new Range(1, 6)) {
 
 ## ConcurrentModificationException — jak unikać
 
+#### Notatka do slajdu
+
+**Fail-fast i `ConcurrentModificationException`**
+- Podkresl, ze fail-fast to mechanizm diagnostyczny, nie gwarancja bezpieczenstwa watkowego.
+- Rozrodnij przypadki: modyfikacja przez ten sam iterator (OK z `remove`) vs modyfikacja poza iteratorem (blad).
+
+
 ```java
 List<Integer> list = new ArrayList<>(List.of(1, 2, 3, 4, 5));
 
@@ -170,26 +200,6 @@ cities.forEach(System.out::println);
 1. **Modyfikacja listy podczas for-each** — zawsze prowadzi do `ConcurrentModificationException`. Użyj `Iterator.remove()` lub `removeIf()`.
 2. **Wywołanie `it.next()` bez `hasNext()`** — rzuca `NoSuchElementException`.
 3. **Ignorowanie `Iterator.remove()`** — jedyny poprawny sposób usunięcia bieżącego elementu podczas iteracji iterator-jawnej.
-
----
-
-## Notatki do slajdów (wersja rozszerzona)
-
-### Slajd: Iterator jako wzorzec projektowy
-- Wyjasnij separacje odpowiedzialnosci: kolekcja przechowuje dane, iterator odpowiada za nawigacje.
-- Pokaz, ze ten sam algorytm dziala dla `List`, `Set`, `Queue` i klas wlasnych przez `Iterable`.
-
-### Slajd: for-each to nie magia
-- Pokaz tlumaczenie for-each na `Iterator` i konsekwencje (np. ograniczenia modyfikacji).
-- Wytlumacz, kiedy trzeba zejsc do iteratora jawnego (`remove`, zlozona kontrola przejscia).
-
-### Slajd: Fail-fast i `ConcurrentModificationException`
-- Podkresl, ze fail-fast to mechanizm diagnostyczny, nie gwarancja bezpieczenstwa watkowego.
-- Rozrodnij przypadki: modyfikacja przez ten sam iterator (OK z `remove`) vs modyfikacja poza iteratorem (blad).
-
-### Slajd: ListIterator
-- Omow przewage `ListIterator` przy edycji in-place i przejsciu wstecz.
-- Daj scenariusz praktyczny: normalizacja danych tekstowych w liscie bez tworzenia kopii.
 
 ---
 

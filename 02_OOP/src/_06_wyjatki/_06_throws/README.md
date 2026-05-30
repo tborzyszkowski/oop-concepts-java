@@ -8,11 +8,40 @@ Zrozumienie kiedy i dlaczego musisz deklarować `throws` w sygnaturze metody. Po
 
 ## 1. Diagram — checked vs unchecked, interfejsy
 
+#### Notatka do slajdu
+
+**Gdzie propagować, gdzie tłumaczyć**
+- Propaguj nisko, gdy warstwa wyżej ma sensowną strategię reakcji.
+- Tłumacz na granicy warstw (repozytorium -> serwis -> API), zachowując `cause`.
+
+
+#### Notatka do slajdu
+
+**Interfejsy i dziedziczenie**
+- Implementacja może zawęzić `throws`, ale nie może dodać nowych checked wyjątków.
+- To chroni podstawialność i stabilność kontraktu.
+
+
+#### Notatka do slajdu
+
+**Checked vs unchecked w architekturze**
+- Checked sprzyja jawności kosztu awarii.
+- Unchecked upraszcza API i bywa preferowany w frameworkach.
+- Podkreśl, że to decyzja projektowa zależna od warstwy i odbiorcy API.
+
+
 ![Deklaracja throws](diagrams/throws_declaration.png)
 
 ---
 
 ## 2. Czym jest deklaracja throws
+
+#### Notatka do slajdu
+
+**`throws` jako element kontraktu**
+- `throws` to nie detal implementacji, tylko obietnica wobec klienta API.
+- Zmiana listy checked exceptions jest zmianą kontraktu (breaking change).
+
 
 ```java
 static String readFile(String path) throws IOException {
@@ -30,9 +59,9 @@ static String readFile(String path) throws IOException {
 ## 3. Kiedy MUSISZ użyć throws
 
 **Reguła:** Musisz zadeklarować `throws X`, gdy:
-1. Wyjątek `X` dziedziczy po `Exception` (ale nie po `RuntimeException`)  
-2. Twoja metoda **może rzucić** `X` (bezpośrednio lub przez wywołaną metodę)  
-3. Nie obsługujesz go wewnątrz metodą (`try-catch`)  
+1. Wyjątek `X` dziedziczy po `Exception` (ale nie po `RuntimeException`)
+2. Twoja metoda **może rzucić** `X` (bezpośrednio lub przez wywołaną metodę)
+3. Nie obsługujesz go wewnątrz metodą (`try-catch`)
 
 ```java
 // Musi mieć throws SQLException — jest checked
@@ -73,8 +102,8 @@ static String getUserName(int id) {
 }
 ```
 
-**Wzorzec przekształcenia:**  
-`checked` na niskim poziomie → `unchecked` (`RuntimeException`) na wyższym poziomie  
+**Wzorzec przekształcenia:**
+`checked` na niskim poziomie → `unchecked` (`RuntimeException`) na wyższym poziomie
 Często stosowany w serwisach/repozytoriach w Spring, Hibernate, itd.
 
 ---
@@ -163,33 +192,16 @@ Debata o checked vs unchecked trwa od lat. Praktyczne wskazówki:
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Kod demonstracyjny
 
-### Slajd: `throws` jako element kontraktu
-- `throws` to nie detal implementacji, tylko obietnica wobec klienta API.
-- Zmiana listy checked exceptions jest zmianą kontraktu (breaking change).
+## Pytania kontrolne
 
-### Slajd: Gdzie propagować, gdzie tłumaczyć
-- Propaguj nisko, gdy warstwa wyżej ma sensowną strategię reakcji.
-- Tłumacz na granicy warstw (repozytorium -> serwis -> API), zachowując `cause`.
-
-### Slajd: Interfejsy i dziedziczenie
-- Implementacja może zawęzić `throws`, ale nie może dodać nowych checked wyjątków.
-- To chroni podstawialność i stabilność kontraktu.
-
-### Slajd: Checked vs unchecked w architekturze
-- Checked sprzyja jawności kosztu awarii.
-- Unchecked upraszcza API i bywa preferowany w frameworkach.
-- Podkreśl, że to decyzja projektowa zależna od warstwy i odbiorcy API.
-
-### Pytania kontrolne
 1. Dlaczego `throws` bywa traktowane jak część „publicznego API”?
 2. Kiedy warto przekształcić `SQLException` w wyjątek domenowy unchecked?
 3. Czemu implementacja interfejsu nie może rozszerzać listy checked exceptions?
 
 ---
 
-## Kod demonstracyjny
 
 📄 [`code/ThrowsDeclarationDemo.java`](code/ThrowsDeclarationDemo.java)
 

@@ -8,11 +8,26 @@ Nauka projektowania własnych klas wyjątków: kiedy je tworzyć, jakie API powi
 
 ## 1. Diagram hierarchii
 
+#### Notatka do slajdu
+
+**Projektowanie hierarchii**
+- Zacznij od jednego bazowego wyjątku domenowego, dopiero potem dodawaj specjalizacje.
+- Hierarchia ma odzwierciedlać proces biznesowy, a nie strukturę pakietów.
+
+
 ![Hierarchia własnych wyjątków](diagrams/custom_exceptions.png)
 
 ---
 
 ## 2. Kiedy tworzyć własny wyjątek
+
+#### Notatka do slajdu
+
+**Kiedy warto tworzyć własny wyjątek**
+- Gdy standardowy typ nie niesie semantyki domeny.
+- Gdy potrzebujesz dodatkowych pól (np. kod błędu, identyfikator zasobu, lista naruszeń).
+- Gdy chcesz stabilnej warstwy API niezależnej od wyjątków bibliotek.
+
 
 | Powód | Przykład |
 |-------|---------|
@@ -48,6 +63,13 @@ class UserNotFoundException extends RuntimeException {
 ---
 
 ## 4. Kompletne API wyjątku domenowego
+
+#### Notatka do slajdu
+
+**API wyjątku**
+- Komunikat dla człowieka + pola dla kodu (`getErrorCode`, `getViolations`).
+- Dodaj konstruktor z `cause` i trzymaj kontekst diagnostyczny.
+
 
 ```java
 class RangeException extends Exception {
@@ -185,6 +207,13 @@ throw new HttpException(HttpException.Status.NOT_FOUND, "Strona nie istnieje: " 
 
 ## 7. Zawijanie checked w domenowy unchecked
 
+#### Notatka do slajdu
+
+**Checked czy unchecked dla domeny**
+- Checked: gdy klient ma realną ścieżkę odzyskania.
+- Unchecked: gdy chcesz prostszych sygnatur i centralnej obsługi na granicy aplikacji.
+
+
 ```java
 static String loadConfig(String filename) {
     try {
@@ -238,33 +267,16 @@ try {
 
 ---
 
-## Notatki do slajdów (wersja rozszerzona)
+## Kod demonstracyjny
 
-### Slajd: Kiedy warto tworzyć własny wyjątek
-- Gdy standardowy typ nie niesie semantyki domeny.
-- Gdy potrzebujesz dodatkowych pól (np. kod błędu, identyfikator zasobu, lista naruszeń).
-- Gdy chcesz stabilnej warstwy API niezależnej od wyjątków bibliotek.
+## Pytania kontrolne
 
-### Slajd: Projektowanie hierarchii
-- Zacznij od jednego bazowego wyjątku domenowego, dopiero potem dodawaj specjalizacje.
-- Hierarchia ma odzwierciedlać proces biznesowy, a nie strukturę pakietów.
-
-### Slajd: API wyjątku
-- Komunikat dla człowieka + pola dla kodu (`getErrorCode`, `getViolations`).
-- Dodaj konstruktor z `cause` i trzymaj kontekst diagnostyczny.
-
-### Slajd: Checked czy unchecked dla domeny
-- Checked: gdy klient ma realną ścieżkę odzyskania.
-- Unchecked: gdy chcesz prostszych sygnatur i centralnej obsługi na granicy aplikacji.
-
-### Pytania kontrolne
 1. Co przemawia za jednym bazowym `AppException`?
 2. Jakie dane wyjątku są potrzebne UI/API, a jakie tylko logom?
 3. Kiedy nie warto tworzyć nowego typu wyjątku?
 
 ---
 
-## Kod demonstracyjny
 
 📄 [`code/CustomExceptionsDemo.java`](code/CustomExceptionsDemo.java)
 
