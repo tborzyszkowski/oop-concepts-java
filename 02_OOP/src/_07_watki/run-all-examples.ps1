@@ -1,9 +1,9 @@
-# PowerShell — uruchamia wszystkie przykłady z modułu _07_watki
+# PowerShell - uruchamia wszystkie przyklady z modulu _07_watki
 $ErrorActionPreference = "Continue"
 $src = Split-Path -Parent $MyInvocation.MyCommand.Path
 $root = Join-Path $src "out"
 
-Write-Host "=== Kompilacja modułu _07_watki ===" -ForegroundColor Cyan
+Write-Host "=== Kompilacja modulu _07_watki ===" -ForegroundColor Cyan
 New-Item -ItemType Directory -Force -Path $root | Out-Null
 
 $files = @(
@@ -27,12 +27,12 @@ foreach ($f in $files) {
     Write-Host "  Kompilacja: $f" -ForegroundColor Yellow
     javac -d $root $full
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "  BŁĄD kompilacji: $f" -ForegroundColor Red
+        Write-Host "  BLAD kompilacji: $f" -ForegroundColor Red
     }
 }
 
 Write-Host ""
-Write-Host "=== Uruchamianie przykładów ===" -ForegroundColor Cyan
+Write-Host "=== Uruchamianie przykladow ===" -ForegroundColor Cyan
 
 $classes = @(
     "_07_watki._01_wprowadzenie.code.ThreadingIntroDemo",
