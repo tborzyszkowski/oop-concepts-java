@@ -162,6 +162,31 @@ W klasycznym `finally` drugi wyjątek **zastępował** pierwszy — traciliśmy 
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Co dokładnie gwarantuje `finally`
+- `finally` to mechanizm „cleanup”, nie „naprawa logiki biznesowej”.
+- Wykona się przy normalnym zakończeniu, `return` i wyjątku (poza wyjątkami procesu/JVM).
+
+### Slajd: Dlaczego `return` w `finally` jest groźny
+- Nadpisuje wynik z `try` i może ukryć wyjątek.
+- To jeden z najbardziej kosztownych błędów utrzymaniowych, bo maskuje symptomy awarii.
+
+### Slajd: try-with-resources jako domyślny wybór
+- Dla zasobów `AutoCloseable` preferuj TWR zamiast ręcznego `finally`.
+- Podkreśl korzyść: suppressed exceptions i mniej kodu boilerplate.
+
+### Slajd: Kiedy klasyczne `finally` nadal ma sens
+- Gdy sprzątasz coś, co nie implementuje `AutoCloseable` (np. lock/unlock).
+- Gdy wymagane jest wykonanie kodu niezależnie od ścieżki wyjścia.
+
+### Pytania kontrolne
+1. Co stanie się, gdy `try` rzuci wyjątek, a `finally` wykona `return`?
+2. Jaką przewagę diagnostyczną daje suppressed exception?
+3. Kiedy `try-finally` jest nadal poprawnym wyborem mimo TWR?
+
+---
+
 ## Kod demonstracyjny
 
 📄 [`code/FinallyDemo.java`](code/FinallyDemo.java)
@@ -182,4 +207,3 @@ java  -cp out _06_wyjatki._07_finally.code.FinallyDemo
 - [The Java Tutorials — The try-with-resources Statement](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html)
 - [JEP 334 / JLS §14.20.3 — try-with-resources](https://docs.oracle.com/javase/specs/jls/se21/html/jls-14.html#jls-14.20.3)
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 9: Prefer try-with-resources to try-finally
-

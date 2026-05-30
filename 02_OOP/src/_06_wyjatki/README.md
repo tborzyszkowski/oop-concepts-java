@@ -108,3 +108,34 @@ _06_wyjatki/
     └── solutions/ExceptionExercisesSolutions.java
 ```
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd 1: Dlaczego wyjątki istnieją
+- Wyjątki rozwiązują problem kodów błędów: pomijanie sprawdzeń, mieszanie logiki i obsługi awarii.
+- Pokaz różnicę: „failure as value” vs „failure as control transfer”.
+
+### Slajd 2: Trzy poziomy klasyfikacji
+- `Error`: awarie środowiska/JVM, zwykle nieobsługiwalne biznesowo.
+- Checked `Exception`: sytuacje odzyskiwalne (I/O, sieć, integracje).
+- `RuntimeException`: błędy kontraktu i logiki programu.
+
+### Slajd 3: Gdzie łapać wyjątki
+- Nisko: gdy można lokalnie naprawić (retry, fallback, domyślna wartość).
+- Wysoko: gdy trzeba przetłumaczyć błąd na język warstwy (np. HTTP, UI, komunikat dla użytkownika).
+- Unikaj „łapania wszystkiego” bez decyzji o dalszym kroku.
+
+### Slajd 4: Jakość diagnostyki
+- Komunikat wyjątku ma zawierać kontekst (parametry wejściowe, identyfikatory).
+- Zachowuj `cause` przy translacji między warstwami.
+- Loguj wyjątek z pełnym stack trace, nie tylko `e.getMessage()`.
+
+### Slajd 5: Najważniejsze antywzorce
+- Pusty `catch`.
+- `catch (Exception)` jako domyślny styl kodowania.
+- `return` w `finally`.
+- Używanie wyjątków do sterowania normalnym przepływem.
+
+### Pytania kontrolne
+1. Kiedy checked exception jest lepszy niż unchecked?
+2. Co tracimy, jeśli nie przekażemy `cause`?
+3. Dlaczego wyjątek nie powinien zastępować warunku `if` w normalnej logice?

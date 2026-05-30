@@ -192,10 +192,35 @@ java  -cp out _06_wyjatki._02_hierarchia_klas.code.ExceptionHierarchyDemo
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Drzewo `Throwable` jako mapa decyzji
+- Nie ucz tylko nazw klas - ucz decyzji: czy błąd jest odzyskiwalny, czy programistyczny, czy systemowy.
+- Pokaż, że zła klasyfikacja wyjątku psuje API i utrudnia obsługę po stronie klienta.
+
+### Slajd: `Error` vs `Exception`
+- `Error` to sygnał: „środowisko/JVM ma problem”, a nie „użytkownik podał złą wartość”.
+- Podkreśl, że łapanie `Error` bywa diagnostyczne, ale rzadko naprawcze.
+
+### Slajd: Checked vs unchecked
+- Checked: gdy wywołujący realnie może podjąć akcję (retry, fallback, komunikat UX).
+- Unchecked: gdy naruszono kontrakt metody lub stan obiektu.
+- Daj studentom heurystykę: "czy klient API ma sensowny plan naprawy?".
+
+### Slajd: Multi-catch i czytelność
+- Multi-catch redukuje duplikację, ale używaj go tylko gdy obsługa rzeczywiście jest identyczna.
+- Jeśli reakcja różni się semantycznie, lepiej rozdzielić `catch`.
+
+### Pytania kontrolne
+1. Dlaczego `StackOverflowError` i `OutOfMemoryError` nie są `Exception`?
+2. Kiedy `IllegalArgumentException` jest lepsze niż checked custom exception?
+3. Jakie ryzyko niesie `catch (Throwable)`?
+
+---
+
 ## Literatura i źródła
 
 - [Java SE 21 API — java.lang.Throwable](https://docs.oracle.com/en/java/docs/api/java.base/java/lang/Throwable.html)
 - [Java SE 21 API — java.lang.Exception](https://docs.oracle.com/en/java/docs/api/java.base/java/lang/Exception.html)
 - Joshua Bloch, *Effective Java*, 3rd ed., Items 69–77 (rozdział o wyjątkach)
 - [The Java Tutorials — The Catch or Specify Requirement](https://docs.oracle.com/javase/tutorial/essential/exceptions/catchOrDeclare.html)
-

@@ -143,6 +143,30 @@ for (int attempt = 1; attempt <= 3; attempt++) {
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Dlaczego zagnieżdżony `try` bywa problemem
+- Głębokie zagnieżdżenia zwiększają złożoność poznawczą i utrudniają analizę przepływu.
+- Każdy dodatkowy poziom to większe ryzyko błędnej propagacji lub utraty kontekstu.
+
+### Slajd: Kiedy zagnieżdżenie jest uzasadnione
+- Lokalna naprawa jednego kroku bez wpływu na cały algorytm.
+- Retry i kompensacja, gdzie wewnętrzny błąd ma osobną politykę obsługi.
+
+### Slajd: Refaktoryzacja
+- Wydziel metodę dla operacji ryzykownej i zawęź odpowiedzialność `catch`.
+- Zachowaj czytelny „happy path”, a obsługę błędów przenieś do granic modułu.
+
+### Slajd: Chaining przy zmianie poziomu abstrakcji
+- Jeśli zmieniasz typ wyjątku, zachowaj przyczynę (`cause`), aby nie zgubić źródła awarii.
+
+### Pytania kontrolne
+1. Po czym poznać, że zagnieżdżony `try` powinien zostać zrefaktoryzowany?
+2. Co dzieje się z wyjątkiem obsłużonym w wewnętrznym `catch` bez `throw`?
+3. Kiedy warto rzucić nowy wyjątek zamiast re-throw tego samego?
+
+---
+
 ## Kod demonstracyjny
 
 📄 [`code/NestedTryDemo.java`](code/NestedTryDemo.java)
@@ -162,4 +186,3 @@ java  -cp out _06_wyjatki._04_zagniezdzony_try.code.NestedTryDemo
 - [The Java Tutorials — Nesting try blocks](https://docs.oracle.com/javase/tutorial/essential/exceptions/handling.html)
 - Robert C. Martin, *Clean Code*, rozdz. 7: Error Handling
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 76: Strive for failure atomicity
-

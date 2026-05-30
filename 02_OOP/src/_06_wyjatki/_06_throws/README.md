@@ -163,6 +163,32 @@ Debata o checked vs unchecked trwa od lat. Praktyczne wskazówki:
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: `throws` jako element kontraktu
+- `throws` to nie detal implementacji, tylko obietnica wobec klienta API.
+- Zmiana listy checked exceptions jest zmianą kontraktu (breaking change).
+
+### Slajd: Gdzie propagować, gdzie tłumaczyć
+- Propaguj nisko, gdy warstwa wyżej ma sensowną strategię reakcji.
+- Tłumacz na granicy warstw (repozytorium -> serwis -> API), zachowując `cause`.
+
+### Slajd: Interfejsy i dziedziczenie
+- Implementacja może zawęzić `throws`, ale nie może dodać nowych checked wyjątków.
+- To chroni podstawialność i stabilność kontraktu.
+
+### Slajd: Checked vs unchecked w architekturze
+- Checked sprzyja jawności kosztu awarii.
+- Unchecked upraszcza API i bywa preferowany w frameworkach.
+- Podkreśl, że to decyzja projektowa zależna od warstwy i odbiorcy API.
+
+### Pytania kontrolne
+1. Dlaczego `throws` bywa traktowane jak część „publicznego API”?
+2. Kiedy warto przekształcić `SQLException` w wyjątek domenowy unchecked?
+3. Czemu implementacja interfejsu nie może rozszerzać listy checked exceptions?
+
+---
+
 ## Kod demonstracyjny
 
 📄 [`code/ThrowsDeclarationDemo.java`](code/ThrowsDeclarationDemo.java)
@@ -183,4 +209,3 @@ java  -cp out _06_wyjatki._06_throws.code.ThrowsDeclarationDemo
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 71: Avoid unnecessary use of checked exceptions
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 72: Favor the use of standard exceptions
 - [Checked vs Unchecked Exceptions in Java — Baeldung](https://www.baeldung.com/java-checked-unchecked-exceptions)
-

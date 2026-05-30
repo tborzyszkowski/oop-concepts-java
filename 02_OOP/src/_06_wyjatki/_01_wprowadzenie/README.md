@@ -136,7 +136,7 @@ static int parseLengthJava(String s) {
 
 ## 6. Kiedy nie używać wyjątków
 
-Wyjątki to kosztowna operacja (tworzenie obiektu, zapis stack trace). **Nie** używaj ich do:
+Wyjątki to kosztowna operacja (tworzenie obiektu, zapis stack trace). ** Nie** używaj ich do:
 
 ```java
 // ✗ Anty-wzorzec: wyjątek jako przepływ sterowania
@@ -189,10 +189,34 @@ java  -cp out _06_wyjatki._01_wprowadzenie.code.ExceptionIntroDemo
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Problem kodów błędów
+- W kodzie proceduralnym łatwo „zgubić” błąd, bo jest tylko wartością liczbową.
+- Wyjaśnij studentom, że wyjątek wymusza świadomą decyzję: obsłużyć albo propagować.
+
+### Slajd: Co przenosi obiekt wyjątku
+- Typ błędu, komunikat, stack trace, opcjonalna przyczyna.
+- To czyni wyjątek nośnikiem diagnostyki, a nie tylko sygnałem "coś się popsuło".
+
+### Slajd: Stack trace jako narzędzie analizy
+- Czytaj od dołu (wejście) do góry (miejsce awarii).
+- Pokaż jak szybko odnaleźć pierwszą linię kodu aplikacji (poza bibliotekami).
+
+### Slajd: Wyjątek to nie pętla sterująca
+- Rzucanie i łapanie wyjątków ma koszt i semantykę "sytuacji wyjątkowej".
+- Do normalnych warunków używaj warunków i walidacji (`if`, `guard clauses`).
+
+### Pytania kontrolne
+1. Co zyskujemy względem kodów błędów poza samą czytelnością?
+2. Dlaczego stack trace bywa ważniejszy niż komunikat?
+3. Kiedy brak wartości to wyjątek, a kiedy `Optional`?
+
+---
+
 ## Literatura i źródła
 
 - [The Java Tutorials — Exceptions](https://docs.oracle.com/javase/tutorial/essential/exceptions/)
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 69: Use exceptions only for exceptional conditions
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 70: Use checked exceptions for recoverable conditions
 - [JEP 358: Helpful NullPointerExceptions (Java 14)](https://openjdk.org/jeps/358)
-

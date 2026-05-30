@@ -116,6 +116,36 @@ Przetestuj rejestrację tego samego użytkownika dwa razy.
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Strategia pracy z zadaniami
+- Zadania 1-2: utrwalenie podstaw i kontraktów API.
+- Zadania 3-4: projektowanie wyjątków i zasobów (`AutoCloseable`).
+- Zadania 5-7: propagacja przez warstwy i model domenowy.
+
+### Slajd: Kryteria oceny
+- Poprawność semantyczna (czy wyjątek reprezentuje właściwy problem).
+- Jakość komunikatu i kontekstu (`cause`, dane wejściowe).
+- Dobór checked/unchecked zgodny z charakterem błędu.
+- Testy przypadków brzegowych i ścieżek awaryjnych.
+
+### Slajd: Typowe błędy studentów
+- Łapanie zbyt szerokie (`Exception`) zbyt wcześnie.
+- Brak `cause` przy translacji wyjątków.
+- Użycie wyjątku tam, gdzie wystarcza walidacja i `Optional`.
+
+### Slajd: Mini-TDD dla wyjątków
+- Testuj nie tylko „happy path”, ale też typ i treść wyjątku.
+- Sprawdzaj, czy zachowany jest `cause`.
+- Sprawdzaj, czy zasób zamyka się także po błędzie.
+
+### Pytania kontrolne
+1. Które zadanie najlepiej pokazuje sens `try-with-resources` i dlaczego?
+2. W którym zadaniu najbardziej widać różnicę checked vs unchecked?
+3. Jakie testy dodałbyś do zadania 7 pod kątem regresji?
+
+---
+
 ## Rozwiązania
 
 📄 [`solutions/ExceptionExercisesSolutions.java`](solutions/ExceptionExercisesSolutions.java) — zawiera rozwiązania zadań 1–5.
@@ -125,4 +155,3 @@ cd C:\home\gitHub\oop-concepts-java\02_OOP\src
 javac -d out _06_wyjatki/_10_zadania/solutions/ExceptionExercisesSolutions.java
 java  -cp out _06_wyjatki._10_zadania.solutions.ExceptionExercisesSolutions
 ```
-

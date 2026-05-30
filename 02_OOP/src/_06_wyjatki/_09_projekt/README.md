@@ -171,6 +171,36 @@ java  -cp out _06_wyjatki._09_projekt.code.BankApp
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Dlaczego ten projekt jest „realny”
+- Pokazuje pełną ścieżkę: walidacja wejścia -> wyjątek domenowy -> obsługa w serwisie -> audyt.
+- Uczy, że wyjątki to element architektury, nie tylko składnia języka.
+
+### Slajd: Hierarchia wyjątków bankowych
+- Jeden bazowy typ (`BankException`) upraszcza centralną obsługę.
+- Specjalizacje niosą dane do komunikatu użytkownika i logów (saldo, żądana kwota, numer konta).
+
+### Slajd: Fail-fast i niezmienniki
+- Konstruktor odrzuca niepoprawny stan - obiekt po utworzeniu jest spójny.
+- To zmniejsza liczbę „defensywnych ifów” w dalszym kodzie.
+
+### Slajd: Granice warstw
+- Repozytorium: techniczne wyjątki infrastruktury.
+- Serwis: tłumaczenie na język domeny i decyzje biznesowe.
+- UI/API: mapowanie na odpowiedź dla użytkownika i kody błędów.
+
+### Slajd: Audyt i obserwowalność
+- Każda operacja (udana i nieudana) zostawia ślad.
+- To nie tylko debugowanie, ale też wymaganie compliance i bezpieczeństwa.
+
+### Pytania kontrolne
+1. Dlaczego w tym projekcie checked exceptions są uzasadnione?
+2. Jakie dane wyjątku są kluczowe dla UX, a jakie dla audytu?
+3. W którym miejscu najlepiej tłumaczyć wyjątki infrastrukturalne na domenowe?
+
+---
+
 ## Lekcje wyniesione z projektu
 
 | Temat | Zastosowanie w BankApp |
@@ -190,4 +220,3 @@ java  -cp out _06_wyjatki._09_projekt.code.BankApp
 - Martin Fowler, *Patterns of Enterprise Application Architecture*, rozdz. Exception handling
 - [Exception Handling Best Practices — Baeldung](https://www.baeldung.com/java-exceptions)
 - Joshua Bloch, *Effective Java*, 3rd ed., Items 69–77
-

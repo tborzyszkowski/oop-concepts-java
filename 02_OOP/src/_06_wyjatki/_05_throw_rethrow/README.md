@@ -170,9 +170,34 @@ java  -cp out _06_wyjatki._05_throw_rethrow.code.ThrowRethrowDemo
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: `throw` jako kontrakt walidacyjny
+- `throw` w guard clause dokumentuje niepoprawne wejście i zatrzymuje błąd blisko źródła.
+- Podkreśl, że komunikat wyjątku to część jakości API.
+
+### Slajd: Re-throw vs wrap
+- Re-throw (`throw e`) zachowuje typ i oryginalny kontekst.
+- Wrap (`throw new X(..., e)`) stosuj przy zmianie poziomu abstrakcji.
+- Reguła: nie tłumacz wyjątku „w ciemno”, tłumacz tylko na granicy warstw.
+
+### Slajd: Exception chaining
+- Bez `cause` trace diagnostyczny jest niepełny.
+- Z `cause` zachowujesz historię awarii od biblioteki do domeny.
+
+### Slajd: Miejsce tworzenia a miejsce rzucenia
+- Pokaz, że stack trace wskazuje moment tworzenia obiektu wyjątku.
+- To ważne przy fabrykach wyjątków i helperach walidacyjnych.
+
+### Pytania kontrolne
+1. Kiedy lepiej re-throw, a kiedy wrap?
+2. Co tracimy przy `throw new X("...")` bez `cause`?
+3. Dlaczego wyjątek domenowy powinien „mówić językiem domeny”, a nie SQL/IO?
+
+---
+
 ## Literatura i źródła
 
 - [The Java Tutorials — How to Throw Exceptions](https://docs.oracle.com/javase/tutorial/essential/exceptions/throwing.html)
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 73: Throw exceptions appropriate to the abstraction
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 75: Include failure-capture information in detail messages
-

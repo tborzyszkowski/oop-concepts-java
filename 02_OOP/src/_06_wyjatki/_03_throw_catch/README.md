@@ -58,6 +58,32 @@ try {
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Mechanika dopasowania `catch`
+- JVM wybiera pierwszy pasujący `catch`, więc kolejność to część logiki programu.
+- Ucz studentów czytać łańcuch `catch` jak drzewo decyzji.
+
+### Slajd: Precyzja obsługi
+- Im bliżej źródła i im bardziej precyzyjny typ, tym lepsza diagnoza i reakcja.
+- Ogólny `catch (Exception)` traktuj jako ostatnią linię obrony, nie domyślny styl.
+
+### Slajd: Multi-catch
+- Dobre, gdy reakcja jest identyczna i nie potrzebujesz specyficznych danych wyjątku.
+- Gdy logika różna (np. retry tylko dla jednego typu), rozdziel bloki.
+
+### Slajd: Antywzorce
+- Pusty `catch` ukrywa awarię.
+- „Log i nic więcej” bez decyzji biznesowej.
+- Łapanie zbyt szeroko, co zaciera źródło problemu.
+
+### Pytania kontrolne
+1. Co stanie się, gdy zamienimy kolejność `NumberFormatException` i `IllegalArgumentException`?
+2. Kiedy multi-catch zmniejsza jakość kodu zamiast ją poprawiać?
+3. Jak odróżnić błąd użytkownika od błędu programisty w `catch`?
+
+---
+
 ## 4. Łańcuch catch — przykład
 
 ```java
@@ -174,4 +200,3 @@ java  -cp out _06_wyjatki._03_throw_catch.code.ThrowCatchDemo
 - [The Java Tutorials — Catching and Handling Exceptions](https://docs.oracle.com/javase/tutorial/essential/exceptions/handling.html)
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 77: Don't ignore exceptions
 - [JEP 334: JVM Constants API](https://openjdk.org/jeps/334)
-

@@ -238,6 +238,32 @@ try {
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Kiedy warto tworzyć własny wyjątek
+- Gdy standardowy typ nie niesie semantyki domeny.
+- Gdy potrzebujesz dodatkowych pól (np. kod błędu, identyfikator zasobu, lista naruszeń).
+- Gdy chcesz stabilnej warstwy API niezależnej od wyjątków bibliotek.
+
+### Slajd: Projektowanie hierarchii
+- Zacznij od jednego bazowego wyjątku domenowego, dopiero potem dodawaj specjalizacje.
+- Hierarchia ma odzwierciedlać proces biznesowy, a nie strukturę pakietów.
+
+### Slajd: API wyjątku
+- Komunikat dla człowieka + pola dla kodu (`getErrorCode`, `getViolations`).
+- Dodaj konstruktor z `cause` i trzymaj kontekst diagnostyczny.
+
+### Slajd: Checked czy unchecked dla domeny
+- Checked: gdy klient ma realną ścieżkę odzyskania.
+- Unchecked: gdy chcesz prostszych sygnatur i centralnej obsługi na granicy aplikacji.
+
+### Pytania kontrolne
+1. Co przemawia za jednym bazowym `AppException`?
+2. Jakie dane wyjątku są potrzebne UI/API, a jakie tylko logom?
+3. Kiedy nie warto tworzyć nowego typu wyjątku?
+
+---
+
 ## Kod demonstracyjny
 
 📄 [`code/CustomExceptionsDemo.java`](code/CustomExceptionsDemo.java)
@@ -258,4 +284,3 @@ java  -cp out _06_wyjatki._08_wlasne_wyjatki.code.CustomExceptionsDemo
 - Joshua Bloch, *Effective Java*, 3rd ed., Item 73: Throw exceptions appropriate to the abstraction
 - [Creating Custom Exceptions in Java — Baeldung](https://www.baeldung.com/java-new-custom-exception)
 - [Java SE 21 API — java.lang.Exception](https://docs.oracle.com/en/java/docs/api/java.base/java/lang/Exception.html)
-
