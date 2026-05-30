@@ -1,0 +1,29 @@
+@startuml tasks_overview
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Zadania -- Wzorce projektowe
+
+package "Kreacyjne" #E3F2FD {
+  rectangle "Zad 1\nSingleton\nAppRegistry" as T1 #BBDEFB
+  rectangle "Zad 2\nFactory\nParser" as T2 #BBDEFB
+  rectangle "Zad 3\nBuilder\nHtmlForm" as T3 #BBDEFB
+}
+
+package "Strukturalne" #E8F5E9 {
+  rectangle "Zad 4\nDecorator\nValidator" as T4 #C8E6C9
+}
+
+package "Behawioralne" #FFF3E0 {
+  rectangle "Zad 5\nObserver\nEventBus" as T5 #FFE0B2
+  rectangle "Zad 6\nStrategy\nDiscount" as T6 #FFE0B2
+  rectangle "Zad 7\nCommand+Composite\nEditor graficzny" as T7 #FFE0B2
+}
+
+package "Projekt" #FCE4EC {
+  rectangle "Zad 8\nWiele wzorcow\nBiblioteka mediow" as T8 #F8BBD0
+}
+
+note bottom of T7 : Łączy dwa wzorce
+note bottom of T8 : 5 wzorców jednocześnie
+@enduml
+

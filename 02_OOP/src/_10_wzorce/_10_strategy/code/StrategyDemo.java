@@ -208,13 +208,13 @@ public class StrategyDemo {
         System.out.println("1. Sortowanie z wymienna strategia:");
         List<Integer> data = new ArrayList<>(Arrays.asList(64, 34, 25, 12, 22, 11, 90, 1, 55, 7));
 
-        Sorter<Integer> sorter = new Sorter<>(new BubbleSort<>());
+        Sorter<Integer> sorter = new Sorter<Integer>(new BubbleSort<Integer>());
         sorter.sort(data);
 
-        sorter.setStrategy(new InsertionSort<>());
+        sorter.setStrategy(new InsertionSort<Integer>());
         sorter.sort(data);
 
-        sorter.setStrategy(new QuickSort<>());
+        sorter.setStrategy(new QuickSort<Integer>());
         sorter.sort(data);
 
         System.out.println("\n  Duzy zbior (100 elementow):");
@@ -222,9 +222,9 @@ public class StrategyDemo {
         Random rnd = new Random(42);
         for (int i = 0; i < 100; i++) big.add(rnd.nextInt(1000));
 
-        new Sorter<>(new BubbleSort<Integer>()).sort(new ArrayList<>(big));
-        new Sorter<>(new InsertionSort<Integer>()).sort(new ArrayList<>(big));
-        new Sorter<>(new QuickSort<Integer>()).sort(new ArrayList<>(big));
+        new Sorter<Integer>(new BubbleSort<Integer>()).sort(new ArrayList<>(big));
+        new Sorter<Integer>(new InsertionSort<Integer>()).sort(new ArrayList<>(big));
+        new Sorter<Integer>(new QuickSort<Integer>()).sort(new ArrayList<>(big));
 
         System.out.println("\n2. Platnosci — wymienna strategia:");
         ShoppingCart cart = new ShoppingCart();

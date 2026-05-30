@@ -19,7 +19,8 @@ $files = @(
     "_10_strategy/code/StrategyDemo.java",
     "_11_template_method/code/TemplateMethodDemo.java",
     "_12_command/code/CommandDemo.java",
-    "_13_composite/code/CompositeDemo.java"
+    "_13_composite/code/CompositeDemo.java",
+    "_14_zadania/code/TaskSolutions.java"
 )
 
 foreach ($f in $files) {
@@ -47,7 +48,8 @@ $classes = @(
     "_10_wzorce._10_strategy.code.StrategyDemo",
     "_10_wzorce._11_template_method.code.TemplateMethodDemo",
     "_10_wzorce._12_command.code.CommandDemo",
-    "_10_wzorce._13_composite.code.CompositeDemo"
+    "_10_wzorce._13_composite.code.CompositeDemo",
+    "_10_wzorce._14_zadania.code.TaskSolutions"
 )
 
 foreach ($cls in $classes) {

@@ -34,8 +34,12 @@ package "Factory Method" {
 }
 
 package "Abstract Factory" {
-  interface "Button" as BTN { + render() }
-  interface "Checkbox" as CHK { + render() }
+  interface "Button" as BTN {
+    + render() : void
+  }
+  interface "Checkbox" as CHK {
+    + render() : void
+  }
   interface "GUIFactory" as GUIF {
     + createButton() : Button
     + createCheckbox() : Checkbox
