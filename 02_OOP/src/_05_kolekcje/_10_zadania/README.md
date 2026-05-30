@@ -239,9 +239,39 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_10_zadan
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Jak pracowac z zadaniami
+- Zadania 1-4 traktuj jako rozgrzewke utrwalajaca API.
+- Zadania 5-8 buduja abstrahowanie (generyki, porzadek, transformacje struktur).
+- Zadania 9-10 to mini-projekty integrujace caly modul.
+
+### Slajd: Kryteria oceny rozwiazania
+- Poprawnosc funkcjonalna (czy wynik jest zgodny ze specyfikacja).
+- Dobor struktur danych (czy kolekcja odpowiada semantyce problemu).
+- Czytelnosc i testowalnosc (nazewnictwo, podzial metod, brak duplikacji).
+- Obsluga przypadkow brzegowych (puste dane, duze dane, kolizje).
+
+### Slajd: Jak wdrozyc TDD na cwiczeniach
+- Red: najpierw test opisujacy wymaganie.
+- Green: minimalna implementacja.
+- Refactor: uproszczenie kodu bez zmiany zachowania.
+- Powtorz cykl dla kolejnych podprzypadkow.
+
+### Slajd: Typowe pułapki studentow
+- Nadmierna komplikacja rozwiazania prostego zadania.
+- Uzycie niewlasciwej kolekcji (np. `List` tam, gdzie potrzebny `Set`).
+- Brak testu dla przypadkow z duplikatami i wartosciami granicznymi.
+
+### Pytania kontrolne
+1. Ktore zadanie najlepiej pokazuje przewage `Map` nad `List` i dlaczego?
+2. Jak rozpoznac, ze zadanie wymaga `Comparator` zamiast `Comparable`?
+3. Jakie dodatkowe testy dodalbys do zadania 9 (magazyn)?
+
+---
+
 ## 📚 Literatura i materiały dodatkowe
 
 - **Oracle Tutorial — Collections:** <https://docs.oracle.com/javase/tutorial/collections/index.html>
 - **Effective Java (3rd ed.)**, Joshua Bloch — Items 45–58 (Streams, Collections)
 - **Baeldung — Java Collectors:** <https://www.baeldung.com/java-8-collectors>
-

@@ -4,6 +4,44 @@ Moduł omawia **Java Collections Framework (JCF)** — hierarchię interfejsów,
 typy generyczne, iteratory, mapy, komparatory oraz strumienie (`Stream API`).
 Styl i struktura są spójne z modułami `_02_interfaces`, `_03_dziedziczenie` i `_04_pakiety`.
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd 1: Problem i motywacja
+- Zacznij od pytania: "Jak przechowac 1 mln rekordow tak, aby wyszukiwanie bylo szybkie i kod czytelny?"
+- Pokaz ograniczenia tablic: staly rozmiar, kosztowne wstawianie w srodku, brak semantyki "unikalnosci" i "klucz-wartosc".
+- Wprowadz JCF jako zestaw abstrakcji rozwiazujacych te problemy przez interfejsy i wymienne implementacje.
+
+### Slajd 2: Interfejsy, implementacje, algorytmy
+- Podkresl, ze JCF sklada sie z 3 warstw: interfejsy (`List`, `Set`, `Queue`, `Map`), implementacje (`ArrayList`, `HashSet`, `TreeMap`), algorytmy (`Collections`, `Collectors`).
+- Wyjasnij zasade "programuj do interfejsu" i konsekwencje dla testowalnosci oraz refaktoryzacji.
+
+### Slajd 3: Koszt operacji jako kryterium projektowe
+- Wybor kolekcji to decyzja o zlozonosci: O(1), O(log n), O(n).
+- Porownaj scenariusze: API online (szybki lookup), raporty (sortowanie), kolejki zadan (priorytety).
+- Dodaj uwage, ze stale ukryte i lokalnosc pamieci czesto sa tak samo wazne jak Big-O.
+
+### Slajd 4: Kolekcje a model domeny
+- Pokaz, ze struktura danych powinna odzwierciedlac reguly biznesowe:
+  - brak duplikatow -> `Set`,
+  - historia zdarzen -> `List` lub `Deque`,
+  - indeks po kluczu -> `Map`.
+- Wspomnij o invariants (np. unikalny identyfikator) i tym, jak kolekcja moze je egzekwowac.
+
+### Slajd 5: Ewolucja stylu - od petli do Stream API
+- Pokaz ten sam problem w stylu imperatywnym i strumieniowym.
+- Omow kompromisy: czytelnosc, debugowanie, testowalnosc, wydajnosc.
+- Zaznacz, ze "nowoczesne" nie znaczy "zawsze lepsze" - decyzja zalezy od kontekstu.
+
+### Slajd 6: Najczestsze bledy architektoniczne
+- Niepoprawny kontrakt `equals/hashCode`.
+- Naduzywanie `LinkedList` i `TreeMap` bez potrzeby.
+- Efekty uboczne w strumieniach i modyfikacja kolekcji podczas iteracji.
+- Brak testow scenariuszy brzegowych (pusta kolekcja, `null`, duze dane).
+
+### Slajd 7: Jak zamknac modul
+- Zaproponuj checkliste doboru kolekcji (unikalnosc, porzadek, lookup, modyfikacje, skala).
+- Polacz modul 05 z kolejnymi tematami: wyjatki (walidacja danych), watki (kolekcje wspolbiezne), wzorce (repozytoria i cache).
+
 ---
 
 ## Spis treści
@@ -147,4 +185,3 @@ Po ukończeniu modułu student:
 - **JEP 355 / JEP 305 — Pattern Matching:** <https://openjdk.org/jeps/305>
 - **Baeldung — Java Collections:** <https://www.baeldung.com/java-collections>
 - **Baeldung — Java 8 Streams:** <https://www.baeldung.com/java-8-streams>
-

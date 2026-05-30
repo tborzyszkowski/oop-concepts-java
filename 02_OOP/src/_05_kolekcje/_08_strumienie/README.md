@@ -195,6 +195,29 @@ long count = products.parallelStream()
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Model mentalny strumienia
+- Stream to "przepis" na obliczenie, a nie pojemnik na dane.
+- Operacje posrednie buduja plan wykonania, terminalna uruchamia plan.
+- Podkresl jednorazowosc strumienia i brak mozliwosci ponownego uzycia.
+
+### Slajd: Lazy evaluation i optymalizacja
+- Wyjasnij, ze laziness pozwala przetwarzac tylko potrzebna czesc danych (`limit`, short-circuit).
+- Pokaz korzysc wydajnosciowa na prostym przykladzie z `findFirst`.
+
+### Slajd: `collect` vs `reduce`
+- `reduce` dla agregacji do jednej wartosci (suma, max, iloczyn).
+- `collect` dla budowy struktur wynikowych (`List`, `Map`, grupowania).
+- Wspomnij o czytelnosci: semantycznie dobrany operator poprawia utrzymanie kodu.
+
+### Slajd: Strumienie rownolegle - kiedy tak, kiedy nie
+- Tak: duze dane i obliczenia CPU-bound bez efektow ubocznych.
+- Nie: male dane, I/O, mutowalny wspolny stan.
+- Dodaj praktyke: decyzje o parallel stream podejmowac po pomiarze, nie intuicji.
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
@@ -211,4 +234,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_08_strum
 - **Effective Java (3rd ed.)**, Joshua Bloch — Items 45–48 (Streams)
 - **Baeldung — Java 8 Streams:** <https://www.baeldung.com/java-8-streams>
 - **Baeldung — Java Collectors:** <https://www.baeldung.com/java-8-collectors>
-

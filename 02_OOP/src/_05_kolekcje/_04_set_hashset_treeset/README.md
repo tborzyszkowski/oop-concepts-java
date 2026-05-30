@@ -89,6 +89,33 @@ System.out.println(tree);  // [ananas, banan, gruszka, jabłko] — zawsze posor
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Dlaczego `equals/hashCode` to temat krytyczny
+- Pokaz, ze `HashSet` dziala poprawnie tylko przy spelnionym kontrakcie.
+- Omow symptom blednego kodu: duplikaty logiczne mimo uzycia zbioru.
+- Dodaj praktyke zespolowa: dla klas modelu zawsze testy kontraktu `equals/hashCode`.
+
+### Slajd: HashSet vs TreeSet jako wybor architektoniczny
+- `HashSet` gdy liczy sie predkosc i brak wymogu stalego porzadku.
+- `TreeSet` gdy porzadek jest elementem wymagania biznesowego (np. rankingi, zakresy, nearest-value).
+- Podkresl koszt: O(1) srednio vs O(log n), ale tez roznica pamieciowa i semantyczna.
+
+### Slajd: Operacje zakresowe (`NavigableSet`)
+- `floor/ceiling/lower/higher` pokazuja, ze `TreeSet` to nie tylko "posortowany Set".
+- Daj przypadek uzycia: wyszukiwanie najblizszego terminu lub progow cenowych.
+
+### Slajd: Ryzyko mutowalnosci elementow
+- Jesli pole uzyte w `hashCode`/`compareTo` zmieni sie po dodaniu do zbioru, element moze stac sie "niewidzialny".
+- To argument za niemutowalnymi value objects jako kluczami/elementami zbiorow.
+
+### Pytania kontrolne
+1. Dlaczego dwa obiekty "takie same" moga byc jednoczesnie w `HashSet`?
+2. Kiedy `TreeSet` daje przewage nad `HashSet`, mimo wolniejszych operacji?
+3. Jakie ryzyko niesie mutowanie elementu po dodaniu do zbioru?
+
+---
+
 ## SortedSet / NavigableSet — operacje na zakresach
 
 `TreeSet` implementuje `NavigableSet`, który rozszerza `SortedSet` o metody nawigacji:
@@ -156,4 +183,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_04_set_h
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 11: Always override hashCode when you override equals
 - **Oracle API — TreeSet:** <https://docs.oracle.com/en/java/docs/api/java.base/java/util/TreeSet.html>
 - **Baeldung — HashSet vs TreeSet:** <https://www.baeldung.com/java-hashset-vs-treeset>
-

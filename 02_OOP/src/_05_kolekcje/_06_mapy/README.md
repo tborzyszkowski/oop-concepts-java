@@ -161,6 +161,35 @@ for (String name : names) {
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Dlaczego `Map` to osobna abstrakcja
+- Podkresl, ze `Map` modeluje relacje klucz->wartosc, a nie zwykla kolekcje elementow.
+- Pokaz typowe przypadki: cache, indeks, slownik tlumaczen, agregacja.
+
+### Slajd: Dobor implementacji mapy
+- `HashMap`: domyslny wybor dla szybkiego lookup.
+- `LinkedHashMap`: gdy kolejnosc ma znaczenie (np. API/UI, LRU).
+- `TreeMap`: gdy potrzebujesz zakresow i sortowania po kluczu.
+- Zaznacz koszt i zysk kazdego wariantu w jednym zdaniu.
+
+### Slajd: Operacje Java 8+ (`merge`, `computeIfAbsent`)
+- Pokaz, jak te metody zmniejszaja "boilerplate" i ryzyko bledow z `null`.
+- Porownaj styl stary (`containsKey` + `put`) vs nowy (`merge`).
+
+### Slajd: Projektowanie kluczy
+- Klucz musi byc stabilny i najlepiej niemutowalny.
+- Wspomnij o konsekwencjach mutowalnego klucza (utrata mozliwosci odnalezienia wpisu).
+
+---
+
+## Pytania kontrolne
+1. Kiedy `TreeMap` jest uzasadniony mimo wolniejszego `put/get`?
+2. Czym rozni sie brak klucza od klucza z wartoscia `null`?
+3. Jak `computeIfAbsent` upraszcza grupowanie?
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
@@ -178,4 +207,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_06_mapy"
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 57: Minimize the scope of local variables
 - **Baeldung — HashMap in Java:** <https://www.baeldung.com/java-hashmap>
 - **Baeldung — LinkedHashMap:** <https://www.baeldung.com/java-linked-hashmap>
-

@@ -165,6 +165,36 @@ Czy elementy muszą być unikalne?
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Jak dobierac kolekcje w praktyce
+- Zacznij od wymagania domenowego: unikalnosc, kolejnosc, losowy dostep, priorytet, czestotliwosc modyfikacji.
+- Dopiero potem rozmawiaj o konkretnych klasach (`ArrayList`, `HashSet`, `PriorityQueue`).
+- Uzyj zasady: semantyka danych > mikrooptymalizacje.
+
+### Slajd: ArrayList vs LinkedList
+- Wyjasnij lokalnosc pamieci i cache CPU - dlatego `ArrayList` zwykle wygrywa mimo O(n) przy wstawianiu.
+- Podkresl, ze `LinkedList` ma sens glownie dla operacji na koncach i jako `Deque`.
+- Dodaj antywzorzec: wybieranie `LinkedList`, bo "wstawianie ma O(1)", bez analizy kosztu wyszukiwania pozycji.
+
+### Slajd: Set i warianty porzadku
+- `HashSet`: najszybsza unikalnosc.
+- `LinkedHashSet`: unikalnosc + stabilna kolejnosc prezentacji.
+- `TreeSet`: stale sortowanie i operacje zakresowe.
+- Podaj praktyczny przyklad: deduplikacja logow, raport UI, autouzupełnianie slownika.
+
+### Slajd: Kolejki i planowanie zadan
+- `ArrayDeque` jako domyslny stos/kolejka.
+- `PriorityQueue` do harmonogramow i klasy problemow "top-k / najlepszy następny".
+- Podkresl, ze iteracja po `PriorityQueue` nie daje kolejnosci priorytetowej - porzadek gwarantuje dopiero `poll()`.
+
+### Pytania kontrolne
+1. Dlaczego `ArrayList` bywa szybsza od `LinkedList` mimo teoretycznych O(1) na operacjach koncowych?
+2. Kiedy `LinkedHashSet` jest lepszy od `HashSet`?
+3. Jak uzasadnic wybor `PriorityQueue` w review kodu?
+
+---
+
 ## ⚠️ Najczęstsze błędy
 
 1. **Używanie `LinkedList` zamiast `ArrayList`** — w większości przypadków `ArrayList` jest szybsza (lepsza lokalność pamięci).
@@ -189,4 +219,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_02_typy_
 - **Oracle API — PriorityQueue:** <https://docs.oracle.com/en/java/docs/api/java.base/java/util/PriorityQueue.html>
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 54: Return empty collections or arrays, not nulls
 - **Baeldung — Java ArrayList vs LinkedList:** <https://www.baeldung.com/java-arraylist-linkedlist>
-

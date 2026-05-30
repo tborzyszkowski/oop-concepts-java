@@ -159,6 +159,33 @@ List<String> modern = new ArrayList<>();
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Dlaczego kolekcje zamiast tablic?
+- Podkresl kompromis: tablica daje szybki dostep po indeksie, ale slaba elastycznosc przy zmianach rozmiaru.
+- Pokaz scenariusz biznesowy: dynamiczna lista zamowien, gdzie rozmiar nie jest znany na etapie kompilacji.
+- Wyjasnij, ze JCF to nie tylko "wygoda", ale standaryzacja API i algorytmow.
+
+### Slajd: Hierarchia JCF
+- Omow zaleznosc `Iterable -> Collection -> (List/Set/Queue)` oraz osobna galaz `Map`.
+- Zaznacz, ze interfejs definiuje kontrakt, a implementacja szczegoly wydajnosciowe.
+- Daj studentom mini-zasade: najpierw wybierz semantyke (unikalnosc, kolejnosc), potem implementacje.
+
+### Slajd: Programowanie przez interfejs
+- Pokaz korzysc dla testow: latwa podmiana `ArrayList` na `LinkedList` lub mock/fake.
+- Wspomnij o DIP (SOLID): kod wyzszego poziomu nie powinien zalezec od szczegolow implementacji.
+
+### Slajd: `Collections` jako warstwa algorytmow
+- Wyjasnij roznice `Collection` (interfejs) vs `Collections` (klasa narzedziowa).
+- Pokaz praktyczny efekt: sortowanie, odwracanie i wrappery niemutowalne bez pisania algorytmow od zera.
+
+### Pytania kontrolne
+1. Dlaczego `Map` nie rozszerza `Collection`?
+2. Kiedy `Set` jest lepszym wyborem niz `List`?
+3. Co zyskujemy, deklarujac `List<T>` zamiast `ArrayList<T>`?
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
@@ -174,4 +201,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_01_kolek
 - **Oracle API — java.util.Collection:** <https://docs.oracle.com/en/java/docs/api/java.base/java/util/Collection.html>
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 64: Refer to objects by their interfaces
 - **Baeldung — Introduction to Java Collections:** <https://www.baeldung.com/java-collections>
-

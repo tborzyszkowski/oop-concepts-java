@@ -162,6 +162,37 @@ Słów wejściowych: 30
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Jak rozbic problem anagramow
+- Pokaz dekompozycje: normalizacja -> klucz kanoniczny -> grupowanie -> filtracja -> ranking.
+- Podkresl, ze kazdy krok mapuje sie na konkretna abstrakcje JCF.
+
+### Slajd: Dlaczego `HashMap<String, List<String>>`
+- Klucz kanoniczny to naturalny indeks, lista trzyma elementy tej samej klasy rownowaznosci.
+- Wyjasnij, dlaczego to rozwiazanie skaluje sie lepiej niz porownywanie kazdej pary slow.
+
+### Slajd: Imperatywnie vs Stream API
+- Porownaj dwie osie: kontrola krok po kroku (imperatywnie) vs zwięzlosc i deklaratywnosc (stream).
+- Powiedz studentom, ze wybor stylu to decyzja o czytelnosci zespolowej i profilowaniu, a nie tylko gust.
+
+### Slajd: Zlozonosc i pamiec
+- Dominujacy koszt to sortowanie liter kazdego slowa: O(k log k) na slowo.
+- Calkowity koszt: O(n * k log k), pamiec O(n * k) na grupy.
+- Daj pomysl optymalizacji: zamiast sortowania, histogram liter dla alfabetu stalych rozmiarow.
+
+### Slajd: Jak przejsc do wersji produkcyjnej
+- Strumieniowe czytanie slownika z pliku.
+- Ograniczenie pamieci (chunking, pipeline).
+- Testy wlasciwosci (czy dwa slowa z tym samym kluczem sa anagramami).
+
+### Pytania kontrolne
+1. Co jest kluczem kanonicznym i dlaczego dziala?
+2. Jak zmienia sie zlozonosc przy bardzo dlugich slowach?
+3. Kiedy wersja imperatywna bedzie lepsza od streamowej?
+
+---
+
 ## Uruchomienie
 
 ```powershell
@@ -176,4 +207,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_09_proje
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 47: Prefer Collection to Stream as a return type
 - **Baeldung — Java groupingBy Collector:** <https://www.baeldung.com/java-groupingby-collector>
 - **Algorytm anagramów** opisany w: Sedgewick & Wayne, *Algorithms* (4th ed.), Chapter 5
-

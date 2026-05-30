@@ -173,6 +173,26 @@ cities.forEach(System.out::println);
 
 ---
 
+## Notatki do slajdów (wersja rozszerzona)
+
+### Slajd: Iterator jako wzorzec projektowy
+- Wyjasnij separacje odpowiedzialnosci: kolekcja przechowuje dane, iterator odpowiada za nawigacje.
+- Pokaz, ze ten sam algorytm dziala dla `List`, `Set`, `Queue` i klas wlasnych przez `Iterable`.
+
+### Slajd: for-each to nie magia
+- Pokaz tlumaczenie for-each na `Iterator` i konsekwencje (np. ograniczenia modyfikacji).
+- Wytlumacz, kiedy trzeba zejsc do iteratora jawnego (`remove`, zlozona kontrola przejscia).
+
+### Slajd: Fail-fast i `ConcurrentModificationException`
+- Podkresl, ze fail-fast to mechanizm diagnostyczny, nie gwarancja bezpieczenstwa watkowego.
+- Rozrodnij przypadki: modyfikacja przez ten sam iterator (OK z `remove`) vs modyfikacja poza iteratorem (blad).
+
+### Slajd: ListIterator
+- Omow przewage `ListIterator` przy edycji in-place i przejsciu wstecz.
+- Daj scenariusz praktyczny: normalizacja danych tekstowych w liscie bez tworzenia kopii.
+
+---
+
 ## Uruchomienie przykładów
 
 ```powershell
@@ -188,4 +208,3 @@ Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_05_itera
 - **Oracle API — Iterator:** <https://docs.oracle.com/en/java/docs/api/java.base/java/util/Iterator.html>
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 58: Prefer for-each loops over traditional for loops
 - **Baeldung — Java Iterator:** <https://www.baeldung.com/java-iterator>
-
