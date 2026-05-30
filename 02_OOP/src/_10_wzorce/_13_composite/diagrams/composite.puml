@@ -1,0 +1,54 @@
+@startuml composite
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Composite -- Drzewo obiektow (czesc = calosc)
+
+interface "FileSystemItem" as FSI {
+  + getName() : String
+  + getSize() : long
+  + print(indent: String) : void
+}
+
+class "File\n(Leaf)" as FILE {
+  - name : String
+  - size : long
+  --
+  + getName() : String
+  + getSize() : long
+  + print(indent: String) : void
+}
+
+class "Directory\n(Composite)" as DIR {
+  - name : String
+  - children : List<FileSystemItem>
+  --
+  + getName() : String
+  + getSize() : long   // suma dzieci
+  + print(indent: String) : void
+  + add(item: FileSystemItem) : void
+  + remove(item: FileSystemItem) : void
+}
+
+FILE ..|> FSI
+DIR ..|> FSI
+DIR o-- FSI : children (0..*)
+
+note right of DIR
+  Struktura drzewa:
+  /home (Dir)
+  ├── docs (Dir)
+  │   ├── cv.pdf (File, 50KB)
+  │   └── notes.txt (File, 2KB)
+  └── photo.jpg (File, 3MB)
+
+  home.getSize() = 50KB + 2KB + 3MB
+  (rekurencyjnie!)
+end note
+
+note bottom
+  Java: java.awt.Component/Container,
+  javax.faces.component.UIComponent,
+  XML DOM (Node/Element/Document)
+end note
+@enduml
+

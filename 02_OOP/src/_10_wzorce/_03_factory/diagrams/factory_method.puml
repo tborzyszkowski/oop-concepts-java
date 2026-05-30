@@ -1,0 +1,54 @@
+@startuml factory_method
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Factory Method + Abstract Factory
+
+package "Factory Method" {
+  interface "Notification" as NOTIF {
+    + send(msg: String) : void
+  }
+  class "EmailNotification" as EMAIL {
+    + send(msg: String) : void
+  }
+  class "SmsNotification" as SMS {
+    + send(msg: String) : void
+  }
+  class "PushNotification" as PUSH {
+    + send(msg: String) : void
+  }
+  abstract class "NotificationFactory" as NF {
+    + {abstract} create() : Notification
+    + notify(msg: String) : void
+  }
+  class "EmailFactory" as EF
+  class "SmsFactory" as SF
+  class "PushFactory" as PF
+
+  EMAIL ..|> NOTIF
+  SMS ..|> NOTIF
+  PUSH ..|> NOTIF
+  NF ..> NOTIF : creates
+  EF --|> NF
+  SF --|> NF
+  PF --|> NF
+}
+
+package "Abstract Factory" {
+  interface "Button" as BTN { + render() }
+  interface "Checkbox" as CHK { + render() }
+  interface "GUIFactory" as GUIF {
+    + createButton() : Button
+    + createCheckbox() : Checkbox
+  }
+  class "WindowsFactory" as WF
+  class "MacFactory" as MF
+  WF ..|> GUIF
+  MF ..|> GUIF
+}
+
+note bottom
+  Factory Method: jedna klasa tworzy jeden produkt
+  Abstract Factory: rodzina powiazan produktow
+end note
+@enduml
+

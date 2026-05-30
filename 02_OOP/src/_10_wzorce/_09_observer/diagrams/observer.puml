@@ -1,0 +1,57 @@
+@startuml observer
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Observer -- Powiadamianie o zdarzeniach (publish/subscribe)
+
+interface "EventListener\n(Observer)" as OBS {
+  + onEvent(event: StockEvent) : void
+}
+
+class "StockMarket\n(Subject/Publisher)" as SUBJ {
+  - listeners : List<EventListener>
+  - prices : Map<String,Double>
+  --
+  + addListener(l: EventListener) : void
+  + removeListener(l: EventListener) : void
+  - notifyAll(event: StockEvent) : void
+  + updatePrice(symbol: String, price: double) : void
+}
+
+class "MobileApp\n(Concrete Observer)" as MOB {
+  + onEvent(event: StockEvent) : void
+  // wyswietla powiadomienie push
+}
+class "TradingBot\n(Concrete Observer)" as BOT {
+  + onEvent(event: StockEvent) : void
+  // automatycznie kupuje/sprzedaje
+}
+class "Logger\n(Concrete Observer)" as LOG {
+  + onEvent(event: StockEvent) : void
+  // zapisuje do pliku
+}
+
+class "StockEvent" as EVT {
+  + symbol : String
+  + oldPrice : double
+  + newPrice : double
+  + timestamp : Instant
+}
+
+SUBJ --> OBS : notifyAll()
+MOB ..|> OBS
+BOT ..|> OBS
+LOG ..|> OBS
+SUBJ ..> EVT : creates
+
+note right of SUBJ
+  Subject nie zna konkretnych klas
+  obserwatorow -- zna tylko interfejs.
+  Luznе polaczenie (loose coupling).
+end note
+
+note bottom
+  Java: PropertyChangeListener, EventListener,
+  JavaFX ObservableList, RxJava, Spring Events
+end note
+@enduml
+

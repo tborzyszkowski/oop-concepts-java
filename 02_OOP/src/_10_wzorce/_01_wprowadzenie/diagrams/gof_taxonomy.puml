@@ -1,0 +1,45 @@
+@startuml gof_taxonomy
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Taksonomia Wzorcow GoF (Gang of Four, 1994)
+
+package "Kreacyjne\n(Creational)" #E8F5E9 {
+  rectangle "Singleton\n(jeden obiekt)" as SNG #C8E6C9
+  rectangle "Factory Method\n(tworzenie przez podklase)" as FM #C8E6C9
+  rectangle "Abstract Factory\n(rodzina obiektow)" as AF #C8E6C9
+  rectangle "Builder\n(budowanie krok po kroku)" as BLD #C8E6C9
+  rectangle "Prototype\n(klonowanie)" as PRT #C8E6C9
+}
+
+package "Strukturalne\n(Structural)" #E3F2FD {
+  rectangle "Adapter\n(konwersja interfejsu)" as ADP #BBDEFB
+  rectangle "Decorator\n(dodawanie zachowania)" as DEC #BBDEFB
+  rectangle "Facade\n(uproszczony interfejs)" as FAC #BBDEFB
+  rectangle "Proxy\n(posrednik/zastepca)" as PRX #BBDEFB
+  rectangle "Composite\n(drzewo obiektow)" as CMP #BBDEFB
+  rectangle "Bridge\n(oddzielenie abstrakcji)" as BRG #BBDEFB
+  rectangle "Flyweight\n(wspoldzielenie stanu)" as FLY #BBDEFB
+}
+
+package "Behawioralne\n(Behavioral)" #FFF3E0 {
+  rectangle "Observer\n(zdarzenia/powiadomienia)" as OBS #FFE0B2
+  rectangle "Strategy\n(wymienny algorytm)" as STR #FFE0B2
+  rectangle "Template Method\n(szkielet algorytmu)" as TMP #FFE0B2
+  rectangle "Command\n(operacja jako obiekt)" as CMD #FFE0B2
+  rectangle "Iterator\n(przechodzenie kolekcji)" as ITR #FFE0B2
+  rectangle "Chain of Responsibility" as COR #FFE0B2
+  rectangle "State\n(zmiana zachowania)" as STA #FFE0B2
+  rectangle "Visitor\n(nowa operacja)" as VST #FFE0B2
+  rectangle "Mediator\n(koordynacja)" as MED #FFE0B2
+  rectangle "Memento\n(zapis/odtworzenie)" as MEM #FFE0B2
+  rectangle "Interpreter\n(jezyk DSL)" as INT #FFE0B2
+}
+
+note bottom
+  Omawiane w tym module: Singleton, Factory Method, Abstract Factory,
+  Builder, Adapter, Decorator, Facade, Proxy, Composite,
+  Observer, Strategy, Template Method, Command
+end note
+@enduml
+

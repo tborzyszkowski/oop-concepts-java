@@ -1,0 +1,51 @@
+@startuml builder
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Builder -- Budowanie zlozonych obiektow krok po kroku
+
+class "Pizza" as PIZZA {
+  - size : String
+  - crust : String
+  - sauce : String
+  - toppings : List<String>
+  - extraCheese : boolean
+  --
+  + toString() : String
+}
+
+class "Pizza.Builder" as BUILDER {
+  - size : String
+  - crust : String
+  - sauce : String
+  - toppings : List<String>
+  - extraCheese : boolean
+  --
+  + size(s: String) : Builder
+  + crust(c: String) : Builder
+  + sauce(s: String) : Builder
+  + addTopping(t: String) : Builder
+  + extraCheese() : Builder
+  + build() : Pizza
+}
+
+BUILDER ..> PIZZA : <<creates>>
+PIZZA +-- BUILDER : <<inner class>>
+
+note right of BUILDER
+  Fluent API -- lancuchowanie:
+  new Pizza.Builder()
+    .size("large")
+    .crust("thin")
+    .sauce("tomato")
+    .addTopping("mozzarella")
+    .extraCheese()
+    .build();
+end note
+
+note bottom
+  Rozwiazuje problem "telescoping constructor":
+  Pizza(size, crust, sauce, toppings, cheese, extra1, extra2, ...)
+  --> zbyt wiele parametrow!
+end note
+@enduml
+

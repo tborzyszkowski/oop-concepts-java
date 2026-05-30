@@ -1,0 +1,42 @@
+@startuml adapter
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Adapter -- Konwersja interfejsu (Object Adapter)
+
+interface "MediaPlayer\n(nowy interfejs)" as MP {
+  + play(file: String) : void
+}
+
+class "AudioPlayer\n(klient)" as AP {
+  - adapter : MediaAdapter
+  + play(file: String) : void
+}
+
+class "MediaAdapter\n(Adapter)" as MA {
+  - legacyPlayer : LegacyMP3Player
+  + play(file: String) : void
+}
+
+class "LegacyMP3Player\n(istniejacy kod, stary interfejs)" as LMP {
+  + playMp3(filename: String) : void
+  + getInfo() : String
+}
+
+AP ..|> MP : implements
+AP --> MA : uses
+MA --> LMP : wraps\n(deleguje)
+MA ..|> MP : implements
+
+note right of MA
+  Adapter "opakowuje" stary kod
+  i udostepnia go przez nowy interfejs.
+  Klient nie wie o istnieniu LegacyMP3Player.
+end note
+
+note bottom
+  Zastosowanie: integracja z legacy API,
+  biblioteki zewnetrzne o innym interfejsie,
+  Arrays.asList(), InputStreamReader
+end note
+@enduml
+

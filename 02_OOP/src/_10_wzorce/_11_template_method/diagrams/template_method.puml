@@ -1,0 +1,50 @@
+@startuml template_method
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Template Method -- Szkielet algorytmu w klasie bazowej
+
+abstract class "DataMiner\n(Klasa abstrakcyjna)" as DM {
+  + {final} mine(path: String) : Report
+  --
+  # {abstract} extractData(path: String) : RawData
+  # {abstract} parseData(raw: RawData) : ParsedData
+  # analyzeData(d: ParsedData) : Report
+  # sendReport(r: Report) : void
+  --
+  note: mine() wywoluje extractData -> parseData\n-> analyzeData -> sendReport
+}
+
+class "CsvDataMiner" as CSV {
+  # extractData(path: String) : RawData
+  # parseData(raw: RawData) : ParsedData
+}
+class "PdfDataMiner" as PDF {
+  # extractData(path: String) : RawData
+  # parseData(raw: RawData) : ParsedData
+}
+class "DocDataMiner" as DOC {
+  # extractData(path: String) : RawData
+  # parseData(raw: RawData) : ParsedData
+  # analyzeData(d: ParsedData) : Report  // nadpisuje!
+}
+
+CSV --|> DM
+PDF --|> DM
+DOC --|> DM
+
+note right of DM
+  mine() jest final -- nie mozna nadpisac.
+  Tylko "haczyki" (hooks) sa wirtualne.
+
+  Odwrocenie sterowania (IoC):
+  klasa bazowa wywoluje metody podklas,
+  nie odwrotnie!
+end note
+
+note bottom
+  Java: AbstractList, HttpServlet.service(),
+  java.io.InputStream.read(),
+  AbstractQueuedSynchronizer
+end note
+@enduml
+

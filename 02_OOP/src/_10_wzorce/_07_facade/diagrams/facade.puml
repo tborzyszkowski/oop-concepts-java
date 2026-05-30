@@ -1,0 +1,61 @@
+@startuml facade
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Facade -- Uproszczony interfejs do zlozonego systemu
+
+package "Klient" {
+  class "HomeTheaterClient" as CLIENT
+}
+
+package "Facade" {
+  class "HomeTheaterFacade\n(jeden interfejs)" as FAC {
+    - dvd : DvdPlayer
+    - projector : Projector
+    - amplifier : Amplifier
+    - lights : TheaterLights
+    --
+    + watchMovie(title: String) : void
+    + endMovie() : void
+  }
+}
+
+package "Podsystem (skomplikowany)" #E8EAF6 {
+  class "DvdPlayer" as DVD {
+    + on() : void
+    + load(disc: String) : void
+    + play() : void
+    + stop() : void
+    + off() : void
+  }
+  class "Projector" as PRJ {
+    + on() : void
+    + setInput(dvd: DvdPlayer) : void
+    + wideScreenMode() : void
+    + off() : void
+  }
+  class "Amplifier" as AMP {
+    + on() : void
+    + setVolume(level: int) : void
+    + setSurroundSound() : void
+    + off() : void
+  }
+  class "TheaterLights" as LGH {
+    + dim(level: int) : void
+    + on() : void
+  }
+}
+
+CLIENT --> FAC : watchMovie()
+FAC --> DVD
+FAC --> PRJ
+FAC --> AMP
+FAC --> LGH
+
+note right of FAC
+  Bez Facade klient musiałby
+  wołać 15 metod w odpowiedniej
+  kolejności. Facade redukuje
+  to do jednego wywołania.
+end note
+@enduml
+

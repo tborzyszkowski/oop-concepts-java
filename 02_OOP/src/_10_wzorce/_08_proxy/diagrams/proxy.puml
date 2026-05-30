@@ -1,0 +1,50 @@
+@startuml proxy
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Proxy -- Posrednik / Zastepca
+
+interface "Image" as IMG {
+  + display() : void
+  + getInfo() : String
+}
+
+class "RealImage\n(prawdziwy obiekt)" as RI {
+  - filename : String
+  - data : byte[]
+  --
+  + RealImage(filename: String)   // laduje plik!
+  + display() : void
+  + getInfo() : String
+}
+
+class "ProxyImage\n(posrednik)" as PI {
+  - filename : String
+  - realImage : RealImage
+  --
+  + display() : void    // lazy-loads RealImage
+  + getInfo() : String  // bez ladowania
+}
+
+RI ..|> IMG
+PI ..|> IMG
+PI o-- RI : creates lazily
+
+note right of PI
+  Lazy loading: RealImage jest
+  tworzony dopiero przy pierwszym
+  display() -- nie przy konstruktorze.
+
+  Inne typy Proxy:
+  - Security Proxy (kontrola dostepu)
+  - Remote Proxy (sieciowy stub)
+  - Caching Proxy (wyniki w pamieci)
+  - Logging Proxy (Spring AOP)
+end note
+
+note bottom
+  Java: java.lang.reflect.Proxy (dynamiczny),
+  Spring AOP (@Transactional, @Cacheable),
+  Hibernate lazy-loading (CGLIB proxy)
+end note
+@enduml
+

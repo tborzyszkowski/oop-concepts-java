@@ -1,0 +1,57 @@
+@startuml strategy
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Strategy -- Wymienny algorytm w czasie wykonania
+
+interface "SortStrategy<T>" as STRAT {
+  + sort(data: List<T>) : void
+}
+
+class "BubbleSort" as BS {
+  + sort(data: List<T>) : void
+  // O(n^2)
+}
+class "QuickSort" as QS {
+  + sort(data: List<T>) : void
+  // O(n log n) avg
+}
+class "MergeSort" as MS {
+  + sort(data: List<T>) : void
+  // O(n log n) stable
+}
+class "TimSort" as TS {
+  + sort(data: List<T>) : void
+  // Java default (hybrid)
+}
+
+class "DataProcessor\n(Context)" as CTX {
+  - strategy : SortStrategy<T>
+  --
+  + setStrategy(s: SortStrategy<T>) : void
+  + process(data: List<T>) : void
+}
+
+BS ..|> STRAT
+QS ..|> STRAT
+MS ..|> STRAT
+TS ..|> STRAT
+CTX o-- STRAT : uses
+
+note right of CTX
+  Strategia moze byc zmieniona
+  w czasie wykonania programu:
+
+  ctx.setStrategy(new QuickSort());
+  ctx.process(bigList);  // szybko
+
+  ctx.setStrategy(new BubbleSort());
+  ctx.process(smallList);  // dla malych OK
+end note
+
+note bottom
+  Java: Comparator (lambda jako strategy),
+  java.util.Collections.sort(list, comparator),
+  ThreadPoolExecutor.RejectedExecutionHandler
+end note
+@enduml
+

@@ -1,0 +1,65 @@
+@startuml command
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Command -- Operacja jako obiekt (z undo)
+
+interface "Command" as CMD {
+  + execute() : void
+  + undo() : void
+}
+
+class "TextEditor\n(Receiver)" as RCV {
+  - text : StringBuilder
+  + insertText(pos: int, s: String) : void
+  + deleteText(pos: int, len: int) : void
+  + getText() : String
+}
+
+class "InsertCommand" as IC {
+  - editor : TextEditor
+  - pos : int
+  - text : String
+  --
+  + execute() : void   // editor.insertText(pos, text)
+  + undo() : void      // editor.deleteText(pos, text.length())
+}
+
+class "DeleteCommand" as DC {
+  - editor : TextEditor
+  - pos : int
+  - deleted : String   // zapamietany do undo!
+  --
+  + execute() : void
+  + undo() : void
+}
+
+class "CommandHistory\n(Invoker)" as INV {
+  - history : Deque<Command>
+  - redoStack : Deque<Command>
+  --
+  + execute(cmd: Command) : void
+  + undo() : void
+  + redo() : void
+}
+
+IC ..|> CMD
+DC ..|> CMD
+INV --> CMD : execute/undo
+IC --> RCV : modifies
+DC --> RCV : modifies
+
+note right of INV
+  Historia operacji:
+  execute(insert "hello") -> "hello"
+  execute(insert " world") -> "hello world"
+  undo() -> "hello"
+  undo() -> ""
+  redo() -> "hello"
+end note
+
+note bottom
+  Zastosowania: Ctrl+Z/Y, kolejki zadan,
+  transakcje, makra, audyt, RPC
+end note
+@enduml
+

@@ -1,0 +1,37 @@
+@startuml singleton
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Singleton -- Jeden obiekt w calym programie
+
+class "Database\n<<Singleton>>" as DB {
+  - static volatile instance : Database
+  - connection : Connection
+  --
+  - Database()
+  + static getInstance() : Database
+  + query(sql: String) : ResultSet
+  + close() : void
+}
+
+note right of DB
+  **Gwarancje:**
+  1. Prywatny konstruktor
+  2. Statyczna referencja
+  3. Leniwa inicjalizacja
+  4. Thread-safe (double-checked locking)
+end note
+
+class "Client A" as CA
+class "Client B" as CB
+class "Client C" as CC
+
+CA --> DB : getInstance()
+CB --> DB : getInstance()
+CC --> DB : getInstance()
+
+note bottom of DB
+  Wszyscy klienci otrzymuja
+  TEN SAM obiekt DB.
+end note
+@enduml
+

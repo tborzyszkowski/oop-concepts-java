@@ -1,0 +1,60 @@
+@startuml decorator
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Decorator -- Dodawanie zachowania bez dziedziczenia
+
+interface "Coffee" as COF {
+  + getCost() : double
+  + getDescription() : String
+}
+
+class "SimpleCoffee\n(Komponent)" as SC {
+  + getCost() : double   // 2.0
+  + getDescription() : String  // "Kawa"
+}
+
+abstract class "CoffeeDecorator\n(Dekorator bazowy)" as CD {
+  # coffee : Coffee
+  + CoffeeDecorator(c: Coffee)
+  + getCost() : double
+  + getDescription() : String
+}
+
+class "MilkDecorator" as MD {
+  + getCost() : double    // +0.5
+  + getDescription() : String  // +", mleko"
+}
+class "SugarDecorator" as SD {
+  + getCost() : double    // +0.3
+  + getDescription() : String  // +", cukier"
+}
+class "VanillaDecorator" as VD {
+  + getCost() : double    // +0.7
+  + getDescription() : String
+}
+
+SC ..|> COF
+CD ..|> COF
+CD o-- COF : wraps
+MD --|> CD
+SD --|> CD
+VD --|> CD
+
+note right of MD
+  new VanillaDecorator(
+    new MilkDecorator(
+      new SugarDecorator(
+        new SimpleCoffee()
+      )
+    )
+  )
+  Koszt: 2.0 + 0.3 + 0.5 + 0.7 = 3.5
+end note
+
+note bottom
+  Alternatywa dla dziedziczenia.
+  Java: BufferedReader, Collections.unmodifiableList()
+  Spring: @Transactional (proxy dekorator)
+end note
+@enduml
+
