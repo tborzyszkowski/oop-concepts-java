@@ -1,0 +1,32 @@
+@startuml coffman_conditions
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Warunki Coffmana — Cztery Konieczne Warunki Zakleszczenia\n(Edward G. Coffman Jr., 1971)
+
+package "Wzajemne wykluczanie\n(Mutual Exclusion)" as ME #FFEBEE {
+  rectangle "Zasoby są niepodzialne:\ntylko 1 wątek może trzymać\ndany zasób w danej chwili.\n\nPrzykład: synchronized(lock)" as ME1 #FFCDD2
+}
+
+package "Trzymaj i czekaj\n(Hold and Wait)" as HW #FFF3E0 {
+  rectangle "Wątek trzyma co najmniej\njeden zasób i czeka\nna kolejny.\n\nPrzykład: lock1 nabyte,\nczekamy na lock2" as HW1 #FFE0B2
+}
+
+package "Brak wywłaszczania\n(No Preemption)" as NP #E8F5E9 {
+  rectangle "Zasób może być zwolniony\ntylko dobrowolnie przez\nwątek który go trzyma.\nNikt nie może go zabrać.\n\nPrzykład: synchronized\nnie da się przerwać" as NP1 #C8E6C9
+}
+
+package "Cykliczne oczekiwanie\n(Circular Wait)" as CW #E8EAF6 {
+  rectangle "Istnieje cykl wątków:\nT1 czeka na zasób T2,\nT2 czeka na zasób T3,\n..., Tn czeka na zasób T1.\n\nPrzykład: filozofowie" as CW1 #C5CAE9
+}
+
+note bottom
+  **Strategia zapobiegania:** usuń przynajmniej JEDEN warunek:
+
+  ME  → niewykonalne (locki z definicji są wyłączne)
+  H&W → zdobądź wszystkie zasoby naraz LUB zwolnij przed wzięciem kolejnego (tryLock)
+  NoP → pozwól wywłaszczać = tryLock z timeoutem i wycofanie
+  CW  → ustal globalny porządek nabywania locków (zawsze lock_A przed lock_B)
+end note
+@enduml
+

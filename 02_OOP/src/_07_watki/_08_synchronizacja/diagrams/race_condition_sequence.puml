@@ -1,0 +1,42 @@
+@startuml race_condition_sequence
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title Race Condition — Przeplatanie Operacji count++
+
+participant "Wątek A" as A #FFB74D
+participant "Rejestr CPU\n(lokalny do wątku)" as CPUA #FFE082
+participant "Pamięć\nwspółdzielona\ncount=0" as MEM #90A4AE
+participant "Rejestr CPU\n(lokalny do wątku)" as CPUB #80CBC4
+participant "Wątek B" as B #4DB6AC
+
+note over MEM : **count = 0** (stan początkowy)
+
+== Oczekiwany wynik: count = 2 ==
+
+A -> CPUA : LOAD count → reg_A\n(reg_A = 0)
+A -> CPUA : INC reg_A\n(reg_A = 1)
+A -> MEM  : STORE reg_A → count\n(count = 1)
+B -> CPUB : LOAD count → reg_B\n(reg_B = 1)
+B -> CPUB : INC reg_B\n(reg_B = 2)
+B -> MEM  : STORE reg_B → count\n(count = 2) ✓
+
+== Scenariusz z przeplataniem (race condition!) ==
+
+note over MEM : **count = 0** (reset)
+
+A -> CPUA : LOAD count → reg_A\n(reg_A = 0)
+B -> CPUB : LOAD count → reg_B\n(reg_B = 0)\n⚡ CONTEXT SWITCH!
+A -> CPUA : INC reg_A\n(reg_A = 1)
+A -> MEM  : STORE reg_A → count\n(count = 1)
+B -> CPUB : INC reg_B\n(reg_B = 1)\n(reg_B ma STARE 0!)
+B -> MEM  : STORE reg_B → count\n(count = 1) ❌ BŁĄD!
+
+note over MEM #FF5252
+  **Utracona aktualizacja!**
+  Oczekiwano: count = 2
+  Otrzymano:  count = 1
+  Operacja count++ nie jest atomowa!
+  (READ-MODIFY-WRITE to 3 osobne instrukcje maszynowe)
+end note
+@enduml
+

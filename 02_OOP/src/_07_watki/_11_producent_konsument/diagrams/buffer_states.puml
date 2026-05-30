@@ -1,0 +1,34 @@
+﻿@startuml buffer_states
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Producent-Konsument -- Stany Bufora Jednoelementowego
+[*] --> PUSTY : start
+state PUSTY {
+  PUSTY : has = false
+  PUSTY : Producent moze wstawiac
+  PUSTY : Konsument czeka (wait)
+}
+state PELNY {
+  PELNY : has = true
+  PELNY : Producent czeka (wait)
+  PELNY : Konsument moze pobierac
+}
+PUSTY --> PELNY : Producent wstawia:\nbuf = item;\nhas = true;\nnotify();
+PELNY --> PUSTY : Konsument pobiera:\nitem = buf;\nhas = false;\nnotify();
+PUSTY --> PUSTY : Konsument: wait()\n[warunek: !has]
+PELNY --> PELNY : Producent: wait()\n[warunek: has]
+note right of PELNY
+  Konsument pobiera i sygnalizuje
+  Producentowi ze moze produkowac dalej
+end note
+note left of PUSTY
+  Producent wstawia i sygnalizuje
+  Konsumentowi ze dane sa gotowe
+end note
+note bottom
+  Niezmiennik bufora:
+  W kazdej chwili albo has==true (pelny) albo has==false (pusty).
+  Producent i konsument nie dzialaja jednoczesnie na buforze.
+end note
+@enduml

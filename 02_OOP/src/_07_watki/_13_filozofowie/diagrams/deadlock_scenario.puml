@@ -1,0 +1,57 @@
+@startuml deadlock_scenario
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam sequenceMessageAlign center
+skinparam backgroundColor #FAFAFA
+title Problem Pięciu Filozofów — Scenariusz Zakleszczenia
+
+actor "Filozof 0\n(Platon)" as P0
+participant "Widelec 0\n(między P0-P1)" as F0 #LightYellow
+participant "Widelec 1\n(między P1-P2)" as F1 #LightYellow
+participant "Widelec 2\n(między P2-P3)" as F2 #LightYellow
+participant "Widelec 3\n(między P3-P4)" as F3 #LightYellow
+participant "Widelec 4\n(między P4-P0)" as F4 #LightYellow
+actor "Filozof 4\n(Descartes)" as P4
+
+== Faza 1: Każdy bierze lewy widelec ==
+
+P0 -> F4 : lock(lewy)\n✓ nabył F4
+P0 --> P0 : czeka na F0 (prawy)
+
+P4 -> F3 : lock(lewy)\n✓ nabył F3
+P4 --> P4 : czeka na F4 (prawy)
+
+note over F0, F3
+  [Filozofowie 1, 2, 3 analogicznie biorą swoje lewe widelce]
+  F0 → Filozof 1 | F1 → Filozof 2 | F2 → Filozof 3
+end note
+
+== Faza 2: Zakleszczenie — circular wait ==
+
+P0 ->x F0 : tryLock(prawy)\n❌ F0 zajęty przez Filozofa 1!
+P4 ->x F4 : tryLock(prawy)\n❌ F4 zajęty przez Filozofa 0!
+
+note over P0, P4 #FF9999
+  **DEADLOCK!**
+  Każdy trzyma 1 widelec i czeka na widelec trzymany przez sąsiada.
+  Żaden z nich nie zwolni swojego widelca.
+  Cykliczne oczekiwanie: P0→P1→P2→P3→P4→P0
+end note
+
+== Rozwiązanie A: Asymetria (Filozof 4 odwraca kolejność) ==
+
+P4 -> F4 : lock(prawy najpierw!)\n✓ nabył F4
+P4 -> F3 : lock(lewy)\n✓ nabył F3
+P4 -> P4 : 🍝 JE! Zjada makaron.
+P4 -> F4 : unlock(F4)
+P4 -> F3 : unlock(F3)
+P0 -> F4 : lock(F4) — teraz możliwe!\n✓ nabył F4
+P0 -> P0 : 🍝 JE! Symetria przerwana.
+
+note over P0
+  Wystarczy **jeden** filozof
+  z odwróconą kolejnością
+  aby przerwać cykl zależności.
+end note
+@enduml
+

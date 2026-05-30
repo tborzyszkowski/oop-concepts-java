@@ -1,0 +1,49 @@
+@startuml monitor_concept
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Monitor Javy — Model Konceptualny\n(synchronized, Object.wait/notify)
+
+package "Monitor (każdy obiekt Java)" #E8EAF6 {
+  rectangle "🔐 MUTEX (blokada wzajemnego wykluczania)\nTylko 1 wątek może przebywać w środku" as MUTEX #5C6BC0 {
+    rectangle "Sekcja krytyczna\nsynchronized void method() {...}" as CS #7986CB
+  }
+  rectangle "🚪 Entry Set\n(Wątki czekające na wejście)" as ENTRY #EF9A9A
+  rectangle "⏳ Wait Set\n(Wątki po wywołaniu wait())" as WAIT #FFF59D
+}
+
+note right of ENTRY
+  Wątek próbuje wejść
+  do synchronized — jest
+  BLOCKED jeśli monitor zajęty.
+end note
+
+note right of WAIT
+  Wątek wywołał wait():
+  1. Zwalnia monitor
+  2. Przechodzi do WAITING
+  3. Czeka na notify()
+  notify() → wraca do Entry Set
+end note
+
+actor "Wątek A\n(wewnątrz)" as TA #43A047
+actor "Wątek B\n(czeka w ENTRY)" as TB #E53935
+actor "Wątek C\n(po wait())" as TC #FB8C00
+
+ENTRY --> MUTEX : acquire (gdy zwolniony)
+MUTEX --> WAIT  : wait() — zwalnia monitor\n+ czeka na sygnał
+WAIT  --> ENTRY : notify() / notifyAll()\n(wróć i postaraj się znów wejść)
+MUTEX --> ENTRY : exit — wyjście z synchronized
+
+TA -[#43A047,bold]-> CS : aktualnie wykonuje
+TB -[#E53935]-> ENTRY
+TC -[#FB8C00]-> WAIT
+
+note bottom
+  **Java Memory Model gwarantuje:**
+  • Wszystkie zmiany dokonane przed exit są widoczne po acquire
+  • wait() jest zawsze sprawdzany w pętli while (nie if!), bo możliwe spurious wakeups
+  • notifyAll() budzi wszystkich czekających (bezpieczniejsze od notify())
+end note
+@enduml
+

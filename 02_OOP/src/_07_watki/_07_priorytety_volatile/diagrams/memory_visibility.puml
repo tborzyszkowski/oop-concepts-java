@@ -1,0 +1,59 @@
+@startuml memory_visibility
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title volatile — Model Widoczności Pamięci w JVM\n(Java Memory Model, JSR-133)
+
+package "CPU Rdzeń 1\n(Wątek producenta)" as CPU1 #E8F5E9 {
+  rectangle "L1 Cache\n(rejestr JVM)" as L1A #C8E6C9 {
+    storage "running_local = true\n(kopia lokalna)" as CacheA
+  }
+}
+
+package "CPU Rdzeń 2\n(Wątek konsumenta)" as CPU2 #FFEBEE {
+  rectangle "L1 Cache\n(rejestr JVM)" as L1B #FFCDD2 {
+    storage "running_local = ???\n(nieaktualna kopia!)" as CacheB
+  }
+}
+
+database "Pamięć Główna (RAM)" as RAM #BBDEFB {
+  storage "running = true" as MainMem
+}
+
+note top of CPU1
+  Producent ustawia flagę
+end note
+
+note top of CPU2
+  Konsument może czytać stary stan
+  (z własnego cache!)
+end note
+
+CPU1 --> RAM : **BEZ volatile:**\nzapis może trafić do cache\ni NIE propagować do RAM\nniezwłocznie
+RAM -[#EF5350,dashed]-> CPU2 : Konsument czyta z RAM\nale RAM może być nieaktualny!
+
+note as N1 #FFF9C4
+  **Problem bez volatile:**
+  Wątek może trzymać kopię w cache
+  przez nieokreślony czas — zapis
+  do RAM może być opóźniony lub
+  zreorderowany przez JIT/CPU.
+end note
+
+package "Z volatile — gwarancja widoczności" #E8EAF6 {
+  storage "volatile boolean running" as VOL #7986CB
+}
+
+note right of VOL
+  **volatile gwarantuje:**
+  ✓ Każdy zapis → natychmiast do RAM
+  ✓ Każdy odczyt → bezpośrednio z RAM
+  ✓ Zakaz reorderowania (happens-before)
+
+  **volatile NIE gwarantuje:**
+  ✗ Atomowości złożonych operacji
+  ✗ count++ jest bezpieczne (użyj AtomicInteger)
+  ✗ Sekcji krytycznych (użyj synchronized)
+end note
+@enduml
+

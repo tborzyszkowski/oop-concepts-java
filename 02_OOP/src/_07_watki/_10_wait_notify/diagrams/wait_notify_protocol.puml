@@ -1,0 +1,51 @@
+@startuml wait_notify_protocol
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam sequenceMessageAlign center
+title Protokół wait() / notify() — Komunikacja między wątkami
+
+participant "Wątek Konsument\n(czeka na dane)" as C #4DB6AC
+participant "Monitor Object\n(obiekt synchronizacji)" as MON #B0BEC5
+participant "Wątek Producent\n(dostarcza dane)" as P #FFB74D
+
+note over C, P
+  **Warunek startowy:** bufor pusty, data=null
+end note
+
+== Konsument: czeka na dane ==
+C -> MON : synchronized(mon) {\n  wejście — nabywa monitor
+C -> MON : while (data == null)\n    mon.wait();
+note right of MON #FFF9C4
+  wait() atomowo:
+  1. Zwalnia monitor
+  2. Usypia wątek (WAITING)
+  3. Dodaje do Wait Set
+end note
+C --> C : [WAITING — oddał monitor, czeka na sygnał]
+
+== Producent: wytwarza dane ==
+P -> MON : synchronized(mon) {\n  wejście — nabywa monitor (teraz wolny!)
+P -> MON : data = produceItem();\n  mon.notify();
+note right of MON
+  notify():
+  1. Wybiera 1 wątek z Wait Set
+  2. Przenosi do Entry Set
+  3. Wątek czeka na ponowne
+     nabycie monitora
+end note
+P -> MON : } // exit — zwalnia monitor
+
+== Konsument: budzi się i sprawdza warunek ==
+C -> MON : [Entry Set → nabywa monitor]
+C -> MON : // pętla while sprawdza PONOWNIE:\n// while (data == null) — false!
+C -> C : item = data;\n  data = null;\n  mon.notify(); // informuje producenta
+C -> MON : } // exit
+
+note over C, P #E8F5E9
+  **Dlaczego while, a nie if?**
+  Spurious wakeup — wątek może się obudzić BEZ notify().
+  Wiele konsumentów — inny wątek mógł już "zjeść" dane.
+  Zawsze: **while (!condition) { wait(); }**
+end note
+@enduml
+

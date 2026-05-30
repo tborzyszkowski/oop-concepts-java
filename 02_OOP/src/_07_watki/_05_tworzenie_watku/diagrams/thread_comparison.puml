@@ -1,0 +1,65 @@
+@startuml thread_comparison
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Sposoby tworzenia wątków w Javie — Porównanie
+
+package "1. extends Thread" #FFEBEE {
+  class "class MyThread\nextends Thread" as THREAD #FFCDD2 {
+    + run() : void
+    --
+    ❌ blokuje dziedziczenie
+    ❌ miesza logikę z mechanizmem
+    ✓ prostota w przykładach
+  }
+}
+
+package "2. implements Runnable" #E8F5E9 {
+  interface "Runnable" as RUNNABLE #A5D6A7 {
+    + run() : void
+  }
+  class "class MyTask\nimplements Runnable" as MYTASK #C8E6C9 {
+    + run() : void
+    --
+    ✓ wolne dziedziczenie
+    ✓ separacja logiki
+    ✓ można używać z Executor
+  }
+  class "Thread" as THREAD2 #81C784
+  MYTASK ..|> RUNNABLE
+  THREAD2 o-- RUNNABLE : <<uses>>
+}
+
+package "3. ExecutorService (produkcja)" #E8EAF6 {
+  interface "Callable<V>" as CALLABLE #C5CAE9 {
+    + call() : V
+    --
+    Może zwracać wynik
+    Może rzucać wyjątek
+  }
+  class "ExecutorService" as ES #7986CB {
+    + submit(Runnable) : Future<?>
+    + submit(Callable<V>) : Future<V>
+    + shutdown()
+    --
+    ✓ pula wątków
+    ✓ lifecycle management
+    ✓ wyniki przez Future<V>
+  }
+  class "Future<V>" as FUTURE #9575CD {
+    + get() : V
+    + isDone() : boolean
+    + cancel() : boolean
+  }
+  ES --> FUTURE : zwraca
+  ES o-- CALLABLE
+}
+
+note bottom
+  **Rekomendacja inżynierska:**
+  • Nowe projekty → ExecutorService / wirtualne wątki (Java 21)
+  • Proste skrypty → lambda z new Thread(...)
+  • Nigdy: extends Thread w kodzie produkcyjnym
+end note
+@enduml
+

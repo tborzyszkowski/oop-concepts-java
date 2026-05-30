@@ -1,0 +1,49 @@
+@startuml memory_model
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Proces vs Wątek — Model Pamięci
+
+package "Proces A" #E8F5E9 {
+  package "Przestrzeń adresowa A" #C8E6C9 {
+    component "Stos\nwątku A1" as SA1 #81C784
+    component "Stos\nwątku A2" as SA2 #81C784
+    component "Stos\nwątku A3" as SA3 #81C784
+    database "Sterta (Heap)\n[WSPÓLNA dla wszystkich wątków]" as HeapA #66BB6A
+    component "Kod (Text segment)\n[WSPÓLNY]" as CodeA #A5D6A7
+    component "Dane globalne\n[WSPÓLNE — tu race condition!]" as DataA #FFCC80
+  }
+  note right of HeapA #FFCDD2
+    ⚠️ Wątki dzielą stertę!
+    To źródło race condition.
+  end note
+}
+
+package "Proces B" #E3F2FD {
+  package "Przestrzeń adresowa B (IZOLOWANA)" #BBDEFB {
+    component "Stos wątku B1" as SB1 #64B5F6
+    database "Sterta B" as HeapB #42A5F5
+    component "Kod B" as CodeB #90CAF9
+  }
+}
+
+note bottom of SA1 : Lokalny dla wątku\n(zmienne lokalne,\nramki wywołań)
+note bottom of SA2 : Lokalny dla wątku
+note bottom of SA3 : Lokalny dla wątku
+
+SA1 -[hidden]-> HeapA
+SA2 -[hidden]-> HeapA
+SA3 -[hidden]-> HeapA
+
+note as N1
+  **Kluczowe różnice:**
+  | Aspekt         | Proces                | Wątek              |
+  |----------------|----------------------|-------------------|
+  | Pamięć         | Izolowana             | Wspólna z procesem |
+  | Tworzenie      | ~ms (fork/exec)       | ~µs                |
+  | Komunikacja    | IPC (wolna)           | Bezpośrednia       |
+  | Awaria         | Izolowana             | Może zabić proces  |
+  | GIL (Python)   | Brak problemu         | Konieczny          |
+end note
+@enduml
+

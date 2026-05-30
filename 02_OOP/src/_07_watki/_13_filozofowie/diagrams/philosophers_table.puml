@@ -1,0 +1,90 @@
+@startuml philosophers_table
+skinparam shadowing true
+skinparam defaultFontName "DejaVu Sans"
+skinparam defaultFontSize 11
+skinparam backgroundColor #FAFAFA
+title Problem Pięciu Filozofów — Stół Okrągły\n(E.W. Dijkstra, 1965)
+
+skinparam rectangle {
+  BackgroundColor<<table>> #8B6914
+  BorderColor<<table>> #5C4209
+  FontColor<<table>> #FFFFFF
+  RoundCorner<<table>> 60
+}
+skinparam rectangle {
+  BackgroundColor<<fork>> #C8A020
+  BorderColor<<fork>> #8B6914
+  FontColor<<fork>> #2C1810
+  RoundCorner<<fork>> 5
+}
+skinparam actor {
+  BackgroundColor #4A90D9
+  BorderColor #2C5F8A
+  FontColor #FFFFFF
+}
+skinparam note {
+  BackgroundColor #FFFDE7
+  BorderColor #F9A825
+}
+
+' Central table
+rectangle "  🍝  STÓŁ  🍝\n(zasoby wspólne)" <<table>> as TABLE
+
+' Philosophers
+actor "🧠 Platon\n(Filozof 0)\nSTAN: myśli" as P0
+actor "🧠 Arystoteles\n(Filozof 1)\nSTAN: głodny" as P1
+actor "🧠 Sokrates\n(Filozof 2)\nSTAN: je" as P2
+actor "🧠 Konfucjusz\n(Filozof 3)\nSTAN: głodny" as P3
+actor "🧠 Descartes\n(Filozof 4)\nSTAN: myśli" as P4
+
+' Forks between philosophers
+rectangle "[🍴 Widelec 0]\nbrak właściciela" <<fork>> as F0
+rectangle "[🍴 Widelec 1]\nzajęty (F2)" <<fork>> as F1
+rectangle "[🍴 Widelec 2]\nzajęty (F2)" <<fork>> as F2
+rectangle "[🍴 Widelec 3]\nbrak właściciela" <<fork>> as F3
+rectangle "[🍴 Widelec 4]\nbrak właściciela" <<fork>> as F4
+
+' Connections: philosophers to their forks
+P0 -[#3399FF]-> F4 : lewy
+P0 -[#3399FF]-> F0 : prawy
+P1 -[#FF6600]-> F0 : lewy (czeka!)
+P1 -[#FF6600]-> F1 : prawy (czeka!)
+P2 -[#22AA22,bold]-> F1 : lewy ✓
+P2 -[#22AA22,bold]-> F2 : prawy ✓
+P3 -[#FF6600]-> F2 : lewy (czeka!)
+P3 -[#FF6600]-> F3 : prawy (czeka!)
+P4 -[#3399FF]-> F3 : lewy
+P4 -[#3399FF]-> F4 : prawy
+
+' All connect to table (conceptually)
+TABLE .. F0
+TABLE .. F1
+TABLE .. F2
+TABLE .. F3
+TABLE .. F4
+
+note bottom of P2
+  🟢 **JE** — trzyma oba widelce (F1 i F2)
+  Blokuje Filozofa 1 i Filozofa 3
+end note
+
+note bottom of P1
+  🟡 **GŁODNY** — czeka na F0 i F1
+end note
+
+note top
+  **Reguły:**
+  Każdy filozof MUSI trzymać OBYDWA sąsiednie widelce, aby jeść.
+  Widelce są zasobami **niepodzielnymi** (mutex).
+  Zakleszczenie: każdy trzyma lewy, czeka na prawy.
+end note
+
+note right
+  **Rozwiązania:**
+  1. **Asymetria** — jeden filozof bierze odwrotnie
+  2. **Kelner** — globalny arbitraż (semaphore)
+  3. **tryLock** — próba bez blokowania
+  4. **Chandy-Misra** — token passing
+end note
+@enduml
+

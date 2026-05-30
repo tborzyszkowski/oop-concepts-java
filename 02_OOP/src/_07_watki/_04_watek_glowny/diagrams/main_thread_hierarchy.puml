@@ -1,0 +1,45 @@
+@startuml main_thread_hierarchy
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam backgroundColor #FAFAFA
+title Wątek Główny — Hierarchia wątków JVM
+
+package "JVM Process" #E8EAF6 {
+  package "System Thread Group" as SYS #C5CAE9 {
+    rectangle "GC Thread\n(Garbage Collector)" as GC #B0BEC5
+    rectangle "JIT Compiler\nThread" as JIT #B0BEC5
+    rectangle "Finalizer\nThread" as FIN #B0BEC5
+  }
+  package "Main Thread Group" as MAIN_GROUP #E8F5E9 {
+    rectangle "main Thread\n(Twój punkt wejścia)" as MAIN #66BB6A {
+      rectangle "Thread A\n(potomny)" as TA #A5D6A7
+      rectangle "Thread B\n(potomny)" as TB #A5D6A7
+      rectangle "Thread B1\n(wnukowy)" as TB1 #C8E6C9
+    }
+  }
+}
+
+note right of MAIN
+  Thread.currentThread()
+  → zwraca referencję do THIS wątku
+
+  main.getName() = "main"
+  main.getId() = 1L (zwykle)
+  main.getPriority() = 5 (NORM)
+  main.isDaemon() = false
+end note
+
+note right of TA
+  Dziedziczone od rodzica:
+  • ThreadGroup
+  • daemon status
+  • priorytet (może być zmieniony)
+end note
+
+note bottom of MAIN_GROUP
+  JVM kończy się gdy nie ma
+  więcej wątków nie-demonów.
+  Wątek main to zazwyczaj ostatni.
+end note
+@enduml
+

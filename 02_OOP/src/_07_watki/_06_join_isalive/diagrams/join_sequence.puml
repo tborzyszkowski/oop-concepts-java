@@ -1,0 +1,50 @@
+@startuml join_sequence
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+title join() i isAlive() — Koordynacja wątków
+
+participant "Wątek Główny\n(main)" as MAIN #4A90D9
+participant "Wątek A\n(pobieranie danych)" as TA #81C784
+participant "Wątek B\n(obliczenia)" as TB #FFB74D
+
+note over MAIN : Przed startami: isAlive(A)=false
+
+MAIN -> TA : new Thread(...); \nta.start();
+note right of TA #C8E6C9
+  isAlive(A) = **true** po start()
+end note
+MAIN -> TB : new Thread(...);\ntb.start();
+
+MAIN -> MAIN : ... robi inne rzeczy ...
+
+== Synchronizacja: join() ==
+
+MAIN -> TA : ta.join() — blokuje MAIN\ndo zakończenia wątku A
+TA --> MAIN : 💤 MAIN w stanie WAITING
+TA -> TA : [praca wątku A...]
+TA --> MAIN : run() zakończyło się\n→ MAIN wznawiony
+note right of TA #FFCDD2
+  isAlive(A) = **false** po zakończeniu
+end note
+
+MAIN -> TB : tb.join(500) — czeka max 500ms
+TB -> TB : [praca wątku B...]
+alt Wątek B zakończył się przed timeout
+  TB --> MAIN : join() wraca normalnie\nisAlive(B) = false
+else Timeout upłynął — wątek B dalej żyje
+  MAIN -> MAIN : if (tb.isAlive()) {\n  tb.interrupt();\n}
+  note over MAIN #FFF9C4
+    join(timeout) nie rzuca wyjątku
+    po upływie czasu — trzeba samemu
+    sprawdzić isAlive()!
+  end note
+end
+
+note over MAIN
+  **Wzorzec Fan-Out / Fan-In:**
+  1. Uruchom N wątków (fan-out)
+  2. Zbierz wyniki przez join() (fan-in)
+  Klasyczny podział i połączenie zadań.
+end note
+@enduml
+
