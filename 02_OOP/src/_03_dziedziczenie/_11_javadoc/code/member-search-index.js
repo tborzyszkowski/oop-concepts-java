@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"_03_dziedziczenie._11_javadoc.code","c":"JavadocDemo","l":"JavadocDemo()","u":"%3Cinit%3E()"},{"p":"_03_dziedziczenie._11_javadoc.code","c":"JavadocDemo","l":"main(String[])","u":"main(java.lang.String[])"}];updateSearchResults();

@@ -6,7 +6,7 @@ import java.util.List;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-final class ImmutablePoint {
+ final class ImmutablePoint {
     private final int x;
     private final int y;
 
@@ -14,10 +14,18 @@ final class ImmutablePoint {
         this.x = x;
         this.y = y;
     }
+    ImmutablePoint() {
+        this.x = 0;
+        this.y = 0;
 
-    public int x() { return x; }
-    public int y() { return y; }
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
 }
+
+//class NewPoint extends ImmutablePoint{
+//}
 
 // Value Object: bez tozsamosci, porownywany po wartosci, niemutowalny.
 final class Money {
@@ -164,7 +172,7 @@ public class FinalKeywordDemo {
 
     public static void main(String[] args) {
         ImmutablePoint p = new ImmutablePoint(3, 4);
-        System.out.println("(" + p.x() + "," + p.y() + ")");
+        System.out.println("(" + p.getX() + "," + p.getY() + ")");
         new BaseService().audit();
 
         Money netPrice = new Money(new BigDecimal("99.99"), "PLN");

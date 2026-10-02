@@ -1,1 +1,0 @@
-memberSearchIndex = [{"p":"inheritance.t11","c":"JavadocDemo","l":"JavadocDemo()","u":"%3Cinit%3E()"},{"p":"inheritance.t11","c":"JavadocDemo","l":"main(String[])","u":"main(java.lang.String[])"}];updateSearchResults();

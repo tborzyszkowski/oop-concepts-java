@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"_03_dziedziczenie._11_javadoc.code"},{"l":"All Packages","u":"allpackages-index.html"}];updateSearchResults();

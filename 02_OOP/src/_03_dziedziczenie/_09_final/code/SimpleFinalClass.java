@@ -1,4 +1,7 @@
 package _03_dziedziczenie._09_final.code;
 
-public class Simple {
+final public class SimpleFinalClass {
 }
+
+//class SubSimpleFinalClas extends SimpleFinalClass {
+//}

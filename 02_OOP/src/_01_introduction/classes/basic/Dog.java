@@ -9,7 +9,8 @@ package classes.basic;
  *
  * Obiekt to konkretna instancja klasy, tworzona operatorem new.
  */
-public class Dog {
+class Animal{}
+public class Dog extends Animal {
 
     // ========== POLA (Fields) ==========
     // Każdy obiekt Dog ma swoje własne kopie tych pól

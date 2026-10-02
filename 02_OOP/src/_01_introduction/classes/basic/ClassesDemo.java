@@ -20,6 +20,9 @@ public class ClassesDemo {
         // Dog rex  - zmienna referencyjna (na stosie / stack)
         // new Dog() - tworzy obiekt na stercie (heap)
         Dog rex = new Dog();
+        Animal animal = new Animal(); 
+        Animal dogAsAnimal = new Dog(); 
+        
 
         // Przypisanie wartości polom obiektu
         rex.name = "Rex";
