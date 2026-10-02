@@ -1,0 +1,11 @@
+@startuml
+skinparam classAttributeIconSize 0
+class Animal {
+  +speak(): String
+}
+class Dog {
+  +speak(): String
+}
+Animal <|-- Dog
+@enduml
+

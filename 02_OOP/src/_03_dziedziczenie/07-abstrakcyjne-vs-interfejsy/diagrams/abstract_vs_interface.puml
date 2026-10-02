@@ -1,0 +1,8 @@
+@startuml
+abstract class AbstractNotifier
+interface Retryable
+class EmailNotifier
+AbstractNotifier <|-- EmailNotifier
+Retryable <|.. EmailNotifier
+@enduml
+

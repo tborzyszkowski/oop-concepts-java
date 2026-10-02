@@ -1,0 +1,10 @@
+@startuml
+actor Developer
+rectangle "Komentarze Javadoc\n/** ... */" as Comments
+rectangle "javadoc" as Tool
+rectangle "HTML API docs" as Output
+Developer --> Comments
+Comments --> Tool
+Tool --> Output
+@enduml
+
