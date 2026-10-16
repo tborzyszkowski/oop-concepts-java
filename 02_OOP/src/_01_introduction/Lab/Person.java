@@ -1,4 +1,4 @@
-package _01_introduction.Lab;
+package Lab;
 
 public class Person {
     private String name;

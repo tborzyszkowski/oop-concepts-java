@@ -35,7 +35,7 @@ public class FieldsMethodsDemo {
 
         System.out.println();
         System.out.println("--- 3. Prywatne pola — kontrolowany dostęp ---");
-
+        // c1.count = 5;  // BŁĄD KOMPILACJI: count is private!    
         c1.increment();
         c1.increment();
         c1.increment();

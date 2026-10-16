@@ -48,6 +48,86 @@ Przykład w [MultiInterfaceDemo.java](MultiInterfaceDemo.java).
 
 ---
 
+## Dwa interfejsy z metodą `strzelaj()`
+
+Załóżmy, że zarówno piłkarz, jak i żołnierz mają metodę o tej samej nazwie
+i sygnaturze:
+
+```java
+interface Pilkarz {
+    void strzelaj();
+}
+
+interface Zolnierz {
+    void strzelaj();
+}
+
+class Postac implements Pilkarz, Zolnierz {
+    @Override
+    public void strzelaj() {
+        System.out.println("Postać oddaje strzał");
+    }
+}
+```
+
+Metoda `Postac.strzelaj()` jest jednocześnie implementacją obu metod
+interfejsowych. Można wywołać ją przez oba typy:
+
+```java
+Postac postac = new Postac();
+Pilkarz jakoPilkarz = postac;
+Zolnierz jakoZolnierz = postac;
+
+jakoPilkarz.strzelaj();
+jakoZolnierz.strzelaj();
+```
+
+Oba wywołania uruchamiają tę samą implementację `Postac.strzelaj()`.
+Java wybiera implementację na podstawie rzeczywistego typu obiektu, a nie
+tego, przez który interfejs (typ referencji) wywołujemy metodę. Nie da się
+więc na podstawie samego `strzelaj()` rozpoznać, czy postać ma strzelić do
+bramki jako piłkarz, czy do celu jako żołnierz.
+
+Jeśli te czynności mają oznaczać różne zachowania, interfejsy powinny
+udostępniać różne operacje, na przykład:
+
+```java
+interface Pilkarz {
+    void strzelajDoBramki();
+}
+
+interface Zolnierz {
+    void strzelajDoCelu();
+}
+
+class Postac implements Pilkarz, Zolnierz {
+    @Override
+    public void strzelajDoBramki() {
+        System.out.println("Strzał piłką do bramki");
+    }
+
+    @Override
+    public void strzelajDoCelu() {
+        System.out.println("Strzał z broni do celu");
+    }
+}
+```
+
+Można wtedy używać obu ról niezależnie:
+
+```java
+Postac postac = new Postac();
+postac.strzelajDoBramki();
+postac.strzelajDoCelu();
+```
+
+Alternatywnie można pozostawić jedną metodę `strzelaj(...)`, ale przekazywać
+jej jawnie rodzaj celu jako argument. Kluczowe jest to, że wywołanie musi
+przekazać informację odróżniającą oba przypadki — samo rzutowanie obiektu na
+`Pilkarz` albo `Zolnierz` nie zmienia działania wspólnej metody.
+
+---
+
 ## Bezpieczne rzutowanie i `instanceof`
 
 Często mamy do czynienia z ogólnym typem (np. `Object` lub listą różnych obiektów) i chcemy sprawdzić, czy dany obiekt implementuje konkretny interfejs.
@@ -73,10 +153,14 @@ O tym dlaczego warto zawsze sprawdzać typ przed rzutowaniem (aby uniknąć `Cla
 
 ---
 
-## Konflikty nazw metod
+## Konflikty nazw metod domyślnych
 
-Co jeśli dwa interfejsy mają metodę o tej samej sygnaturze (`default void status()`)?
-Wtedy pojawia się konflikt i klasa implementująca **musi** nadpisać tę metodę, aby go rozwiązać. Może przy tym skorzystać z implementacji domyślnej konkretnego interfejsu używając składni `Interfejs.super.metoda()`.
+Dwie identyczne metody abstrakcyjne (takie jak `strzelaj()` powyżej) można
+zrealizować jedną metodą klasy. Inaczej jest, gdy dwa interfejsy dostarczają
+metodę `default` o tej samej sygnaturze, np. `default String status()`.
+Wtedy klasa implementująca **musi** nadpisać tę metodę, aby rozwiązać konflikt.
+Może przy tym skorzystać z implementacji domyślnej konkretnego interfejsu,
+używając składni `Interfejs.super.metoda()`.
 
 ```java
 @Override
