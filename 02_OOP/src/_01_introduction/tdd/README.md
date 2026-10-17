@@ -307,45 +307,41 @@ void copyConstructorCreatesIndependentCopy() {
 
 ## 9. Uruchamianie testów
 
-### Pobierz JUnit 5 (standalone jar)
+### Terminal (PowerShell)
 
+Otwórz terminal w katalogu głównym repozytorium. Jeśli pliku `junit.jar` jeszcze
+tam nie ma, pobierz JUnit 5:
 ```powershell
-# Pobierz junit-platform-console-standalone
 $url = "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.11.0/junit-platform-console-standalone-1.11.0.jar"
-Invoke-WebRequest -Uri $url -OutFile "junit.jar"
+Invoke-WebRequest -Uri $url -OutFile ".\junit.jar"
 ```
 
-### Kompilacja i uruchomienie
-
+Następnie, nadal z katalogu głównego repozytorium, skompiluj i uruchom testy:
 ```powershell
-# Korzeń kompilacji = 02_OOP/src/01-introduction
-cd 02_OOP\src\01-introduction
-
-# Kompilacja Stack
-javac -cp "out;..\..\..\junit.jar" -d out tdd/src/Stack.java
-javac -cp "out;..\..\..\junit.jar" -d out tdd/tests/StackTest.java
-
-# Uruchomienie
-java -cp "out;..\..\..\junit.jar" org.junit.platform.console.ConsoleLauncher `
-     --select-class=introduction.tdd.tests.StackTest
+Set-Location .\02_OOP\src\_01_introduction
+javac -cp "..\..\..\junit.jar" -d out .\tdd\src\Stack.java .\tdd\tests\StackTest.java
+if ($LASTEXITCODE -ne 0) { throw "Kompilacja testów nie powiodła się." }
+java -jar ..\..\..\junit.jar execute --class-path out --select-class _01_introduction.tdd.tests.StackTest
 ```
 
-### Skrypt PowerShell
+### VS Code
 
-```powershell
-.\run-tdd-tests.ps1
+Otwórz katalog główny repozytorium w VS Code, wybierz **Terminal → New Terminal**
+i wykonaj powyższe polecenia w terminalu PowerShell. Nie trzeba konfigurować
+osobnego skryptu ani uruchamiać testów przez panel testów.
+
+`javac` powinien zakończyć kompilację bez błędów, a JUnit powinien wyświetlić
+podsumowanie podobne do poniższego:
+
+```
+[        19 tests successful      ]
+[         0 tests failed          ]
 ```
 
-### Skrócony output
-
-```
-[OK]  [Cykl 1] Nowy stos jest pusty
-[OK]  [Cykl 1] Nowy stos ma rozmiar 0
-[OK]  [Cykl 2] Po push stos nie jest pusty
-...
-[OK]  [Cykl 5] Stos obsluguje wiele elementow
-16 tests passed
-```
+Ścieżka `02_OOP\src\_01_introduction` odpowiada rzeczywistemu katalogowi w repozytorium.
+JUnit jest zapisany w katalogu głównym, a `--select-class` używa pełnej nazwy klasy
+z pakietu zadeklarowanego w `StackTest.java`. Opcja `execute` uruchamia konsolowy
+launcher z dołączonego pliku `junit.jar`.
 
 ---
 
@@ -359,4 +355,3 @@ java -cp "out;..\..\..\junit.jar" org.junit.platform.console.ConsoleLauncher `
 | **Czytelne nazwy** | `method_state_expectedBehavior` |
 | **Izolacja** | Każdy test niezależny, `@BeforeEach` do setUp |
 | **F.I.R.S.T.** | Fast, Independent, Repeatable, Self-validating, Timely |
-
