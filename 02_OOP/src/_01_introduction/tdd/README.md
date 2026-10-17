@@ -324,11 +324,23 @@ if ($LASTEXITCODE -ne 0) { throw "Kompilacja testów nie powiodła się." }
 java -jar ..\..\..\junit.jar execute --class-path out --select-class _01_introduction.tdd.tests.StackTest
 ```
 
+### Terminal `cmd.exe`
+
+Jeśli terminal w VS Code jest ustawiony na `cmd.exe`, użyj tych samych poleceń
+w składni CMD:
+
+```bat
+cd /d 02_OOP\src\_01_introduction
+javac -cp "..\..\..\junit.jar" -d out tdd\src\Stack.java tdd\tests\StackTest.java
+if errorlevel 1 exit /b %errorlevel%
+java -jar ..\..\..\junit.jar execute --class-path out --select-class _01_introduction.tdd.tests.StackTest
+```
+
 ### VS Code
 
 Otwórz katalog główny repozytorium w VS Code, wybierz **Terminal → New Terminal**
-i wykonaj powyższe polecenia w terminalu PowerShell. Nie trzeba konfigurować
-osobnego skryptu ani uruchamiać testów przez panel testów.
+i wykonaj odpowiedni wariant poleceń w terminalu PowerShell albo `cmd.exe`.
+Nie trzeba konfigurować osobnego skryptu ani uruchamiać testów przez panel testów.
 
 `javac` powinien zakończyć kompilację bez błędów, a JUnit powinien wyświetlić
 podsumowanie podobne do poniższego:
