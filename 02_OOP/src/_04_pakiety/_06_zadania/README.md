@@ -2,6 +2,19 @@
 
 Sekcja utrwala materiał z modułów 4.1–4.5: przestrzenie nazw, definiowanie pakietów, CLASSPATH, kontrola dostępu, importy i kolizje nazw.
 
+### Sposób pracy
+
+W każdym zadaniu najpierw ustal kontrakt i strukturę katalogów, a dopiero
+potem pisz klasy. Po utworzeniu pliku sprawdź trzy rzeczy:
+
+1. czy deklaracja `package` odpowiada ścieżce;
+2. czy importy wskazują właściwe typy;
+3. czy kompilacja zapisuje wynik przez `-d` do katalogu, który później
+   podajesz w `-cp`.
+
+Zadania można rozwiązywać bez IDE. To celowe - pozwala zobaczyć, które
+informacje dostarcza pakiet, które import, a które classpath.
+
 ---
 
 ## Diagram struktury rozwiązań
@@ -40,6 +53,9 @@ Nauczyciel: mgr Kowalski, przedmiot: Java
 
 **Wskazówki:** patrz moduł 4.2 (struktura katalogów) i 4.5 (import).
 
+**Sprawdzenie:** zmień nazwę pakietu albo przenieś plik do niewłaściwego
+katalogu i zobacz, który etap zgłosi błąd. Następnie przywróć zgodność.
+
 ---
 
 ## Zadanie 2 ⭐⭐ — Kolizja nazw `Order`
@@ -63,6 +79,9 @@ Wysyłka   S-01: Kraków
 ```
 
 **Wskazówki:** patrz moduł 4.5 (kolizje, FQN).
+
+**Sprawdzenie:** spróbuj zaimportować obie klasy `Order` jednocześnie.
+Wyjaśnij, dlaczego jedna z nich musi pozostać użyta przez FQN.
 
 ---
 
@@ -100,6 +119,9 @@ Saldo po odsetkach: 1050.0
 ```
 
 **Wskazówki:** patrz moduł 4.4 (tabela modyfikatorów).
+
+**Sprawdzenie:** odkomentuj wywołania oznaczone jako niedozwolone i zapisz,
+z jakiego pakietu oraz z jakiego kontekstu nastąpił błąd.
 
 ---
 
@@ -139,6 +161,9 @@ Okrag r=5.0   pole=78.5398
 
 **Wskazówki:** patrz moduł 4.2 (`package-info.java`), 4.5 (`import static`), moduł 02 (interfejsy, Comparator).
 
+**Sprawdzenie:** wygeneruj Javadoc tylko dla `geometry.shapes` i sprawdź,
+czy opis z `package-info.java` pojawia się w dokumentacji pakietu.
+
 ---
 
 ## Rozwiązania referencyjne
@@ -176,3 +201,10 @@ OK: PackageExercisesTest
 4. Zrefaktoryzuj nazwy pakietów i importy.
 5. Uruchom test ponownie — powinien być zielony.
 
+### Kryteria sukcesu
+
+- każdy plik ma poprawną deklarację pakietu;
+- kod kompiluje się z czystego katalogu wynikowego;
+- program uruchamia się z poprawną pełną nazwą klasy;
+- kolizje są rozwiązane jawnie, bez przypadkowego wildcard importu;
+- zakres dostępu jest najmniejszy, który pozwala zrealizować wymaganie.

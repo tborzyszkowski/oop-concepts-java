@@ -34,6 +34,18 @@ Pakiet to **nazwana przestrzeń nazw**, która:
 3. **Tworzy granicę hermetyzacji** — klasy i metody bez modyfikatora dostępu są widoczne tylko wewnątrz pakietu (*package-private*),
 4. **Jest jednostką dystrybucji** — JAR zawiera drzewo pakietów, Maven/Gradle adresuje zależności przez przestrzenie nazw (groupId / artifactId).
 
+### Pakiet a klasa
+
+Klasa nie jest identyfikowana wyłącznie nazwą `User`. Jej nazwą jest pełna
+nazwa kwalifikowana, np. `account.User` albo `admin.User`. Dzięki temu dwie
+klasy o krótkiej nazwie `User` mogą istnieć w jednym programie, o ile należą
+do różnych pakietów.
+
+Pakiet nie tworzy automatycznie relacji dziedziczenia ani zależności między
+klasami. Organizuje nazwy i wpływa na dostęp package-private. Relacje
+biznesowe nadal trzeba wyrazić przez pola, interfejsy, dziedziczenie lub
+kompozycję.
+
 ---
 
 ## Konwencja odwróconej domeny
@@ -74,13 +86,17 @@ pakiety.t01.account.User accountUser = new pakiety.t01.account.User("anna");
 pakiety.t01.admin.User   adminUser   = new pakiety.t01.admin.User("root");
 ```
 
-Pełny kod: [`src/pakiety/t01/NamespaceCollisionDemo.java`](src/pakiety/t01/NamespaceCollisionDemo.java)
+Pełny kod: [`code/NamespaceCollisionDemo.java`](code/NamespaceCollisionDemo.java)
+
+FQN jest dłuższy, ale usuwa niejednoznaczność. W kodzie aplikacyjnym zwykle
+importujemy jedną klasę, a FQN zostawiamy dla wyjątków, takich jak dwie klasy
+`Order` lub `Date` używane w tym samym pliku.
 
 ---
 
 ## Konwencja a rzeczywisty projekt
 
-Demo [`src/pakiety/t01/ReverseDomainsDemo.java`](src/pakiety/t01/ReverseDomainsDemo.java) pokazuje, jak wyglądałoby logowanie pakietu w stylu produkcyjnym (`pl.edu.demo.*`) vs uproszczonym (`pakiety.*`).
+Demo [`code/ReverseDomainsDemo.java`](code/ReverseDomainsDemo.java) pokazuje, jak wyglądałoby logowanie pakietu w stylu produkcyjnym (`pl.edu.demo.*`) vs uproszczonym (`pakiety.*`).
 
 ---
 
@@ -98,6 +114,12 @@ Demo [`src/pakiety/t01/ReverseDomainsDemo.java`](src/pakiety/t01/ReverseDomainsD
 2. **Płaskie pakiety `utils`, `helpers`, `common`** — skupiaj pakiety wokół funkcjonalności biznesowej, nie technicznej.
 3. **Wielkie litery w nazwie pakietu** — tylko małe litery; `com.firma.MojPaKiet` jest błędem stylistycznym.
 
+### Pytania kontrolne
+
+- Dlaczego `account.User` i `admin.User` są różnymi typami?
+- Co rozwiązuje FQN, a czego nie rozwiązuje sam import?
+- Czy pakiet jest tym samym co JAR?
+
 ---
 
 ## 📚 Literatura i materiały dodatkowe
@@ -114,5 +136,3 @@ Demo [`src/pakiety/t01/ReverseDomainsDemo.java`](src/pakiety/t01/ReverseDomainsD
 ```powershell
 .\run-examples.ps1
 ```
-
-

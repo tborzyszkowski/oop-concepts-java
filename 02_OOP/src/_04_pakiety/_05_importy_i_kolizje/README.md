@@ -55,7 +55,7 @@ double obwod = 2 * PI * r;        // zamiast: 2 * Math.PI * r
 double pierwiastek = sqrt(16.0);   // zamiast: Math.sqrt(16.0)
 ```
 
-Kod przykładowy: [`src/imports/staticdemo/StaticImportDemo.java`](code/staticdemo/StaticImportDemo.java)
+Kod przykładowy: [`code/staticdemo/StaticImportDemo.java`](code/staticdemo/StaticImportDemo.java)
 
 ---
 
@@ -71,7 +71,11 @@ Order shippingOrder =
         new Order("S-01", "Warszawa");
 ```
 
-Kod: [`src/imports/complex/reporting/ImportCollisionDemo.java`](code/complex/reporting/ImportCollisionDemo.java)
+Kod: [`code/complex/reporting/ImportCollisionDemo.java`](code/complex/reporting/ImportCollisionDemo.java)
+
+Import nie kopiuje klasy ani nie zmienia jej pakietu. Jest skrótem używanym
+przez kompilator podczas rozpoznawania nazw. Dlatego import nie wpływa na
+classpath i nie rozwiązuje problemu braku biblioteki podczas kompilacji.
 
 ---
 
@@ -96,6 +100,20 @@ List<String> list = new ArrayList<>();   // OK — java.util.List
 java.awt.List awtList = new java.awt.List();  // OK — FQN
 ```
 
+Import wildcard dotyczy typów dostępnych bezpośrednio w danym pakiecie - nie
+importuje automatycznie podpakietów. `import java.util.*` nie udostępnia klas
+z `java.util.concurrent`.
+
+### Kiedy użyć FQN?
+
+Pełna nazwa kwalifikowana jest czytelna, gdy:
+
+- w jednym pliku występują dwie klasy o tej samej nazwie;
+- nazwa lokalna koliduje z nazwą biblioteki;
+- krótkotrwały przykład ma pokazać pochodzenie typu.
+
+W pozostałych przypadkach lepiej użyć jawnego importu konkretnej klasy.
+
 ---
 
 ## Diagram
@@ -108,11 +126,11 @@ java.awt.List awtList = new java.awt.List();  // OK — FQN
 
 | Plik | Opis |
 |------|------|
-| [`src/imports/simple/SimpleImportDemo.java`](code/simple/SimpleImportDemo.java) | Prosty import — `ArrayList`, `List` |
-| [`src/imports/staticdemo/StaticImportDemo.java`](code/staticdemo/StaticImportDemo.java) | `import static` — Math, Collections |
-| [`src/imports/complex/billing/Order.java`](code/complex/billing/Order.java) | Klasa `Order` w pakiecie billing |
-| [`src/imports/complex/shipping/Order.java`](code/complex/shipping/Order.java) | Klasa `Order` w pakiecie shipping |
-| [`src/imports/complex/reporting/ImportCollisionDemo.java`](code/complex/reporting/ImportCollisionDemo.java) | Użycie obu `Order` przez FQN |
+| [`code/simple/SimpleImportDemo.java`](code/simple/SimpleImportDemo.java) | Prosty import — `ArrayList`, `List` |
+| [`code/staticdemo/StaticImportDemo.java`](code/staticdemo/StaticImportDemo.java) | `import static` — Math, Collections |
+| [`code/complex/billing/Order.java`](code/complex/billing/Order.java) | Klasa `Order` w pakiecie billing |
+| [`code/complex/shipping/Order.java`](code/complex/shipping/Order.java) | Klasa `Order` w pakiecie shipping |
+| [`code/complex/reporting/ImportCollisionDemo.java`](code/complex/reporting/ImportCollisionDemo.java) | Użycie obu `Order` przez FQN |
 
 ---
 
@@ -122,6 +140,12 @@ java.awt.List awtList = new java.awt.List();  // OK — FQN
 2. **`import static` na całą klasę (`import static Math.*`)** — pogarsza czytelność; używaj tylko dla często używanych stałych.
 3. **Zapomnienie o FQN przy kolizji** — kompilator wypisze `reference to X is ambiguous`.
 4. **Importowanie klasy z domyślnego pakietu** — niemożliwe; to kolejny argument przeciw brakowi `package`.
+
+### Pytania kontrolne
+
+- Czy `import` zmienia miejsce, w którym JVM szuka klasy?
+- Dlaczego wildcard nie rozwiązuje kolizji dwóch klas `Order`?
+- Kiedy `import static` poprawia czytelność, a kiedy ją pogarsza?
 
 ---
 
@@ -139,5 +163,3 @@ java.awt.List awtList = new java.awt.List();  // OK — FQN
 ```powershell
 .\run-examples.ps1
 ```
-
-

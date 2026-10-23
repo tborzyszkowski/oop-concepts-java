@@ -46,6 +46,21 @@ src/
 
 Jeżeli katalog nie zgadza się z pakietem, kompilator zgłosi błąd.
 
+Ważne jest rozróżnienie katalogu źródeł od katalogu wynikowego. Dla:
+
+```text
+src/edu/university/registration/service/RegistrationService.java
+```
+
+komenda `javac -d out` utworzy:
+
+```text
+out/edu/university/registration/service/RegistrationService.class
+```
+
+Opcja `-d` zachowuje strukturę pakietów w katalogu wynikowym. Dlatego
+uruchomienie używa `-cp out`, a nie katalogu `src`.
+
 ---
 
 ## Przykład struktury projektu
@@ -54,9 +69,9 @@ Jeżeli katalog nie zgadza się z pakietem, kompilator zgłosi błąd.
 
 Kod źródłowy:
 
-- [`src/edu/university/registration/model/Student.java`](src/edu/university/registration/model/Student.java) — model danych (rekord Java 16+),
-- [`src/edu/university/registration/service/RegistrationService.java`](src/edu/university/registration/service/RegistrationService.java) — logika,
-- [`src/edu/university/registration/app/PackageStructureDemo.java`](src/edu/university/registration/app/PackageStructureDemo.java) — punkt wejścia.
+- [`code/model/Student.java`](code/model/Student.java) — model danych (rekord Java 16+),
+- [`code/service/RegistrationService.java`](code/service/RegistrationService.java) — logika,
+- [`code/app/PackageStructureDemo.java`](code/app/PackageStructureDemo.java) — punkt wejścia.
 
 Fragment importu w warstwie `app`:
 
@@ -113,8 +128,13 @@ package edu.university.registration.model;
 ```
 
 Pliki:
-- [`src/edu/university/registration/package-info.java`](src/edu/university/registration/package-info.java)
-- [`src/edu/university/registration/model/package-info.java`](src/edu/university/registration/model/package-info.java)
+- [`code/package-info.java`](code/package-info.java)
+- [`code/model/package-info.java`](code/model/package-info.java)
+
+`package-info.java` nie jest zwykłą klasą pomocniczą. Dokumentuje pakiet
+i może zawierać adnotacje `@ParametersAreNonnullByDefault` lub inne adnotacje
+pakietowe. Dzięki temu opis architektury znajduje się przy kodzie, którego
+dotyczy.
 
 ---
 
@@ -124,6 +144,13 @@ Pliki:
 2. **Kompilacja tylko jednego pliku** bez podania ścieżki do katalogu źródłowego — zależności nie zostaną rozwiązane.
 3. **Użycie domyślnego pakietu** — klasy są niedostępne poza tym samym „pseudopakietem".
 4. **Wielkie litery** w nazwie pakietu — `edu.Univ.model` jest dopuszczalne składniowo, ale łamie powszechnie przyjęte konwencje.
+
+### Pytania kontrolne
+
+- Co powoduje opcja `-d out`?
+- Dlaczego `import edu.university.registration.model.Student` nie zawiera
+  katalogu `src`?
+- Do czego służy `package-info.java`?
 
 ---
 
@@ -141,5 +168,3 @@ Pliki:
 ```powershell
 .\run-examples.ps1
 ```
-
-

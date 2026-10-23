@@ -20,14 +20,14 @@ if (-not $jarExe) {
     }
 }
 Write-Host "--- 1. Kompilacja ---" -ForegroundColor Cyan
-$sources = Get-ChildItem -Path (Join-Path $root 'src') -Recurse -Filter *.java | ForEach-Object { $_.FullName }
+$sources = Get-ChildItem -Path (Join-Path $root 'code') -Recurse -Filter *.java | ForEach-Object { $_.FullName }
 javac --release 21 -d $out $sources
 Write-Host "`n--- 2. Uruchomienie z -cp ---" -ForegroundColor Cyan
-java -cp $out classpathdemo.app.ClasspathDemo
+java -cp $out _04_pakiety._03_classpath_i_kompilacja.code.app.ClasspathDemo
 Write-Host "`n--- 3. Tworzenie JAR ---" -ForegroundColor Cyan
 if ($jarExe) {
     $jar = Join-Path $root 'greeting.jar'
-    & $jarExe --create --file=$jar --main-class=classpathdemo.app.ClasspathDemo -C $out .
+    & $jarExe --create --file=$jar --main-class=_04_pakiety._03_classpath_i_kompilacja.code.app.ClasspathDemo -C $out .
     Write-Host "Utworzono: $jar"
     Write-Host "`n--- 4. Uruchomienie z JAR ---" -ForegroundColor Cyan
     java -jar $jar

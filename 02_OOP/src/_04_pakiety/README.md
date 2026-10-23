@@ -3,6 +3,15 @@
 Moduł pokazuje, jak pakiety porządkują kod, zapobiegają kolizjom nazw i tworzą granicę hermetyzacji API.
 Styl i struktura są spójne z modułami `_02_interfaces` i `_03_dziedziczenie`.
 
+Pakiet warto traktować jako nazwę logiczną, granicę dostępu i element
+organizacji artefaktu. Sam katalog nie nadaje klasie pakietu - decyduje o tym
+deklaracja `package` w pliku źródłowym. Katalogi muszą jednak odzwierciedlać
+pakiet, aby narzędzia mogły poprawnie znaleźć źródła i pliki `.class`.
+
+W module przechodzimy od prostego problemu kolizji nazw do pełnego przepływu:
+plik Java → kompilacja `javac` → katalog klas → classpath/JAR → uruchomienie
+przez JVM.
+
 ---
 
 ## Spis treści
@@ -26,6 +35,31 @@ Styl i struktura są spójne z modułami `_02_interfaces` i `_03_dziedziczenie`.
 4. **Hermetyzacja API (15 min):** Tabela modyfikatorów dostępu. Kiedy `package-private` to dobry wybór? Projektowanie publicznego API. *(moduł 04)*
 5. **Importy i kolizje (10 min):** `import`, `import static`, wildcard `*` i ukrywanie nazw. *(moduł 05)*
 6. **Zadania (20 min):** Studenci rozwiązują wybrane zadania z modułu 06. *(moduł 06)*
+
+## Jak czytać ten moduł?
+
+W każdym przykładzie sprawdź:
+
+1. deklarację `package` na początku pliku;
+2. zgodność ścieżki katalogów z nazwą pakietu;
+3. sposób odwołania do klasy: importem czy pełną nazwą kwalifikowaną;
+4. zakres widoczności elementów oraz katalog wskazany przez `-cp`.
+
+Najważniejsze rozróżnienie brzmi: **`package` wpływa na nazwę klasy i dostęp,
+`import` tylko skraca zapis w kodzie, a `classpath` mówi narzędziom, gdzie
+znaleźć skompilowane klasy**.
+
+## Pakiet, classpath i moduł - trzy różne pojęcia
+
+| Pojęcie | Odpowiada na pytanie |
+|---|---|
+| pakiet | Jak nazywa się klasa i z jakimi klasami jest logicznie związana? |
+| classpath | Gdzie kompilator lub JVM ma szukać klas i bibliotek? |
+| moduł JPMS | Które pakiety są eksportowane i od jakich modułów zależy artefakt? |
+
+Nie należy utożsamiać pakietu z biblioteką JAR. Jeden JAR może zawierać wiele
+pakietów, a jeden pakiet może być rozłożony na kilka artefaktów. JAR jest
+formatem dystrybucji, natomiast pakiet jest częścią nazwy klasy.
 
 ---
 
@@ -52,7 +86,7 @@ Styl i struktura są spójne z modułami `_02_interfaces` i `_03_dziedziczenie`.
 ```text
 _04_pakiety/
 ├── _01_przestrzenie_nazw_i_pakiety/
-│   ├── src/pakiety/t01/
+│   ├── code/pakiety/t01/
 │   │   ├── NamespaceCollisionDemo.java
 │   │   ├── ReverseDomainsDemo.java
 │   │   ├── account/User.java
@@ -61,7 +95,7 @@ _04_pakiety/
 │   ├── run-examples.ps1
 │   └── README.md
 ├── _02_definicja_pakietu_i_struktura/
-│   ├── src/edu/university/registration/
+│   ├── code/edu/university/registration/
 │   │   ├── package-info.java
 │   │   ├── model/Student.java + package-info.java
 │   │   ├── service/RegistrationService.java
@@ -70,7 +104,7 @@ _04_pakiety/
 │   ├── run-examples.ps1
 │   └── README.md
 ├── _03_classpath_i_kompilacja/
-│   ├── src/classpathdemo/
+│   ├── code/classpathdemo/
 │   │   ├── api/GreetingService.java
 │   │   ├── impl/PolishGreetingService.java
 │   │   └── app/ClasspathDemo.java + JarDemo.java
@@ -78,7 +112,7 @@ _04_pakiety/
 │   ├── run-examples.ps1
 │   └── README.md
 ├── _04_kontrola_dostepu/
-│   ├── src/access/
+│   ├── code/access/
 │   │   ├── core/SecureDocument.java + SamePackageDemo.java
 │   │   ├── friends/FriendInspector.java
 │   │   └── outsiders/AccessControlDemo.java
@@ -86,7 +120,7 @@ _04_pakiety/
 │   ├── run-examples.ps1
 │   └── README.md
 ├── _05_importy_i_kolizje/
-│   ├── src/imports/
+│   ├── code/imports/
 │   │   ├── simple/SimpleImportDemo.java
 │   │   ├── staticdemo/StaticImportDemo.java
 │   │   ├── complex/billing/Order.java
@@ -131,4 +165,3 @@ Po ukończeniu modułu student:
 - **Effective Java (3rd ed.)**, Joshua Bloch — Item 15: Minimize accessibility of classes and members.
 - **Google Java Style Guide — Naming:** <https://google.github.io/styleguide/javaguide.html#s5.2.1-package-names>
 - **OpenJDK JEP 261 — Module System:** <https://openjdk.org/jeps/261>
-
