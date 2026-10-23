@@ -105,6 +105,12 @@ max("jabłko", "gruszka")// → "jabłko" (String, alfabetycznie)
 
 Parametr `<T extends Comparable<T>>` to **ograniczenie górne** — `T` musi implementować `Comparable<T>`.
 
+Generyki działają głównie na etapie kompilacji. Dzięki nim kompilator wie,
+że `List<String>` może przyjmować tylko `String`, a kod odczytujący element
+nie musi wykonywać jawnego rzutowania. Nie oznacza to jednak, że
+`List<String>` i `List<Integer>` są różnymi klasami w JVM - po kompilacji
+parametry typów są usuwane przez type erasure.
+
 ---
 
 ## Wildcard i reguła PECS
@@ -147,6 +153,11 @@ Używasz kolekcji jako źródła danych (czytasz)?  → ? extends T
 Używasz kolekcji jako celu danych (piszesz)?    → ? super T
 Robisz i jedno, i drugie?                       → użyj T
 ```
+
+PECS dotyczy punktu widzenia metody, nie nazwy zmiennej. Ta sama lista może
+być producentem dla jednej metody i konsumentem dla innej. Jeśli operacja
+ma zarówno dodawać, jak i odczytywać konkretny typ, jawny parametr `T` często
+lepiej opisuje kontrakt niż wildcard.
 
 ---
 
@@ -215,19 +226,17 @@ System.out.println(stack.pop());   // "Generics"
 
 ## Uruchomienie przykładów
 
+```powershell
+Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_03_typy_generyczne"
+.\run-examples.ps1
+```
+
 ## Pytania kontrolne
 
 1. Dlaczego `List<Object>` nie jest nadtypem `List<String>`?
 2. Kiedy stosujemy `? super T`, a kiedy `? extends T`?
 3. Jaki problem rozwiazuje type erasure, a jaki tworzy?
 
----
-
-
-```powershell
-Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_03_typy_generyczne"
-.\run-examples.ps1
-```
 
 ---
 

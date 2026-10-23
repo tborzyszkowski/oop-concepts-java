@@ -256,21 +256,22 @@ Gotowe implementacje znajdziesz w: [`solutions/CollectionsExercisesSolutions.jav
 
 ## Uruchomienie rozwiązań
 
-## Pytania kontrolne
-
-1. Ktore zadanie najlepiej pokazuje przewage `Map` nad `List` i dlaczego?
-2. Jak rozpoznac, ze zadanie wymaga `Comparator` zamiast `Comparable`?
-3. Jakie dodatkowe testy dodalbys do zadania 9 (magazyn)?
-
----
-
-
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_10_zadania"
 .\run-examples.ps1
 ```
 
----
+Skrypt nadrzędny `run-tests.ps1` wykonuje tę samą weryfikację rozwiązań
+z katalogu głównego modułu. W tym katalogu nie ma osobnego zestawu testów
+JUnit - punktem weryfikacji jest uruchomienie klasy
+`CollectionsExercisesSolutions` i porównanie prezentowanych wyników
+z wymaganiami zadań.
+
+## Pytania kontrolne
+
+1. Ktore zadanie najlepiej pokazuje przewage `Map` nad `List` i dlaczego?
+2. Jak rozpoznac, ze zadanie wymaga `Comparator` zamiast `Comparable`?
+3. Jakie dodatkowe testy dodalbys do zadania 9 (magazyn)?
 
 ## Wskazówki TDD
 

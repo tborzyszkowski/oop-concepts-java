@@ -77,6 +77,11 @@ linked.get(3);              // O(n) — przechodzi węzeł po węźle
 
 *O(1) amortyzowane — sporadycznie O(n) przy powiększaniu
 
+Złożoność należy interpretować razem z operacją, którą wykonuje program.
+`LinkedList.addFirst()` ma koszt stały, ale znalezienie miejsca po indeksie
+kosztuje liniowo. Jeśli program najpierw wyszukuje pozycję, a dopiero potem
+wstawia element, teoretyczne `O(1)` samego wstawienia nie daje przewagi.
+
 ---
 
 ## Implementacje Set
@@ -136,6 +141,10 @@ PriorityQueue<Integer> max = new PriorityQueue<>(Comparator.reverseOrder());
 ```
 
 **Kiedy używać:** przetwarzanie zadań według ważności, algorytm Dijkstry, harmonogramy.
+
+Iteracja po `PriorityQueue` nie jest równoważna wielokrotnemu `poll()`.
+Kolejka gwarantuje element minimalny lub maksymalny na początku, ale nie
+gwarantuje pełnego porządku podczas zwykłego przechodzenia po elementach.
 
 ---
 
@@ -208,19 +217,16 @@ Czy elementy muszą być unikalne?
 
 ## Uruchomienie przykładów
 
+```powershell
+Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_02_typy_kolekcji"
+.\run-examples.ps1
+```
+
 ## Pytania kontrolne
 
 1. Dlaczego `ArrayList` bywa szybsza od `LinkedList` mimo teoretycznych O(1) na operacjach koncowych?
 2. Kiedy `LinkedHashSet` jest lepszy od `HashSet`?
 3. Jak uzasadnic wybor `PriorityQueue` w review kodu?
-
----
-
-
-```powershell
-Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_02_typy_kolekcji"
-.\run-examples.ps1
-```
 
 ---
 

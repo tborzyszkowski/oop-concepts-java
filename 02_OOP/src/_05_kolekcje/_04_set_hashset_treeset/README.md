@@ -76,6 +76,10 @@ good.size();  // → 1 (poprawnie)
 
 > **Zasada:** `equals` i `hashCode` muszą być **spójne**: jeśli `a.equals(b)`, to `a.hashCode() == b.hashCode()`.
 
+`hashCode()` nie musi być unikalny. Dwa różne obiekty mogą mieć ten sam hash
+(kolizja), a `HashSet` rozstrzyga ich równość przez `equals()`. Wymagane jest
+tylko, aby obiekty uznane za równe miały taki sam hash.
+
 Pełny przykład: [`code/SetComparisonDemo.java`](code/SetComparisonDemo.java)
 
 ---
@@ -150,6 +154,11 @@ byLength.addAll(List.of("banan", "jabłko", "kiwi", "fig", "mango", "gruszka"));
 // [fig, kiwi, banan, mango, jabłko, gruszka]
 ```
 
+Dla `TreeSet` komparator nie służy wyłącznie do sortowania. Wynik
+`compare(a, b) == 0` oznacza dla drzewa, że `a` i `b` zajmują tę samą pozycję,
+więc jeden element może zostać odrzucony. Komparator powinien zatem
+rozróżniać elementy, które biznesowo nie są tym samym obiektem.
+
 ---
 
 ## Kiedy wybrać HashSet, a kiedy TreeSet?
@@ -173,21 +182,16 @@ Chcesz zachować kolejność wstawiania?            → LinkedHashSet
 
 ## Uruchomienie przykładów
 
-## Pytania kontrolne
-
-1. Dlaczego dwa obiekty "takie same" moga byc jednoczesnie w `HashSet`?
-2. Kiedy `TreeSet` daje przewage nad `HashSet`, mimo wolniejszych operacji?
-3. Jakie ryzyko niesie mutowanie elementu po dodaniu do zbioru?
-
----
-
-
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_04_set_hashset_treeset"
 .\run-examples.ps1
 ```
 
----
+## Pytania kontrolne
+
+1. Dlaczego dwa obiekty "takie same" moga byc jednoczesnie w `HashSet`?
+2. Kiedy `TreeSet` daje przewage nad `HashSet`, mimo wolniejszych operacji?
+3. Jakie ryzyko niesie mutowanie elementu po dodaniu do zbioru?
 
 ## 📚 Literatura i materiały dodatkowe
 

@@ -89,6 +89,10 @@ while (it.hasNext()) {
 
 > **Uwaga:** for-each działa dla każdej klasy implementującej `Iterable<E>` — nie tylko kolekcji!
 
+`Iterator.remove()` usuwa element zwrócony przez ostatnie `next()`. Nie wolno
+wywołać go dwa razy bez kolejnego `next()`, ponieważ iterator zgłosi
+`IllegalStateException`. To ograniczenie chroni spójność pozycji iteratora.
+
 ---
 
 ## ListIterator — dwukierunkowy iterator
@@ -178,6 +182,11 @@ while (it.hasNext()) {
 // ✅ POPRAWNIE — removeIf (Java 8+)
 list.removeIf(n -> n % 2 == 0);
 ```
+
+`ConcurrentModificationException` jest mechanizmem fail-fast, a nie
+gwarancją bezpieczeństwa wielowątkowego. Przy współbieżnym dostępie trzeba
+wybrać odpowiednią kolekcję z `java.util.concurrent` albo zapewnić własną
+synchronizację.
 
 ---
 

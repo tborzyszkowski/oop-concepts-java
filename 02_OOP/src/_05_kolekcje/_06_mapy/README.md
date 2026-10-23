@@ -106,6 +106,11 @@ for (String word : text.split(" ")) {
 
 `merge(key, value, remappingFunction)` — jeśli klucz nie istnieje, wstawia wartość; jeśli istnieje, łączy przez funkcję.
 
+`get()` zwraca `null` zarówno wtedy, gdy klucza nie ma, jak i wtedy, gdy mapa
+przechowuje dla klucza wartość `null`. Jeśli te przypadki trzeba rozróżnić,
+użyj `containsKey()`. `getOrDefault()` pomaga przy braku klucza, ale nie
+zastępuje walidacji wartości, jeśli `null` jest legalnym stanem.
+
 ---
 
 ## LinkedHashMap — porządek i LRU cache
@@ -187,7 +192,7 @@ for (String name : names) {
 
 ## ⚠️ Najczęstsze błędy
 
-1. **`NullPointerException` z `get()`** — jeśli wartość jest `null` lub klucz nie istnieje. Zawsze używaj `getOrDefault()` lub `containsKey()` przed `get()`.
+1. **Nieostrożne użycie wyniku `get()`** — sam wynik `null` nie rozróżnia braku klucza od wartości `null`; problem może pojawić się dopiero przy automatycznym rozpakowaniu do typu prymitywnego.
 2. **Mutitowalny klucz w `HashMap`** — zmiana klucza po wstawieniu „gubi" element (podobny problem jak w `HashSet`).
 3. **Porównywanie `null` z `TreeMap`** — `TreeMap` nie akceptuje `null` jako klucza (rzuca `NullPointerException`).
 

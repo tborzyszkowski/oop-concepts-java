@@ -73,6 +73,14 @@ Kluczowe punkty hierarchii:
 
 > **Uwaga:** `Map` celowo nie rozszerza `Collection` — kolekcja par (klucz, wartość) nie jest typową kolekcją elementów.
 
+### Jak czytać hierarchię?
+
+Interfejs określa operacje i znaczenie danych, ale nie gwarantuje konkretnej
+złożoności. Na przykład `List` mówi, że elementy mają pozycje i kolejność,
+ale dopiero wybór `ArrayList` albo `LinkedList` mówi coś o kosztach operacji.
+Dlatego zmienna powinna zwykle mieć typ interfejsu, a `new` wskazywać
+implementację dobraną do scenariusza.
+
 ---
 
 ## Programowanie przez interfejsy
@@ -130,6 +138,10 @@ Set<String> sorted = new TreeSet<>(fruits);
 System.out.println(sorted);                  // [gruszka, jabłko, śliwka] — alfabetycznie
 ```
 
+`HashSet` nie obiecuje kolejności iteracji. Jeśli kolejność ma znaczenie,
+wybierz `LinkedHashSet`, a jeśli elementy mają być stale posortowane -
+`TreeSet`.
+
 ---
 
 ## Queue — kolejka FIFO
@@ -186,6 +198,12 @@ List<String> modern = new ArrayList<>();
 1. **Używanie `new ArrayList` bez typu generycznego** — `List list = new ArrayList()` powoduje "unchecked" warning i brak bezpieczeństwa typów w runtime.
 2. **Modyfikacja kolekcji podczas iteracji pętlą `for`** — rzuca `ConcurrentModificationException`. Zamiast tego użyj `Iterator.remove()` lub `removeIf`.
 3. **Mylenie `Collection` z `Collections`** — `Collection` to interfejs, `Collections` to klasa narzędziowa (użytkowa, bez instancji).
+
+### Pytania kontrolne
+
+- Dlaczego `Map` nie rozszerza `Collection`?
+- Kiedy typ zmiennej powinien być `List`, a kiedy `ArrayList`?
+- Która implementacja zachowa kolejność wstawiania elementów?
 
 ---
 

@@ -126,6 +126,11 @@ static Map<String, List<String>> groupAnagramsStream(List<String> words) {
 
 **Oba podejścia dają ten sam wynik** — wybór zależy od preferencji i czytelności.
 
+W obu implementacjach warto ustalić kontrakt danych wejściowych: czy `null`,
+puste słowa i wielkość liter są dozwolone. Normalizacja powinna zostać
+wykonana przed utworzeniem klucza, aby wynik nie zależał przypadkowo od
+formatu wejścia.
+
 ---
 
 ## Top N grup i wyszukiwanie anagramów konkretnego słowa
@@ -161,7 +166,6 @@ Słów wejściowych: 30
 
 --- Podejście imperatywne (pętle + computeIfAbsent) ---
   [akr] → [ark, kar, rak]
-  [akt] → [akt, kat, tak]
   [akt] → [akt, kat, tak]
   [akrt] → [karta, ratka, tarka]
   ...

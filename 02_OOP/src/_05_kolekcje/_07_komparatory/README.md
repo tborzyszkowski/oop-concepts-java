@@ -86,6 +86,10 @@ a.compareTo(b) > 0   → a "większy" niż b (b przed a przy sortowaniu rosnący
 `Comparator<T>` jest **obiektem zewnętrznym** — definiujemy go osobno (np. lambda).
 Pozwala na **wiele różnych porządków** bez modyfikowania klasy.
 
+Komparator powinien być spójny, przechodni i deterministyczny. Jeśli wynik
+zależy od zmiennego stanu albo porównanie nie zachowuje przechodniości,
+sortowanie i kolekcje uporządkowane mogą działać nieprzewidywalnie.
+
 ```java
 // Wg wieku (rosnąco)
 Comparator<User> byAge = Comparator.comparingInt(User::age);
@@ -172,21 +176,16 @@ withNulls.sort(Comparator.nullsLast(Comparator.naturalOrder()));
 
 ## Uruchomienie przykładów
 
-## Pytania kontrolne
-
-1. Kiedy lepiej nie implementowac `Comparable`?
-2. Dlaczego `return a - b` to zly pomysl w `compare`?
-3. Jakie problemy daje comparator niespojny z `equals`?
-
----
-
-
 ```powershell
 Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_07_komparatory"
 .\run-examples.ps1
 ```
 
----
+## Pytania kontrolne
+
+1. Kiedy lepiej nie implementowac `Comparable`?
+2. Dlaczego `return a - b` to zly pomysl w `compare`?
+3. Jakie problemy daje comparator niespojny z `equals`?
 
 ## 📚 Literatura i materiały dodatkowe
 

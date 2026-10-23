@@ -4,6 +4,12 @@ Moduł omawia **Java Collections Framework (JCF)** — hierarchię interfejsów,
 typy generyczne, iteratory, mapy, komparatory oraz strumienie (`Stream API`).
 Styl i struktura są spójne z modułami `_02_interfaces`, `_03_dziedziczenie` i `_04_pakiety`.
 
+Kolekcja nie jest tylko „pojemnikiem na dane”. Jej wybór opisuje również
+reguły domenowe: czy elementy mogą się powtarzać, czy kolejność ma znaczenie,
+jak wyszukujemy dane i jak często je modyfikujemy. W tym module najpierw
+poznajemy abstrakcje, a dopiero potem dobieramy implementację i sposób
+przetwarzania.
+
 ---
 
 ## Spis treści
@@ -39,6 +45,33 @@ Styl i struktura są spójne z modułami `_02_interfaces`, `_03_dziedziczenie` i
 - Porownaj scenariusze: API online (szybki lookup), raporty (sortowanie), kolejki zadan (priorytety).
 - Dodaj uwage, ze stale ukryte i lokalnosc pamieci czesto sa tak samo wazne jak Big-O.
 
+## Szybka checklista wyboru kolekcji
+
+Przed wybraniem klasy z `java.util` odpowiedz na pytania:
+
+1. Czy przechowujesz pojedyncze elementy, czy pary klucz-wartość?
+2. Czy duplikaty są dozwolone?
+3. Czy kolejność wstawiania, sortowanie albo priorytet są częścią wymagania?
+4. Czy najczęstsza operacja to odczyt po indeksie, wyszukiwanie po kluczu,
+   dodawanie na końcu czy usuwanie z początku?
+5. Czy dane będą używane współbieżnie i czy potrzebujesz kolekcji
+   z `java.util.concurrent`?
+
+Dopiero po odpowiedzi na te pytania porównuj `ArrayList` z `LinkedList` albo
+`HashMap` z `TreeMap`. Złożoność Big-O jest ważna, ale nie opisuje całego
+kosztu: znaczenie mają także pamięć, lokalność danych, kolejność wyników
+i prostota kodu.
+
+## Mapa zależności między tematami
+
+- `List`, `Set` i `Map` określają semantykę przechowywania danych.
+- Generyki chronią tę semantykę na etapie kompilacji.
+- `equals` i `hashCode` decydują o poprawności `HashSet` i `HashMap`.
+- `Comparable` i `Comparator` decydują o porządku w `TreeSet`, `TreeMap`
+  i `PriorityQueue`.
+- Iterator zapewnia bezpieczne przechodzenie i modyfikowanie kolekcji.
+- Stream API opisuje transformacje danych, ale nie zastępuje kolekcji.
+
 ### Zajęcia 1 — Kolekcje, typy generyczne, Set, Iterator
 
 1. **Wstęp — co to kolekcja i po co JCF (10 min):** Historia `Vector`/`Hashtable`, JCF w Java 1.2, hierarchia interfejsów. *(moduł 01)*
@@ -64,7 +97,7 @@ Styl i struktura są spójne z modułami `_02_interfaces`, `_03_dziedziczenie` i
 # Z katalogu 02_OOP/src/_05_kolekcje
 .\run-all-examples.ps1
 
-# Tylko testy
+# Weryfikacja rozwiązań zadań
 .\run-tests.ps1
 
 # Generowanie diagramów PNG
@@ -171,6 +204,8 @@ Po ukończeniu modułu student:
 - definiuje porządek za pomocą `Comparable` i `Comparator`,
 - buduje potoki przetwarzania danych ze `Stream API`,
 - rozwiązuje złożone problemy przetwarzania danych z eleganckim użyciem kolekcji.
+- potrafi uzasadnić wybór struktury danych wymaganiami, a nie samą popularnością
+  konkretnej klasy.
 
 ---
 

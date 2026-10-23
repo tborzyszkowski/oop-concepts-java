@@ -95,6 +95,11 @@ Nie są wykonywane dopóki nie zostanie wywołana operacja terminalna:
 | `skip(n)` | Pomija pierwsze n elementów |
 | `peek(Consumer)` | Efekt uboczny (debugging) |
 
+Leniwość pozwala zakończyć pracę wcześniej. Na przykład
+`filter(...).findFirst()` nie musi przetworzyć całej kolekcji - zatrzymuje
+się po znalezieniu pierwszego pasującego elementu. Nie należy jednak traktować
+tego jako gwarantowanej optymalizacji bez pomiaru.
+
 ---
 
 ## Operacje terminalne (eager)
@@ -217,6 +222,11 @@ long count = products.parallelStream()
 - Małe kolekcje (narzut na fork/join pool)
 - Operacje z efektami ubocznymi (mutowanie stanu)
 - Operacje I/O-bound
+
+Strumień równoległy używa wspólnego `ForkJoinPool`, dlatego nie powinien
+mutować zwykłych kolekcji ani współdzielonego stanu bez synchronizacji.
+Najpierw sprawdź poprawność i zmierz wersję sekwencyjną, a dopiero potem
+rozważ `parallelStream()`.
 
 ---
 
