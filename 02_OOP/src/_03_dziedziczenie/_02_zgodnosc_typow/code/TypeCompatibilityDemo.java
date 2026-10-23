@@ -15,6 +15,12 @@ class Car extends Vehicle {
     }
 }
 
+class Truck extends Car {
+    @Override
+    String name() { return "truck"; }
+}
+
+
 class Bike extends Vehicle {
     @Override
     String name() { return "bike"; }
@@ -32,11 +38,12 @@ public class TypeCompatibilityDemo {
         } else {
             vehicle = bike;
         }
-        System.out.println(vehicle.name());
+        System.out.println(choice + ": " + vehicle.name());
 
         if (vehicle instanceof Car car1) {
             car1.openTrunk();
         }
+        // Car car2 = (Car) vehicle;
     }
 }
 
