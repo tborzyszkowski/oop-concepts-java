@@ -58,6 +58,19 @@ for (Shape shape : shapes) {
 
 Tutaj JVM wybiera implementację metod instancyjnych na podstawie rzeczywistego typu obiektu (`Circle` / `Rectangle`).
 
+### Co jest wybierane statycznie, a co dynamicznie?
+
+Warto rozdzielić dwa etapy:
+
+1. Kompilator sprawdza, czy metoda jest dostępna dla typu referencji i wybiera
+   przeciążenie.
+2. Podczas wykonania JVM wybiera implementację nadpisanej metody instancyjnej
+   zgodną z rzeczywistym typem obiektu.
+
+Dotyczy to metod instancyjnych. Pola są wybierane według typu referencji, a
+metody `static` są związane z klasą, nie z konkretnym obiektem. Dlatego
+`static` nie powinien być używany do symulowania polimorfizmu.
+
 ### Co warto podkreślić studentom
 
 1. Przeciążanie (`overload`) to decyzja kompilatora.
@@ -71,6 +84,13 @@ Tutaj JVM wybiera implementację metod instancyjnych na podstawie rzeczywistego 
 1. Oczekiwanie, że pola będą działały jak metody (pola nie są polimorficzne).
 2. Mylenie przeciążania z dynamicznym wiązaniem.
 3. Zakładanie, że `private` i `static` metody są wiązane dynamicznie.
+
+### Pytania kontrolne
+
+- Dlaczego `report(circle)` i `report(circleAsShape)` mogą wywołać różne
+  overloady?
+- Co decyduje o implementacji `shape.area()`?
+- Dlaczego zmiana pola w klasie potomnej nie daje takiego efektu jak override?
 
 ---
 

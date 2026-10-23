@@ -35,6 +35,34 @@ if (upcasted instanceof Car car) {
 
 To nowoczesny styl Javy (pattern variable `car`) bez ręcznego rzutowania.
 
+### Upcasting i downcasting
+
+Upcasting zachodzi na przykład tutaj:
+
+```java
+Vehicle vehicle = new Car();
+```
+
+Obiekt `Car` spełnia wymagania `Vehicle`, więc konwersja jest bezpieczna.
+Przez `vehicle` widoczny jest jednak tylko kontrakt `Vehicle`; metoda
+istniejąca wyłącznie w `Car` wymaga dodatkowego sprawdzenia.
+
+Downcasting próbuje odzyskać bardziej szczegółowy typ:
+
+```java
+if (vehicle instanceof Car car) {
+    car.openTrunk();
+}
+```
+
+Warunek sprawdza typ obiektu, a zmienna `car` jest dostępna w bezpiecznym
+zakresie. Samo `(Car) vehicle` nie zmienia obiektu i nie gwarantuje sukcesu -
+gdy obiekt jest innym `Vehicle`, otrzymamy `ClassCastException`.
+
+Typ referencji decyduje o tym, co można napisać i skompilować. Rzeczywisty typ
+obiektu decyduje o implementacji nadpisanej metody instancyjnej. To rozróżnienie
+jest fundamentem polimorfizmu.
+
 ---
 
 ## Najczęstsze błędy
@@ -42,6 +70,12 @@ To nowoczesny styl Javy (pattern variable `car`) bez ręcznego rzutowania.
 1. Rzutowanie bez sprawdzenia typu (`ClassCastException`).
 2. Zakładanie, że typ referencji decyduje o implementacji metody.
 3. Nadużywanie `instanceof` zamiast projektowania lepszego API.
+
+### Pytania kontrolne
+
+- Dlaczego `Vehicle vehicle = new Car()` jest legalne?
+- Co stanie się przy rzutowaniu `Vehicle` wskazującego na `Bike` do `Car`?
+- Czy zamiast downcastingu można dodać potrzebną operację do wspólnego kontraktu?
 
 ---
 

@@ -29,6 +29,21 @@ W przykładzie porównano:
 - kontrakt zachowania (interfejs),
 - możliwość wielokrotnej implementacji interfejsów.
 
+### Jak wybrać rozwiązanie?
+
+Wybierz klasę abstrakcyjną, gdy typy mają wspólną tożsamość, stan lub
+niezmienny fragment algorytmu. Klasa może rozszerzać tylko jedną klasę, więc
+jest to silna relacja i powinna mieć znaczenie domenowe.
+
+Wybierz interfejs, gdy chcesz opisać zdolność albo rolę, np. `Payable`,
+`Closable` lub `Printable`. Klasa może implementować wiele interfejsów, dzięki
+czemu jeden obiekt może pełnić kilka ról. Interfejs może zawierać metody
+domyślne i statyczne, ale nie przechowuje stanu instancji.
+
+W praktyce oba mechanizmy często współpracują: klasa abstrakcyjna dostarcza
+wspólną implementację, a interfejs określa publiczny kontrakt używany przez
+klienta.
+
 ---
 
 ## Najczęstsze błędy
@@ -36,6 +51,12 @@ W przykładzie porównano:
 1. Używanie klasy abstrakcyjnej tam, gdzie potrzebny jest tylko kontrakt.
 2. Przechowywanie stanu w interfejsie (poza stałymi `public static final`).
 3. Projektowanie klas bazowych, które wiedzą zbyt wiele o potomkach.
+
+### Pytania kontrolne
+
+- Czy potrzebujesz wspólnego stanu, czy tylko wspólnego zachowania?
+- Czy typ powinien móc pełnić więcej niż jedną rolę?
+- Czy klient powinien zależeć od klasy bazowej, czy od interfejsu?
 
 ---
 

@@ -1,5 +1,15 @@
 ﻿# Moduł 03 - Dziedziczenie i polimorfizm w Javie
 
+Dziedziczenie pozwala opisać nowy typ jako bardziej szczegółową odmianę typu
+istniejącego. Najważniejsza wartość tego mechanizmu nie polega jednak na samym
+odziedziczeniu kodu, lecz na możliwości traktowania różnych obiektów przez
+wspólny kontrakt. Dzięki temu kod klienta może wywoływać `shape.area()` albo
+`payment.pay(...)` bez znajomości konkretnej klasy obiektu.
+
+W tym module przechodzimy od mechaniki języka (`extends`, `super`, `@Override`)
+do decyzji projektowych: kiedy użyć dziedziczenia, kiedy interfejsu, a kiedy
+kompozycji i wstrzykiwania zależności.
+
 ## Spis treści
 
 | # | Temat | Katalog |
@@ -27,6 +37,45 @@
 4. **Projektowanie (20 min):** polimorfizm, wzorce, klasy abstrakcyjne vs interfejsy (`06`, `07`, `08`).
 5. **Dyscyplina API (10 min):** `final`, `Object`, kontrakty (`09`, `10`).
 6. **Domknięcie (10 min):** Javadoc + zadania i kryteria oceny (`11`, `12`).
+
+## Jak korzystać z modułu
+
+Najlepiej czytać tematy w podanej kolejności. Każdy kolejny temat wykorzystuje
+pojęcia z poprzednich:
+
+1. **Dziedziczenie i zgodność typów** odpowiadają na pytanie, jakie relacje
+   między klasami są legalne.
+2. **`super`, `override` i wiązanie dynamiczne** wyjaśniają, która część
+   hierarchii zostanie użyta podczas tworzenia i używania obiektu.
+3. **Polimorfizm, klasy abstrakcyjne i interfejsy** pokazują, jak korzystać
+   z hierarchii bez uzależniania kodu od szczegółów.
+4. **DI, `final`, `Object` i Javadoc** przenoszą te zasady na poziom
+   utrzymywalnego API.
+
+Podczas lektury warto dla każdego przykładu odpowiedzieć na trzy pytania:
+
+- jaki jest typ referencji po lewej stronie przypisania?
+- jaki jest rzeczywisty typ obiektu utworzonego przez `new`?
+- czy dana decyzja jest podejmowana przez kompilator, czy dopiero w runtime?
+
+## Słownik pojęć
+
+| Pojęcie | Znaczenie |
+|---|---|
+| `is-a` | relacja „jest rodzajem”, np. `Dog` jest `Animal` |
+| `has-a` | relacja posiadania, np. `Car` ma `Engine`; zwykle prowadzi do kompozycji |
+| upcasting | traktowanie obiektu potomnego jako typu bazowego; jest bezpieczny |
+| downcasting | rzutowanie referencji bazowej na potomną; wymaga sprawdzenia założenia |
+| `override` | nadpisanie odziedziczonej metody o zgodnej sygnaturze |
+| `overload` | kilka metod o tej samej nazwie, ale różnych parametrach |
+| polimorfizm | używanie wspólnego kontraktu dla obiektów różnych klas |
+
+## Główna zasada projektowa
+
+Dziedziczenie jest właściwe wtedy, gdy obiekt potomny może być użyty wszędzie
+tam, gdzie oczekiwany jest obiekt bazowy, bez łamania oczekiwań klienta. Jeżeli
+klasa potomna tylko pożycza implementację, ale nie spełnia znaczenia typu
+bazowego, lepsza będzie kompozycja (`has-a`) albo osobny interfejs.
 
 ---
 

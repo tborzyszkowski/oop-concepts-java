@@ -28,6 +28,19 @@ Diagram PlantUML: [`diagrams/tasks_overview.puml`](diagrams/tasks_overview.puml)
 3. **Niemutowalny kontrakt (poziom 3):**
    Użyj `final` tak, aby zabezpieczyć API klasy niemutowalnej.
 
+### Sugerowana kolejność pracy
+
+1. Najpierw zapisz kontrakt klas i metod, bez implementowania szczegółów.
+2. Zidentyfikuj, które wywołania powinny działać przez typ bazowy lub interfejs.
+3. Dodaj minimalną implementację i uruchom testy po każdym kroku.
+4. Dopiero na końcu wydziel wspólną logikę do klasy bazowej albo interfejsu.
+
+W zadaniu z pracownikami sprawdź osobno upcasting i zachowanie metod
+nadpisanych. W zadaniu z raportami zaprojektuj klienta tak, aby nie musiał
+znać klas konkretnych raportów. W zadaniu z niemutowalnością zweryfikuj nie
+tylko `final` referencji, ale też to, czy obiekt przechowywany w polu nie może
+zostać zmieniony z zewnątrz.
+
 ---
 
 ## Pliki w tym temacie
@@ -44,6 +57,15 @@ Diagram PlantUML: [`diagrams/tasks_overview.puml`](diagrams/tasks_overview.puml)
 - przejście testów jednostkowych,
 - poprawne użycie dziedziczenia bez zbędnej duplikacji kodu,
 - czytelne nazwy klas, metod i komentarze tam, gdzie to potrzebne.
+- testy obejmujące przypadki poprawne oraz graniczne,
+- brak downcastingu tam, gdzie można użyć wspólnego kontraktu,
+- wyjaśnienie, dlaczego wybrano dziedziczenie, interfejs lub kompozycję.
+
+### Pytania do omówienia
+
+- Czy każda relacja „wspólny kod” uzasadnia dziedziczenie?
+- W którym miejscu w rozwiązaniu zachodzi polimorfizm?
+- Jak zmieniłoby się rozwiązanie, gdyby trzeba było dodać kolejną implementację?
 
 ---
 

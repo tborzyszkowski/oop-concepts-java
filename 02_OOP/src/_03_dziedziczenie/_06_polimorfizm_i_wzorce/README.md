@@ -33,6 +33,28 @@ System.out.println(checkout.finalizeOrder(199.99));
 
 Klasa `Checkout` nie zna szczegółów płatności. Zależy od abstrakcji, dzięki czemu łatwo dodać nową metodę płatności.
 
+### Jak działa Strategy?
+
+Wzorzec składa się z trzech elementów:
+
+1. wspólny kontrakt, tutaj reprezentowany przez `Payment`,
+2. kilka wymiennych implementacji, np. `BlikPayment`,
+3. klasa kontekstu (`Checkout`), która używa kontraktu.
+
+`Checkout` nie musi zawierać `if` dla każdej metody płatności. Zmiana strategii
+następuje przy tworzeniu obiektu:
+
+```java
+Checkout checkout = new Checkout(new BlikPayment());
+```
+
+Można więc dodać `CardPayment` bez modyfikowania algorytmu finalizacji
+zamówienia. To ogranicza ryzyko regresji i ułatwia testowanie - test może
+wstrzyknąć prostą implementację testową.
+
+Polimorfizm nie usuwa całej logiki warunkowej. Jest wartościowy wtedy, gdy
+warianty mają wspólny kontrakt i mogą być wymieniane bez zmiany klienta.
+
 ---
 
 ## Najczęstsze błędy
@@ -40,6 +62,13 @@ Klasa `Checkout` nie zna szczegółów płatności. Zależy od abstrakcji, dzię
 1. Tworzenie dużych bloków `if/switch` zamiast polimorfizmu.
 2. Łączenie logiki biznesowej i infrastrukturalnej w jednej klasie.
 3. Brak testów kontraktowych dla wspólnego interfejsu.
+
+### Pytania kontrolne
+
+- Jaki element jest kontraktem strategii?
+- Co trzeba zmienić, aby dodać nową metodę płatności?
+- Czy wszystkie klasy implementujące `Payment` mogą być bezpiecznie użyte przez
+  `Checkout`?
 
 ---
 

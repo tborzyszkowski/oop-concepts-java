@@ -46,6 +46,25 @@ String describeWithFieldReference() {
 
 Najpierw inicjalizowana jest część klasy bazowej, dopiero później pola klasy potomnej.
 
+Wywołanie konstruktora klasy bazowej musi być pierwszą instrukcją konstruktora
+klasy potomnej. Jeżeli nie napiszesz `super(...)`, Java spróbuje wstawić
+`super()`. Zadziała to tylko wtedy, gdy klasa bazowa ma dostępny konstruktor
+bezargumentowy. Dodanie własnego konstruktora w klasie bazowej może więc
+ujawnić błędy w konstruktorach klas potomnych.
+
+### `super.method()` a zwykłe wywołanie metody
+
+W metodzie nadpisującej `super.describe()` wyraźnie wybiera implementację
+klasy bazowej. Dzięki temu można zachować jej logikę i dołączyć zachowanie
+klasy potomnej:
+
+```java
+return super.describe() + ", index=" + indexNumber;
+```
+
+Bez `super` łatwo przypadkowo pominąć ważną logikę bazową albo wywołać metodę
+ponownie w sposób prowadzący do rekurencji.
+
 ### `super` jako referencja do pola
 
 `super.name` odwołuje się jawnie do pola z klasy bazowej (`Person`).
@@ -65,6 +84,12 @@ W przykładzie metoda `describeWithFieldReference()` pokazuje bezpośrednie uży
 2. Używanie `super` tam, gdzie wystarcza `this`.
 3. Nadpisywanie metody i zapominanie o logice bazowej, gdy jest wymagana (`super.describe()`).
 4. Mylenie nadpisywania metod z ukrywaniem pól (pola nie są polimorficzne).
+
+### Pytania kontrolne
+
+- Dlaczego `super(...)` musi być pierwszą instrukcją konstruktora?
+- Co stanie się po usunięciu konstruktora bezargumentowego z klasy bazowej?
+- Czym różni się `super.describe()` od `this.describe()`?
 
 ---
 
