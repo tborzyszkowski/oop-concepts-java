@@ -14,6 +14,10 @@ class BlikPayment implements PaymentStrategy {
     public String pay(double amount) { return "Blik: " + amount; }
 }
 
+class CashPayment implements PaymentStrategy {
+    public String pay(double amount) { return "Cash: " + amount; }
+}
+
 class Checkout {
     private final PaymentStrategy paymentStrategy;
 
@@ -29,14 +33,19 @@ class Checkout {
 public class PolymorphismPatternsDemo {
     public static void main(String[] args) {
         Random random = new Random();
-        boolean choice = random.nextBoolean();
+        int choice = random.nextInt(3);
         Checkout checkout;
-        if  (choice) {
-            checkout = new Checkout(new BlikPayment());
-        } else {
-            checkout = new Checkout(new CardPayment());
+        switch (choice) {
+            case 0:
+                checkout = new Checkout(new BlikPayment());
+                break;
+            case 1:
+                checkout = new Checkout(new CardPayment());
+                break;
+            default:
+                checkout = new Checkout(new CashPayment());
         }
-        System.out.println(checkout.finalizeOrder(199.99));
+        System.out.println(choice + ": " + checkout.finalizeOrder(199.99));
     }
 }
 

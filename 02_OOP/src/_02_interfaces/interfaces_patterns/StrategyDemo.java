@@ -35,7 +35,7 @@ class JavaBuiltinSort implements SortStrategy {
 class Sorter {
     private SortStrategy strategy;
 
-    public Sorter(SortStrategy strategy) { this.strategy = strategy; }
+    public Sorter(SortStrategy strategy) { setStrategy(strategy); }
 
     /** Podmiana strategii w runtime */
     public void setStrategy(SortStrategy strategy) { this.strategy = strategy; }
