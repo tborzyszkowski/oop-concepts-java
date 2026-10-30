@@ -11,7 +11,7 @@ public class ReverseDomainsDemo {
         "com.google.gson.Gson",
         "org.springframework.web.servlet.DispatcherServlet",
         "org.apache.commons.lang3.StringUtils",
-        "pl.edu.agh.oop._04_pakiety._01_przestrzenie_nazw_i_pakiety.code.ReverseDomainsDemo"
+        "pl.edu.ug.oop._04_pakiety._01_przestrzenie_nazw_i_pakiety.code.ReverseDomainsDemo"
     };
 
     public static void main(String[] args) {
