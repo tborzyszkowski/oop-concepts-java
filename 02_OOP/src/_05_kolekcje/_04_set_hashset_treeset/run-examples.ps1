@@ -10,3 +10,5 @@ javac --release 21 -d $out $sources
 Write-Host "`n--- SetComparisonDemo ---" -ForegroundColor Cyan
 java -cp $out _05_kolekcje._04_set_hashset_treeset.code.SetComparisonDemo
 
+Write-Host "`n--- CollectionPerformanceDemo ---" -ForegroundColor Cyan
+java -cp $out _05_kolekcje._04_set_hashset_treeset.code.CollectionPerformanceDemo

@@ -133,12 +133,70 @@ rozróżniać elementy, które biznesowo nie są tym samym obiektem.
 
 ---
 
+## Test wydajności: ArrayList vs HashSet vs TreeSet
+
+Przykład [`code/CollectionPerformanceDemo.java`](code/CollectionPerformanceDemo.java)
+mierzy, ile trwa **dodanie** i **wyszukanie** milionów losowych liczb `Integer`
+w czterech wariantach:
+
+| Wariant | Jak działa | Wyszukiwanie |
+|---------|-----------|--------------|
+| `ArrayList` + `contains` | tablica dynamiczna, elementy w kolejności wstawiania | **O(n)** — przegląd po kolei |
+| `ArrayList` + `binarySearch` | tablica po `Collections.sort` | **O(log n)** — dzielenie przedziału na pół |
+| `HashSet` | tablica skrzynek; `hashCode()` wskazuje skrzynkę | **O(1)** średnio |
+| `TreeSet` | zrównoważone drzewo czerwono-czarne | **O(log n)** — zejście po drzewie |
+
+Uruchomienie z własnymi rozmiarami (liczba elementów, liczba zapytań):
+
+```powershell
+java -cp out _05_kolekcje._04_set_hashset_treeset.code.CollectionPerformanceDemo 2000000 2000000
+```
+
+Przykładowy wynik (1 000 000 elementów i zapytań; wartości zależą od sprzętu):
+
+| Kolekcja | dodawanie [ms] | wyszukiwanie [ms] | zapytań |
+|----------|---------------:|------------------:|--------:|
+| ArrayList + binarySearch (z sortowaniem) | 327 | 644 | 1 000 000 |
+| HashSet | 142 | 43 | 1 000 000 |
+| TreeSet | 988 | 1266 | 1 000 000 |
+| ArrayList + contains (liniowo) | 8 | 245 | **200** |
+
+Liniowe wyszukiwanie wykonano tylko 200 razy — milion zapytań trwałby kilka
+godzin (ok. 1,2 ms na jedno zapytanie).
+
+### Jak to czytać
+
+- **`HashSet`** wygrywa wyszukiwanie o rząd wielkości: liczy hash i trafia
+  prawie wprost do elementu, niezależnie od rozmiaru zbioru.
+- **`TreeSet`** jest wolniejszy, bo każda operacja to ok. log₂(n) ≈ 20 porównań
+  i skoków po wskaźnikach między węzłami rozrzuconymi w pamięci (słaba
+  lokalność cache). Płaci się tym za **utrzymywanie porządku**.
+- **`ArrayList`** dodaje najszybciej (dopisanie na końcu), ale wyszukiwanie
+  wymaga albo przeglądu O(n), albo wcześniejszego sortowania O(n log n) i listy
+  niezmienianej między wyszukiwaniami. Wstawienie do posortowanej listy
+  w środku kosztuje O(n).
+- Kolekcje trzymają `Integer` (obiekty), więc dochodzi koszt pamięci i
+  odśmiecania; `HashSet` i `TreeSet` zużywają jej znacznie więcej niż lista.
+
+### Jak mierzyć rzetelnie (i czego ten test nie robi)
+
+Program stosuje rozgrzewkę JIT, stałe ziarno `Random` (powtarzalne dane),
+oddzielne dane dla elementów i zapytań oraz zliczanie trafień (żeby JIT nie
+usunął „niepotrzebnych" wyszukiwań). To jednak nadal prosty pomiar
+edukacyjny — do poważnych benchmarków służy **JMH**. Różnice rzędu
+kilkudziesięciu procent traktuj ostrożnie, ale różnice rzędu 10× i więcej
+(O(1) vs O(log n) vs O(n)) są wiarygodne.
+
+---
+
 ## Kiedy wybrać HashSet, a kiedy TreeSet?
 
 ```
 Wymagana kolejność posortowana lub zakresy?       → TreeSet
 Wystarczy unikalność i szybkie wyszukiwanie?      → HashSet
 Unikalność i kolejność wstawiania?                → LinkedHashSet
+Dane rzadko się zmieniają, dużo odczytów po indeksie, duplikaty OK? → ArrayList
+Pojedyncze wyszukiwanie w małej liście (kilkadziesiąt elementów)?   → ArrayList.contains wystarczy
 ```
 
 Przykład: dla terminarza `TreeSet<LocalDate>` pozwoli znaleźć najbliższy
