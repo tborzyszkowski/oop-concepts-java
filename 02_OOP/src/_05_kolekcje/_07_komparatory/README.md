@@ -13,13 +13,6 @@
 
 ## Diagram — Comparable vs Comparator
 
-#### Notatka do slajdu
-
-**Kontrakt porownania**
-- Omow antysymetrie, przechodniosc i spojnosc wyniku.
-- Podkresl, ze bledny comparator psuje `TreeSet`/`TreeMap` i prowadzi do trudnych bugow.
-
-
 ![Comparable i Comparator](diagrams/comparator_comparable.png)
 
 *Źródło: `diagrams/comparator_comparable.puml`*
@@ -27,21 +20,6 @@
 ---
 
 ## Comparable — porządek naturalny
-
-#### Notatka do slajdu
-
-**Porzadek naturalny vs porzadek kontekstowy**
-- `Comparable` traktuj jako "domyslna tozsamosc sortowania" typu.
-- `Comparator` traktuj jako strategie zalezne od przypadku uzycia (np. ranking, UI, raport).
-- Pokaz, ze obie techniki moga wspolistniec i nie sa konkurencyjne.
-
-
-#### Notatka do slajdu
-
-**Kompozycja comparatorow**
-- Pokaz `comparing` + `thenComparing` jako wzorzec budowania czytelnych, testowalnych reguł.
-- Dodaj `nullsFirst/nullsLast` jako element odpornosci API na nieidealne dane.
-
 
 `Comparable<T>` jest **implementowany przez samą klasę** i definiuje jej **naturalny porządek**.
 
@@ -68,20 +46,22 @@ Pełny przykład: [`code/ComparatorDemo.java`](code/ComparatorDemo.java)
 
 ```
 a.compareTo(b) < 0   → a "mniejszy" niż b (a przed b przy sortowaniu rosnącym)
-a.compareTo(b) = 0   → a "równy" b
+a.compareTo(b) = 0   → a i b są równoważne w tym porządku
 a.compareTo(b) > 0   → a "większy" niż b (b przed a przy sortowaniu rosnącym)
 ```
+
+Wynik `0` nie musi oznaczać, że `a.equals(b)` zwraca `true`; opisuje
+równoważność według porządku porównania.
+
+Porządek musi być spójny i przechodni: jeśli `a < b` oraz `b < c`, to
+`a < c`. W przeciwnym razie sortowanie może zgłosić wyjątek albo dać wynik
+zależny od kolejności danych. Dla kolekcji uporządkowanych (`TreeSet`,
+`TreeMap`) wynik `compare(a, b) == 0` oznacza tę samą pozycję porządkową,
+więc jeden z elementów/kluczy nie zostanie dodany.
 
 ---
 
 ## Comparator — porządek zewnętrzny
-
-#### Notatka do slajdu
-
-**Praktyka zespolowa**
-- Dla modelu domenowego ustal jeden naturalny porzadek albo zrezygnuj z `Comparable`.
-- Pozostale porzadki trzymaj jako stale `Comparator` w klasie narzedziowej.
-
 
 `Comparator<T>` jest **obiektem zewnętrznym** — definiujemy go osobno (np. lambda).
 Pozwala na **wiele różnych porządków** bez modyfikowania klasy.
@@ -119,6 +99,11 @@ Comparator<User> byAgeThenName = Comparator
         .comparingInt(User::age)
         .thenComparing(User::name);
 ```
+
+Przy sortowaniu według klucza, a następnie kryterium rozstrzygającego,
+`thenComparing` pozwala zdefiniować pełniejszy porządek. Jest to szczególnie
+ważne przy zbiorach uporządkowanych: samo porównanie po wieku potraktowałoby
+różnych użytkowników w tym samym wieku jako równoważnych.
 
 ---
 
@@ -168,7 +153,7 @@ withNulls.sort(Comparator.nullsLast(Comparator.naturalOrder()));
 
 ## ⚠️ Najczęstsze błędy
 
-1. **Niespójny `compareTo`** — `compareTo` musi być spójny z `equals`: jeśli `a.compareTo(b) == 0`, to `a.equals(b) == true` (nie jest to wymuszone przez kompilator, ale kolekcje na tym polegają).
+1. **`compareTo` niespójny z `equals`** — Java tego nie wymusza, ale jest to zalecane. `TreeSet` i `TreeMap` uznają wynik porównania `0` za równoważność, nawet gdy `equals` zwraca `false`.
 2. **Overflow przy odejmowaniu w `compare`** — `return a - b` może powodować overflow dla dużych liczb. Używaj `Integer.compare(a, b)`.
 3. **Modyfikacja pola użytego w `compareTo` po umieszczeniu w `TreeSet`** — element "ginie" w zbiorze.
 

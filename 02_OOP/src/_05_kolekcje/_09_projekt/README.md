@@ -15,20 +15,6 @@ Ten moduł integruje wszystkie wcześniej poznane koncepcje (kolekcje, mapy, ite
 
 ## Opis problemu
 
-#### Notatka do slajdu
-
-**Jak rozbic problem anagramow**
-- Pokaz dekompozycje: normalizacja -> klucz kanoniczny -> grupowanie -> filtracja -> ranking.
-- Podkresl, ze kazdy krok mapuje sie na konkretna abstrakcje JCF.
-
-
-#### Notatka do slajdu
-
-**Dlaczego `HashMap<String, List<String>>`**
-- Klucz kanoniczny to naturalny indeks, lista trzyma elementy tej samej klasy rownowaznosci.
-- Wyjasnij, dlaczego to rozwiazanie skaluje sie lepiej niz porownywanie kazdej pary slow.
-
-
 **Anagramy** to słowa zbudowane z tych samych liter w różnej kolejności.
 Przykłady: `rak`, `kar`, `ark` — wszystkie zawierają litery {a, k, r}.
 
@@ -38,14 +24,6 @@ Przykłady: `rak`, `kar`, `ark` — wszystkie zawierają litery {a, k, r}.
 
 ## Diagram — architektura rozwiązania
 
-#### Notatka do slajdu
-
-**Zlozonosc i pamiec**
-- Dominujacy koszt to sortowanie liter kazdego slowa: O(k log k) na slowo.
-- Calkowity koszt: O(n * k log k), pamiec O(n * k) na grupy.
-- Daj pomysl optymalizacji: zamiast sortowania, histogram liter dla alfabetu stalych rozmiarow.
-
-
 ![Architektura AnagramSolver](diagrams/anagram_design.png)
 
 *Źródło: `diagrams/anagram_design.puml`*
@@ -54,19 +32,11 @@ Przykłady: `rak`, `kar`, `ark` — wszystkie zawierają litery {a, k, r}.
 
 ## Kluczowa idea: klucz kanoniczny
 
-#### Notatka do slajdu
-
-**Jak przejsc do wersji produkcyjnej**
-- Strumieniowe czytanie slownika z pliku.
-- Ograniczenie pamieci (chunking, pipeline).
-- Testy wlasciwosci (czy dwa slowa z tym samym kluczem sa anagramami).
-
-
 Każde słowo sprowadzamy do postaci kanonicznej: **posortowane litery**.
 
 ```java
 static String canonical(String word) {
-    char[] chars = word.toLowerCase().toCharArray();
+    char[] chars = word.toLowerCase(Locale.ROOT).toCharArray();
     Arrays.sort(chars);
     return new String(chars);
 }
@@ -78,7 +48,13 @@ canonical("kat")  // → "akt"
 canonical("tak")  // → "akt"
 ```
 
-Słowa o tym samym kluczu kanonicznym to anagramy. To sprawia, że mogą być pogrupowane przez `HashMap`.
+Słowa o tym samym kluczu kanonicznym to anagramy. To sprawia, że mogą być
+pogrupowane przez `HashMap`. W tym przykładzie wielkość liter jest ignorowana,
+ale znaki diakrytyczne pozostają różne (`a` i `ą` to różne litery).
+`Locale.ROOT` zapewnia deterministyczną zmianę wielkości liter niezależną od
+języka ustawionego w systemie. Implementacja zakłada niepusty, nie-nullowy
+argument; pełna aplikacja powinna jawnie określić obsługę `null`, spacji
+i normalizacji Unicode (np. złożonego znaku `ą`).
 
 ---
 
@@ -99,20 +75,16 @@ static Map<String, List<String>> groupAnagramsImperative(List<String> words) {
 }
 ```
 
-**Złożoność:** O(n × k log k), gdzie n = liczba słów, k = max długość słowa.
+**Złożoność:** koszt to suma `O(kᵢ log kᵢ)` dla długości poszczególnych słów.
+Pamięć na klucze i grupy jest proporcjonalna do łącznej liczby
+przechowywanych znaków. Gdy alfabet jest mały i ustalony, klucz można
+zbudować z histogramu liter zamiast sortowania.
 
 Pełny przykład: [`code/AnagramSolver.java`](code/AnagramSolver.java)
 
 ---
 
 ## Podejście 2: Stream API (Collectors.groupingBy)
-
-#### Notatka do slajdu
-
-**Imperatywnie vs Stream API**
-- Porownaj dwie osie: kontrola krok po kroku (imperatywnie) vs zwięzlosc i deklaratywnosc (stream).
-- Powiedz studentom, ze wybor stylu to decyzja o czytelnosci zespolowej i profilowaniu, a nie tylko gust.
-
 
 ```java
 static Map<String, List<String>> groupAnagramsStream(List<String> words) {
@@ -131,6 +103,11 @@ puste słowa i wielkość liter są dozwolone. Normalizacja powinna zostać
 wykonana przed utworzeniem klucza, aby wynik nie zależał przypadkowo od
 formatu wejścia.
 
+Pętla dobrze pokazuje moment utworzenia każdej grupy i łatwo ją śledzić
+debuggerem. Wariant strumieniowy krótko wyraża grupowanie, ale również tworzy
+pośrednią mapę. Przy wyborze kieruj się czytelnością, wymaganiami dotyczącymi
+pamięci i pomiarem dla danych docelowych.
+
 ---
 
 ## Top N grup i wyszukiwanie anagramów konkretnego słowa
@@ -139,7 +116,7 @@ formatu wejścia.
 // Top N grup wg rozmiaru
 groups.entrySet().stream()
     .sorted(Comparator.comparingInt((Map.Entry<String, List<String>> e) ->
-        e.getValue().size()).reversed())
+        e.getValue().size()).reversed().thenComparing(Map.Entry::getKey))
     .limit(3)
     .forEach(e -> System.out.println(e.getValue()));
 
@@ -162,18 +139,18 @@ findAnagramsOf("rak", allWords);  // [ark, kar]
 
 ```
 === Demo: grupowanie anagramów ===
-Słów wejściowych: 30
+Słów wejściowych: 33
 
 --- Podejście imperatywne (pętle + computeIfAbsent) ---
   [akr] → [ark, kar, rak]
   [akt] → [akt, kat, tak]
-  [akrt] → [karta, ratka, tarka]
+  [aakrt] → [karta, ratka, tarka]
   ...
 
 === Top 3 grup (wg rozmiaru) ===
+  [karta, ratka, tarka] (klucz: aakrt)
   [ark, kar, rak] (klucz: akr)
   [akt, kat, tak] (klucz: akt)
-  [karta, ratka, tarka] (klucz: aakrt)
 
 === Anagramy słowa 'rak' ===
 [ark, kar]
@@ -187,7 +164,7 @@ Słów wejściowych: 30
 |---------|----------------|
 | Grupowanie słów | `HashMap<String, List<String>>` + `computeIfAbsent` |
 | Deklaratywne grupowanie | `Collectors.groupingBy` |
-| Sortowanie grup | `Comparator.comparingInt().reversed()` |
+| Sortowanie grup | `Comparator.comparingInt().reversed().thenComparing(key)` |
 | Top N | `Stream.limit(n)` |
 | Usuwanie grup z 1 słowem | `removeIf` |
 | Szukanie anagramów | `Stream.filter()` |
@@ -205,19 +182,16 @@ Słów wejściowych: 30
 
 ## Uruchomienie
 
+```powershell
+Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_09_projekt"
+.\run-examples.ps1
+```
+
 ## Pytania kontrolne
 
 1. Co jest kluczem kanonicznym i dlaczego dziala?
 2. Jak zmienia sie zlozonosc przy bardzo dlugich slowach?
 3. Kiedy wersja imperatywna bedzie lepsza od streamowej?
-
----
-
-
-```powershell
-Set-Location "C:\home\gitHub\oop-concepts-java\02_OOP\src\_05_kolekcje\_09_projekt"
-.\run-examples.ps1
-```
 
 ---
 

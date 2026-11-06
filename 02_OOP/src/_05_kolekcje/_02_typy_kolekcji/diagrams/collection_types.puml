@@ -17,11 +17,11 @@ package "List — kolejność + duplikaty" {
 
 package "Set — bez duplikatów" {
   class HashSet {
-    add/contains: O(1)
-    kolejność: BRAK
+    add/contains: O(1) średnio
+    kolejność: nieokreślona
   }
   class LinkedHashSet {
-    add/contains: O(1)
+    add/contains: O(1) średnio
     kolejność: WSTAWIANIA
   }
   class TreeSet {
@@ -44,6 +44,11 @@ package "Queue / Deque" {
 }
 
 note "Wybór kolekcji:\n• losowy dostęp → ArrayList\n• częste wstawianie na pocz. → LinkedList\n• unikalność+porządek → TreeSet\n• kolejka FIFO → ArrayDeque\n• priorytetyzacja → PriorityQueue" as N1
+note bottom of PriorityQueue
+  Iteracja nie gwarantuje pełnego
+  porządku priorytetów; poll()
+  zwraca kolejny element o najwyższym
+  priorytecie.
+end note
 
 @enduml
-

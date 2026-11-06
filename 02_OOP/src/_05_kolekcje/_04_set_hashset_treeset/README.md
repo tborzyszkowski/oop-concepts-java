@@ -13,13 +13,6 @@
 
 ## Diagram — hierarchia Set
 
-#### Notatka do slajdu
-
-**Ryzyko mutowalnosci elementow**
-- Jesli pole uzyte w `hashCode`/`compareTo` zmieni sie po dodaniu do zbioru, element moze stac sie "niewidzialny".
-- To argument za niemutowalnymi value objects jako kluczami/elementami zbiorow.
-
-
 ![Hierarchia Set](diagrams/set_hierarchy.png)
 
 *Źródło: `diagrams/set_hierarchy.puml`*
@@ -27,14 +20,6 @@
 ---
 
 ## Kontrakt equals/hashCode
-
-#### Notatka do slajdu
-
-**Dlaczego `equals/hashCode` to temat krytyczny**
-- Pokaz, ze `HashSet` dziala poprawnie tylko przy spelnionym kontrakcie.
-- Omow symptom blednego kodu: duplikaty logiczne mimo uzycia zbioru.
-- Dodaj praktyke zespolowa: dla klas modelu zawsze testy kontraktu `equals/hashCode`.
-
 
 `HashSet` wewnętrznie używa tablicy skrzynek (buckets). Dla każdego elementu:
 1. Wywołuje `hashCode()` → wyznacza skrzynkę,
@@ -74,7 +59,9 @@ good.add(new PointCorrect(1, 2));
 good.size();  // → 1 (poprawnie)
 ```
 
-> **Zasada:** `equals` i `hashCode` muszą być **spójne**: jeśli `a.equals(b)`, to `a.hashCode() == b.hashCode()`.
+> **Zasada:** `equals` i `hashCode` muszą być **spójne**: jeśli
+> `a.equals(b)`, to `a.hashCode() == b.hashCode()`. Odwrotna implikacja nie
+> obowiązuje — różne obiekty mogą mieć ten sam hash.
 
 `hashCode()` nie musi być unikalny. Dwa różne obiekty mogą mieć ten sam hash
 (kolizja), a `HashSet` rozstrzyga ich równość przez `equals()`. Wymagane jest
@@ -86,21 +73,13 @@ Pełny przykład: [`code/SetComparisonDemo.java`](code/SetComparisonDemo.java)
 
 ## HashSet vs TreeSet
 
-#### Notatka do slajdu
-
-**HashSet vs TreeSet jako wybor architektoniczny**
-- `HashSet` gdy liczy sie predkosc i brak wymogu stalego porzadku.
-- `TreeSet` gdy porzadek jest elementem wymagania biznesowego (np. rankingi, zakresy, nearest-value).
-- Podkresl koszt: O(1) srednio vs O(log n), ale tez roznica pamieciowa i semantyczna.
-
-
 ```java
 List<String> words = List.of("banan", "jabłko", "banan", "gruszka", "ananas", "jabłko");
 
 Set<String> hash = new HashSet<>(words);
 Set<String> tree = new TreeSet<>(words);
 
-System.out.println(hash);  // [banan, gruszka, jabłko, ananas] — kolejność losowa
+System.out.println(hash);  // kolejność iteracji nie jest określona
 System.out.println(tree);  // [ananas, banan, gruszka, jabłko] — zawsze posortowane
 ```
 
@@ -108,22 +87,15 @@ System.out.println(tree);  // [ananas, banan, gruszka, jabłko] — zawsze posor
 
 | | HashSet | TreeSet |
 |--|---------|---------|
-| Złożoność `add`/`contains` | O(1) | O(log n) |
+| Złożoność `add`/`contains` | O(1) średnio | O(log n) |
 | Wymaga | `equals` + `hashCode` | `Comparable` lub `Comparator` |
-| Porządek | losowy | posortowany |
-| `null` | dozwolony (1 element) | niedozwolony (NullPointerException) |
+| Porządek | nieokreślony | posortowany |
+| `null` | dozwolony (1 element) | zależy od komparatora; porządek naturalny go nie obsługuje |
 | Najlepsze użycie | szybka unikalność | zawsze posortowany zbiór |
 
 ---
 
 ## SortedSet / NavigableSet — operacje na zakresach
-
-#### Notatka do slajdu
-
-**Operacje zakresowe (`NavigableSet`)**
-- `floor/ceiling/lower/higher` pokazuja, ze `TreeSet` to nie tylko "posortowany Set".
-- Daj przypadek uzycia: wyszukiwanie najblizszego terminu lub progow cenowych.
-
 
 `TreeSet` implementuje `NavigableSet`, który rozszerza `SortedSet` o metody nawigacji:
 
@@ -164,11 +136,14 @@ rozróżniać elementy, które biznesowo nie są tym samym obiektem.
 ## Kiedy wybrać HashSet, a kiedy TreeSet?
 
 ```
-Potrzebujesz zawsze posortowanego zbioru?        → TreeSet
-Potrzebujesz operacji na zakresach (headSet)?    → TreeSet
-Zależy ci tylko na unikalności, szybkość?        → HashSet
-Chcesz zachować kolejność wstawiania?            → LinkedHashSet
+Wymagana kolejność posortowana lub zakresy?       → TreeSet
+Wystarczy unikalność i szybkie wyszukiwanie?      → HashSet
+Unikalność i kolejność wstawiania?                → LinkedHashSet
 ```
+
+Przykład: dla terminarza `TreeSet<LocalDate>` pozwoli znaleźć najbliższy
+termin po danej dacie (`ceiling`), a dla deduplikacji identyfikatorów bez
+wymogu kolejności wystarczy `HashSet`.
 
 ---
 

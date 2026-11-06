@@ -14,14 +14,6 @@
 
 ## Geneza — dlaczego kolekcje?
 
-#### Notatka do slajdu
-
-**Dlaczego kolekcje zamiast tablic?**
-- Podkresl kompromis: tablica daje szybki dostep po indeksie, ale slaba elastycznosc przy zmianach rozmiaru.
-- Pokaz scenariusz biznesowy: dynamiczna lista zamowien, gdzie rozmiar nie jest znany na etapie kompilacji.
-- Wyjasnij, ze JCF to nie tylko "wygoda", ale standaryzacja API i algorytmow.
-
-
 ### Java 1.0 (1996) — brak spójnych kolekcji
 
 Pierwsze wersje Javy oferowały tylko:
@@ -47,14 +39,6 @@ Joshua Bloch zaprojektował **Java Collections Framework (JCF)**, który wprowad
 
 ## Hierarchia interfejsów JCF
 
-#### Notatka do slajdu
-
-**Hierarchia JCF**
-- Omow zaleznosc `Iterable -> Collection -> (List/Set/Queue)` oraz osobna galaz `Map`.
-- Zaznacz, ze interfejs definiuje kontrakt, a implementacja szczegoly wydajnosciowe.
-- Daj studentom mini-zasade: najpierw wybierz semantyke (unikalnosc, kolejnosc), potem implementacje.
-
-
 ![Hierarchia Java Collections Framework](diagrams/collections_hierarchy.png)
 
 *Źródło: `diagrams/collections_hierarchy.puml`*
@@ -71,7 +55,9 @@ Kluczowe punkty hierarchii:
 | `Deque<E>` | Kolejka dwukierunkowa (FIFO i LIFO) |
 | `Map<K,V>` | Słownik klucz→wartość, **nie rozszerza Collection** |
 
-> **Uwaga:** `Map` celowo nie rozszerza `Collection` — kolekcja par (klucz, wartość) nie jest typową kolekcją elementów.
+> **Uwaga:** `Map` celowo nie rozszerza `Collection`: jej podstawową jednostką
+> jest powiązanie klucz-wartość. Widoki `keySet()`, `values()` i `entrySet()`
+> pozwalają iterować odpowiednio po kluczach, wartościach i wpisach.
 
 ### Jak czytać hierarchię?
 
@@ -85,13 +71,6 @@ implementację dobraną do scenariusza.
 
 ## Programowanie przez interfejsy
 
-#### Notatka do slajdu
-
-**Programowanie przez interfejs**
-- Pokaz korzysc dla testow: latwa podmiana `ArrayList` na `LinkedList` lub mock/fake.
-- Wspomnij o DIP (SOLID): kod wyzszego poziomu nie powinien zalezec od szczegolow implementacji.
-
-
 Zapisuj typ zmiennej jako interfejs, nie jako klasę konkretną:
 
 ```java
@@ -102,7 +81,10 @@ List<String> names = new ArrayList<>();
 ArrayList<String> names = new ArrayList<>();
 ```
 
-Dzięki temu możesz zmienić implementację (np. `LinkedList`) bez zmiany reszty kodu.
+Dzięki temu kod zależy od potrzebnych operacji interfejsu, a nie od szczegółów
+konkretnej klasy. Implementację można zmienić, o ile nowa spełnia wymagania
+wydajnościowe i semantyczne. Nie oznacza to, że `ArrayList` i `LinkedList`
+zawsze są wymienne — np. koszt dostępu po indeksie jest różny.
 
 Pełny przykład: [`code/CollectionsIntroDemo.java`](code/CollectionsIntroDemo.java)
 
@@ -144,7 +126,7 @@ wybierz `LinkedHashSet`, a jeśli elementy mają być stale posortowane -
 
 ---
 
-## Queue — kolejka FIFO
+## Queue — kolejka
 
 ```java
 Queue<String> queue = new LinkedList<>();
@@ -154,16 +136,13 @@ System.out.println(queue.peek());     // "zadanie-1" (podgląd bez usunięcia)
 System.out.println(queue.poll());     // "zadanie-1" (pobranie + usunięcie)
 ```
 
+`Queue` udostępnia operacje na początku i końcu kolejki, ale nie każda
+implementacja musi zachowywać FIFO — `PriorityQueue` wybiera element według
+priorytetu. Przykład z `LinkedList` zachowuje kolejność wstawiania.
+
 ---
 
 ## Klasa narzędziowa Collections
-
-#### Notatka do slajdu
-
-**`Collections` jako warstwa algorytmow**
-- Wyjasnij roznice `Collection` (interfejs) vs `Collections` (klasa narzedziowa).
-- Pokaz praktyczny efekt: sortowanie, odwracanie i wrappery niemutowalne bez pisania algorytmow od zera.
-
 
 ```java
 List<Integer> nums = new ArrayList<>(List.of(4, 1, 9, 2, 7));
@@ -175,6 +154,11 @@ System.out.println(Collections.max(nums));         // 9
 List<Integer> unmod = Collections.unmodifiableList(nums);
 unmod.add(99);  // → UnsupportedOperationException
 ```
+
+`Collection` jest interfejsem opisującym grupę elementów, natomiast
+`Collections` to klasa statycznych metod pomocniczych. `unmodifiableList`
+tworzy **widok tylko do odczytu**, a nie niezależną kopię: zmiany wykonane
+przez referencję `nums` nadal będą widoczne w `unmod`.
 
 ---
 
@@ -188,26 +172,24 @@ Vector<String> vector = new Vector<>();
 List<String> modern = new ArrayList<>();
 ```
 
-> W nowym kodzie **zawsze używaj** `ArrayList`, `HashMap` itp. `Vector` i `Hashtable` istnieją tylko dla kompatybilności wstecznej.
-> Jeśli potrzebujesz synchronizacji, użyj `Collections.synchronizedList(new ArrayList<>())` lub kolekcji z pakietu `java.util.concurrent`.
+> W nowym kodzie zwykle wybiera się `ArrayList`, `HashMap` i inne implementacje
+> JCF zamiast klas historycznych `Vector` i `Hashtable`. Gdy potrzebna jest
+> współbieżność, wybierz strukturę z `java.util.concurrent` odpowiednią do
+> wymagań; sam wrapper `Collections.synchronizedList` nie czyni złożonych
+> sekwencji operacji atomowymi.
 
 ---
 
 ## ⚠️ Najczęstsze błędy
 
 1. **Używanie `new ArrayList` bez typu generycznego** — `List list = new ArrayList()` powoduje "unchecked" warning i brak bezpieczeństwa typów w runtime.
-2. **Modyfikacja kolekcji podczas iteracji pętlą `for`** — rzuca `ConcurrentModificationException`. Zamiast tego użyj `Iterator.remove()` lub `removeIf`.
+2. **Modyfikacja kolekcji spoza iteratora podczas iteracji** — implementacje
+   fail-fast mogą zgłosić `ConcurrentModificationException`; jest to
+   diagnostyka, nie gwarancja synchronizacji. Użyj `Iterator.remove()`
+   lub `removeIf`.
 3. **Mylenie `Collection` z `Collections`** — `Collection` to interfejs, `Collections` to klasa narzędziowa (użytkowa, bez instancji).
 
-### Pytania kontrolne
-
-- Dlaczego `Map` nie rozszerza `Collection`?
-- Kiedy typ zmiennej powinien być `List`, a kiedy `ArrayList`?
-- Która implementacja zachowa kolejność wstawiania elementów?
-
 ---
-
-## Uruchomienie przykładów
 
 ## Pytania kontrolne
 

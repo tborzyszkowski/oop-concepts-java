@@ -8,12 +8,12 @@ interface NavigableSet<E> extends SortedSet
 
 class HashSet<E> implements Set {
   hash table
-  add/contains: O(1)
-  kolejność: losowa
+  add/contains: O(1) średnio
+  kolejność: nieokreślona
 }
 class LinkedHashSet<E> implements Set {
   hash table + lista
-  add/contains: O(1)
+  add/contains: O(1) średnio
   kolejność: wstawiania
 }
 class TreeSet<E> implements NavigableSet {
@@ -32,7 +32,8 @@ note right of TreeSet
   Metody: first(), last(),
   headSet(), tailSet(), subSet(),
   floor(), ceiling(), higher(), lower()
+  compare(a,b) == 0 oznacza
+  równoważność elementów w zbiorze.
 end note
 
 @enduml
-

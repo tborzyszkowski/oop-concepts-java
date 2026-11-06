@@ -18,7 +18,7 @@ public class AnagramSolver {
     // Pomocnicza: klucz kanoniczny = posortowane litery
     // -------------------------------------------------------
     static String canonical(String word) {
-        char[] chars = word.toLowerCase().toCharArray();
+        char[] chars = word.toLowerCase(Locale.ROOT).toCharArray();
         Arrays.sort(chars);
         return new String(chars);
     }
@@ -63,7 +63,7 @@ public class AnagramSolver {
         }
         groups.entrySet().stream()
             .sorted(Comparator.comparingInt((Map.Entry<String, List<String>> e) ->
-                e.getValue().size()).reversed())
+                e.getValue().size()).reversed().thenComparing(Map.Entry::getKey))
             .forEach(e -> {
                 List<String> sorted = new ArrayList<>(e.getValue());
                 Collections.sort(sorted);
@@ -123,9 +123,10 @@ public class AnagramSolver {
         System.out.println("\n=== Top " + n + " grup (wg rozmiaru) ===");
         groups.entrySet().stream()
             .sorted(Comparator.comparingInt((Map.Entry<String, List<String>> e) ->
-                e.getValue().size()).reversed())
+                e.getValue().size()).reversed().thenComparing(Map.Entry::getKey))
             .limit(n)
-            .forEach(e -> System.out.println("  " + e.getValue() + " (klucz: " + e.getKey() + ")"));
+            .forEach(e -> System.out.println("  " + e.getValue().stream().sorted().toList()
+                + " (klucz: " + e.getKey() + ")"));
     }
 
     // -------------------------------------------------------
@@ -156,4 +157,3 @@ public class AnagramSolver {
         System.out.println(findAnagramsOf("rak", allWords));
     }
 }
-

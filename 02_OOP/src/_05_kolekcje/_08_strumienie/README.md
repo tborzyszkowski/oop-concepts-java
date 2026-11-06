@@ -25,14 +25,6 @@
 
 ## Diagram — potok strumienia
 
-#### Notatka do slajdu
-
-**Model mentalny strumienia**
-- Stream to "przepis" na obliczenie, a nie pojemnik na dane.
-- Operacje posrednie buduja plan wykonania, terminalna uruchamia plan.
-- Podkresl jednorazowosc strumienia i brak mozliwosci ponownego uzycia.
-
-
 ![Potok Stream API](diagrams/streams_pipeline.png)
 
 *Źródło: `diagrams/streams_pipeline.puml`*
@@ -41,20 +33,17 @@
 
 ## Kluczowa różnica: Stream ≠ Collection
 
-#### Notatka do slajdu
-
-**`collect` vs `reduce`**
-- `reduce` dla agregacji do jednej wartosci (suma, max, iloczyn).
-- `collect` dla budowy struktur wynikowych (`List`, `Map`, grupowania).
-- Wspomnij o czytelnosci: semantycznie dobrany operator poprawia utrzymanie kodu.
-
-
 | Aspekt | Collection | Stream |
 |--------|-----------|--------|
 | Przechowuje dane? | ✅ | ❌ (tylko opisuje transformacje) |
 | Wielokrotne użycie? | ✅ | ❌ (po operacji terminalnej zużyty) |
-| Rozmiar | o skończony | może być nieskończony |
+| Rozmiar | skończony | może być nieskończony |
 | Kalkulacja | gorliwa (eager) | leniwa (lazy) |
+
+`reduce` łączy elementy do jednej wartości (np. sumy), natomiast `collect`
+gromadzi je w strukturze lub wykonuje agregację grupową (np. tworzy listę
+albo mapę). Dobór operatora powinien odzwierciedlać wynik, który chcemy
+otrzymać.
 
 ---
 
@@ -75,13 +64,6 @@ Pełny przykład: [`code/StreamsDemo.java`](code/StreamsDemo.java)
 
 ## Operacje pośrednie (lazy)
 
-#### Notatka do slajdu
-
-**Lazy evaluation i optymalizacja**
-- Wyjasnij, ze laziness pozwala przetwarzac tylko potrzebna czesc danych (`limit`, short-circuit).
-- Pokaz korzysc wydajnosciowa na prostym przykladzie z `findFirst`.
-
-
 Nie są wykonywane dopóki nie zostanie wywołana operacja terminalna:
 
 | Operacja | Opis |
@@ -99,6 +81,12 @@ Leniwość pozwala zakończyć pracę wcześniej. Na przykład
 `filter(...).findFirst()` nie musi przetworzyć całej kolekcji - zatrzymuje
 się po znalezieniu pierwszego pasującego elementu. Nie należy jednak traktować
 tego jako gwarantowanej optymalizacji bez pomiaru.
+
+```java
+Optional<String> firstLongWord = words.stream()
+        .filter(word -> word.length() > 8)
+        .findFirst();  // filtr sprawdza tylko tyle elementów, ile potrzeba
+```
 
 ---
 
@@ -182,16 +170,6 @@ Optional<Integer> max = nums.stream().reduce(Integer::max); // Optional[5]
 
 ## IntStream — strumienie prymitywów (bez autoboxing)
 
-#### Notatka do slajdu
-
-**Strumienie rownolegle - kiedy tak, kiedy nie**
-- Tak: duze dane i obliczenia CPU-bound bez efektow ubocznych.
-- Nie: male dane, I/O, mutowalny wspolny stan.
-- Dodaj praktyke: decyzje o parallel stream podejmowac po pomiarze, nie intuicji.
-
----
-
-
 ```java
 // range (exclusive) i rangeClosed (inclusive)
 IntStream.range(0, 5).forEach(i -> System.out.print(i + " "));     // 0 1 2 3 4
@@ -213,15 +191,15 @@ long count = products.parallelStream()
         .count();
 ```
 
-**Kiedy równoległe strumienie pomagają?**
-- Duże kolekcje (setki tysięcy elementów)
-- Operacje CPU-bound (ciężkie obliczenia, nie I/O)
-- Kolejność wyników nie ma znaczenia
+**Kiedy równoległe strumienie mogą pomóc?**
+- Gdy dane są duże, a operacje kosztowne obliczeniowo i niezależne.
+- Gdy operacje nie mutują współdzielonego stanu.
+- Gdy zmierzony zysk przewyższa narzut podziału i łączenia pracy.
 
 **Kiedy szkodzą?**
-- Małe kolekcje (narzut na fork/join pool)
-- Operacje z efektami ubocznymi (mutowanie stanu)
-- Operacje I/O-bound
+- Małe kolekcje, dla których narzut jest większy niż praca.
+- Operacje z efektami ubocznymi lub blokujące wejście/wyjście.
+- Gdy potrzebna jest ścisła, przewidywalna kolejność efektów.
 
 Strumień równoległy używa wspólnego `ForkJoinPool`, dlatego nie powinien
 mutować zwykłych kolekcji ani współdzielonego stanu bez synchronizacji.
@@ -234,7 +212,7 @@ rozważ `parallelStream()`.
 
 1. **Ponowne użycie strumienia** — `stream()` po operacji terminalnej rzuca `IllegalStateException`. Zawsze twórz nowy strumień.
 2. **Efekty uboczne w `map`** — `map` powinno być czystą funkcją. Efekty uboczne (zapis, mutowanie stanu) daj do `forEach`.
-3. **`collect(Collectors.toList())` vs `toList()`** — `Stream.toList()` (Java 16+) zwraca niemutowalną listę; `Collectors.toList()` zwraca mutowalną. Pamiętaj o różnicy!
+3. **`collect(Collectors.toList())` vs `toList()`** — `Stream.toList()` (Java 16+) zwraca niemodyfikowalną listę. `Collectors.toList()` nie gwarantuje konkretnej mutowalności; jeśli wynik ma być modyfikowany, użyj np. `collect(Collectors.toCollection(ArrayList::new))`.
 
 ---
 

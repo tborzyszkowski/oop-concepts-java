@@ -44,7 +44,8 @@ note bottom of "Comparator<T>"
   < 0  → a przed b
   = 0  → a równy b
   > 0  → b przed a
+  Wynik musi być przechodni
+  i spójny dla tych samych danych.
 end note
 
 @enduml
-

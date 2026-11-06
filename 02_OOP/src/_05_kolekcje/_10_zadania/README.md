@@ -6,14 +6,6 @@ Sekcja utrwala materiał z modułów 5.1–5.9: kolekcje, typy generyczne, Set, 
 
 ## Zadanie 1 ⭐ — Usuń duplikaty zachowując kolejność
 
-#### Notatka do slajdu
-
-**Jak pracowac z zadaniami**
-- Zadania 1-4 traktuj jako rozgrzewke utrwalajaca API.
-- Zadania 5-8 buduja abstrahowanie (generyki, porzadek, transformacje struktur).
-- Zadania 9-10 to mini-projekty integrujace caly modul.
-
-
 **Problem:** Masz listę z duplikatami. Usuń powtórzenia, zachowując oryginalną kolejność pierwszego wystąpienia każdego elementu.
 
 **Przykład:**
@@ -36,15 +28,6 @@ public static <T> List<T> removeDuplicatesPreserveOrder(List<T> list) {
 ---
 
 ## Zadanie 2 ⭐ — Odwrócona mapa
-
-#### Notatka do slajdu
-
-**Jak wdrozyc TDD na cwiczeniach**
-- Red: najpierw test opisujacy wymaganie.
-- Green: minimalna implementacja.
-- Refactor: uproszczenie kodu bez zmiany zachowania.
-- Powtorz cykl dla kolejnych podprzypadkow.
-
 
 **Problem:** Dana jest mapa `Map<K, V>`. Odwróć ją — zamień klucze i wartości miejscami.
 
@@ -69,14 +52,6 @@ public static <K, V> Map<V, K> invertMap(Map<K, V> original) {
 
 ## Zadanie 3 ⭐⭐ — Najczęstszy element
 
-#### Notatka do slajdu
-
-**Typowe pułapki studentow**
-- Nadmierna komplikacja rozwiazania prostego zadania.
-- Uzycie niewlasciwej kolekcji (np. `List` tam, gdzie potrzebny `Set`).
-- Brak testu dla przypadkow z duplikatami i wartosciami granicznymi.
-
-
 **Problem:** Znajdź element, który najczęściej występuje w liście.
 
 **Przykład:**
@@ -84,6 +59,9 @@ public static <K, V> Map<V, K> invertMap(Map<K, V> original) {
 wejście:  [kot, pies, kot, ryba, pies, kot]
 wyjście:  Optional[kot]  (wystąpił 3 razy)
 ```
+
+Przy remisie częstości wybierz dowolny z najczęstszych elementów albo
+zdefiniuj dodatkową regułę rozstrzygania.
 
 **Do zaimplementowania:**
 ```java
@@ -126,6 +104,9 @@ public static Map<Boolean, List<Integer>> partitionByParity(List<Integer> nums) 
 wejście:  [5, 3, 8, 1, 9], k=2
 wyjście:  Optional[5]   (kolejność: 1, 3, 5, 8, 9 → indeks 2 = 5)
 ```
+
+Dla `k < 0` zgłoś `IllegalArgumentException`; jeśli `k` jest poza zakresem,
+zwróć `Optional.empty()`.
 
 **Do zaimplementowania:**
 ```java
@@ -194,6 +175,8 @@ wyjście:  [[1, 4],
             [3, 6]]
 ```
 
+Zakładamy macierz prostokątną (wszystkie wiersze mają tę samą długość).
+
 **Do zaimplementowania:**
 ```java
 public static <T> List<List<T>> transpose(List<List<T>> matrix) {
@@ -241,15 +224,6 @@ String[] words = text.toLowerCase().replaceAll("[^a-ząęóśłżźćń ]", "").
 
 ## Rozwiązania referencyjne
 
-#### Notatka do slajdu
-
-**Kryteria oceny rozwiazania**
-- Poprawnosc funkcjonalna (czy wynik jest zgodny ze specyfikacja).
-- Dobor struktur danych (czy kolekcja odpowiada semantyce problemu).
-- Czytelnosc i testowalnosc (nazewnictwo, podzial metod, brak duplikacji).
-- Obsluga przypadkow brzegowych (puste dane, duze dane, kolizje).
-
-
 Gotowe implementacje znajdziesz w: [`solutions/CollectionsExercisesSolutions.java`](solutions/CollectionsExercisesSolutions.java)
 
 ---
@@ -275,11 +249,16 @@ z wymaganiami zadań.
 
 ## Wskazówki TDD
 
-1. Zacznij od napisania testu, który opisuje oczekiwane zachowanie (np. `removeDuplicatesPreserveOrder`).
-2. Uruchom test — powinien się nie kompilować lub być czerwony.
-3. Dodaj minimalną implementację.
-4. Uruchom test — powinien być zielony.
-5. Zrefaktoryzuj i uruchom ponownie.
+Pracuj w cyklu **Red → Green → Refactor**:
+
+1. Zapisz oczekiwany wynik dla przypadku podstawowego i brzegowego.
+2. Uruchom test i potwierdź, że wskazuje brak implementacji lub błąd.
+3. Dodaj najmniejszą implementację, która spełnia wymaganie.
+4. Uruchom ponownie testy, następnie uporządkuj kod bez zmiany zachowania.
+
+Warto sprawdzić m.in. pustą listę, duplikaty, remisy częstości, niepoprawne
+`k`, puste wiersze macierzy oraz kolizje kluczy przy odwracaniu mapy. Przy
+każdym zadaniu zapisz też jawnie, czy `null` jest dozwolony.
 
 ---
 

@@ -57,8 +57,7 @@ interface Map<K,V> {
 }
 
 class ArrayList<E> implements List
-class LinkedList<E> implements List
-class LinkedList<E> implements Deque
+class LinkedList<E> implements List, Deque
 
 class HashSet<E> implements Set
 class LinkedHashSet<E> implements Set
@@ -72,11 +71,10 @@ class LinkedHashMap<K,V> implements Map
 class TreeMap<K,V> implements Map
 
 note bottom of ArrayList : Tablicowa, O(1) dostęp indeksowy
-note bottom of LinkedList : Węzłowa, O(1) insert na końcu
-note bottom of HashSet : Hash table, O(1) add/contains
+note bottom of LinkedList : Węzłowa, O(1) operacje na końcach
+note bottom of HashSet : Hash table, O(1) średnio add/contains
 note bottom of TreeSet : Drzewo czerwono-czarne, O(log n)
-note bottom of HashMap : Hash table, O(1) put/get
+note bottom of HashMap : Hash table, O(1) średnio put/get
 note bottom of TreeMap : Drzewo czerwono-czarne, klucze posortowane
 
 @enduml
-

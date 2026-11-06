@@ -12,12 +12,21 @@ przetwarzania.
 
 ---
 
-## Spis treści
+## Dlaczego JCF?
 
-### Notatka do slajdu: Problem i motywacja
-- Zacznij od pytania: "Jak przechowac 1 mln rekordow tak, aby wyszukiwanie bylo szybkie i kod czytelny?"
-- Pokaz ograniczenia tablic: staly rozmiar, kosztowne wstawianie w srodku, brak semantyki "unikalnosci" i "klucz-wartosc".
-- Wprowadz JCF jako zestaw abstrakcji rozwiazujacych te problemy przez interfejsy i wymienne implementacje.
+Tablica jest dobrym wyborem, gdy rozmiar danych jest znany i potrzebny jest
+dostęp po indeksie. W aplikacji, w której liczba zamówień zmienia się w czasie,
+trzeba jednak samodzielnie zarządzać rozmiarem tablicy, a wstawienie elementu
+w środku wymaga przesunięcia pozostałych danych. Tablica nie wyraża też sama
+z siebie reguł takich jak unikalność elementów ani wyszukiwanie wartości po
+kluczu.
+
+Java Collections Framework (JCF) udostępnia gotowe kontrakty i implementacje
+dla tych potrzeb. Zamiast tworzyć własny kontener, można wybrać na przykład
+`List` dla uporządkowanych elementów z duplikatami, `Set` dla unikalnych
+elementów albo `Map` dla par klucz-wartość.
+
+## Spis treści
 
 | # | Temat | Katalog |
 |---|-------|---------|
@@ -34,16 +43,35 @@ przetwarzania.
 
 ---
 
-## 📅 Sugerowany plan zajęć (2 × 90 min)
+## Jak zbudowany jest JCF?
 
-### Notatka do slajdu: Interfejsy, implementacje, algorytmy
-- Podkresl, ze JCF sklada sie z 3 warstw: interfejsy (`List`, `Set`, `Queue`, `Map`), implementacje (`ArrayList`, `HashSet`, `TreeMap`), algorytmy (`Collections`, `Collectors`).
-- Wyjasnij zasade "programuj do interfejsu" i konsekwencje dla testowalnosci oraz refaktoryzacji.
+JCF można rozumieć jako trzy współpracujące warstwy:
 
-### Notatka do slajdu: Koszt operacji jako kryterium projektowe
-- Wybor kolekcji to decyzja o zlozonosci: O(1), O(log n), O(n).
-- Porownaj scenariusze: API online (szybki lookup), raporty (sortowanie), kolejki zadan (priorytety).
-- Dodaj uwage, ze stale ukryte i lokalnosc pamieci czesto sa tak samo wazne jak Big-O.
+1. **Interfejsy** (`List`, `Set`, `Queue`, `Map`) określają znaczenie danych
+   i dostępne operacje.
+2. **Implementacje** (`ArrayList`, `HashSet`, `TreeMap`) realizują ten
+   kontrakt, różniąc się m.in. porządkiem i kosztem operacji.
+3. **Algorytmy i operacje** (`Collections`, `Collectors`, Stream API)
+   przetwarzają elementy bez konieczności ponownego implementowania typowych
+   czynności.
+
+Przykład programowania przez interfejs:
+
+```java
+List<String> names = new ArrayList<>();
+names.add("Ala");
+names.add("Ola");
+
+// Kod korzystający z List nie musi znać szczegółów ArrayList.
+names.forEach(System.out::println);
+```
+
+Wybór struktury wpływa na koszt: `ArrayList.get(i)` ma koszt O(1), wyszukanie
+elementu w nieposortowanej liście O(n), a operacje `TreeSet` zwykle O(log n).
+Są to opisy wzrostu kosztu wraz z liczbą elementów, nie gwarancja czasu
+wykonania w milisekundach. W praktyce liczą się również stałe, zużycie pamięci
+i lokalność danych, dlatego przy nieoczywistych wymaganiach warto mierzyć
+rzeczywisty scenariusz.
 
 ## Szybka checklista wyboru kolekcji
 
@@ -71,6 +99,8 @@ i prostota kodu.
   i `PriorityQueue`.
 - Iterator zapewnia bezpieczne przechodzenie i modyfikowanie kolekcji.
 - Stream API opisuje transformacje danych, ale nie zastępuje kolekcji.
+
+## 📅 Sugerowany plan zajęć (2 × 90 min)
 
 ### Zajęcia 1 — Kolekcje, typy generyczne, Set, Iterator
 
@@ -171,27 +201,60 @@ _05_kolekcje/
 
 ## Cele dydaktyczne
 
-### Notatka do slajdu: Kolekcje a model domeny
-- Pokaz, ze struktura danych powinna odzwierciedlac reguly biznesowe:
-  - brak duplikatow -> `Set`,
-  - historia zdarzen -> `List` lub `Deque`,
-  - indeks po kluczu -> `Map`.
-- Wspomnij o invariants (np. unikalny identyfikator) i tym, jak kolekcja moze je egzekwowac.
+### Kolekcja jako część modelu domenowego
 
-### Notatka do slajdu: Ewolucja stylu - od petli do Stream API
-- Pokaz ten sam problem w stylu imperatywnym i strumieniowym.
-- Omow kompromisy: czytelnosc, debugowanie, testowalnosc, wydajnosc.
-- Zaznacz, ze "nowoczesne" nie znaczy "zawsze lepsze" - decyzja zalezy od kontekstu.
+Struktura danych może pomagać utrzymywać reguły aplikacji: `Set` zapobiega
+powtórzeniom według przyjętej definicji równości, `List` zachowuje kolejność
+zdarzeń, a `Map` pozwala szybko odszukać rekord po kluczu. Nie zastępuje to
+jednak walidacji całego modelu — na przykład unikalność identyfikatorów w
+bazie danych musi być zagwarantowana również przez bazę.
 
-### Notatka do slajdu: Najczestsze bledy architektoniczne
-- Niepoprawny kontrakt `equals/hashCode`.
-- Naduzywanie `LinkedList` i `TreeMap` bez potrzeby.
-- Efekty uboczne w strumieniach i modyfikacja kolekcji podczas iteracji.
-- Brak testow scenariuszy brzegowych (pusta kolekcja, `null`, duze dane).
+```text
+unikalne elementy       → Set
+historia w kolejności   → List
+stos / kolejka          → Deque
+indeks klucz → rekord   → Map
+```
 
-### Notatka do slajdu: Jak zamknac modul
-- Zaproponuj checkliste doboru kolekcji (unikalnosc, porzadek, lookup, modyfikacje, skala).
-- Polacz modul 05 z kolejnymi tematami: wyjatki (walidacja danych), watki (kolekcje wspolbiezne), wzorce (repozytoria i cache).
+### Ten sam problem: pętla i Stream API
+
+Poniższe warianty wybierają nazwy produktów droższych niż 500 zł. Pętla
+imperatywna pokazuje kroki wprost; strumień opisuje przepływ danych. Wybierz
+styl, który jest czytelniejszy dla zespołu — strumień nie jest automatycznie
+szybszy ani lepszy.
+
+```java
+record Product(String name, double price) {}
+
+List<Product> products = List.of(
+        new Product("Książka", 80),
+        new Product("Monitor", 900));
+
+List<String> names = new ArrayList<>();
+for (Product product : products) {
+    if (product.price() > 500) names.add(product.name());
+}
+
+List<String> namesWithStream = products.stream()
+        .filter(product -> product.price() > 500)
+        .map(Product::name)
+        .toList();
+```
+
+### Błędy, których warto unikać
+
+- Nadpisanie `equals` bez zgodnego `hashCode` psuje zachowanie `HashSet`
+  i `HashMap`.
+- `LinkedList` nie przyspiesza wyszukiwania pozycji; wybieraj ją ze względu
+  na operacje na końcach lub interfejs `Deque`.
+- Nie modyfikuj zwykłej kolekcji spoza iteratora podczas jej iterowania.
+- Testuj przypadki brzegowe: pustą kolekcję, powtórzenia, wartości `null`
+  (jeśli są dozwolone) oraz dane o realistycznej wielkości.
+
+Dobór kolekcji zacznij od pytań o unikalność, kolejność i dominujące operacje,
+a dopiero potem porównuj implementacje. W kolejnych tematach przydadzą się
+także walidacja danych, synchronizacja i kolekcje współbieżne oraz wzorce
+cache i indeksowania.
 
 Po ukończeniu modułu student:
 
@@ -199,7 +262,7 @@ Po ukończeniu modułu student:
 - dobiera właściwy typ kolekcji do rozwiązania problemu (złożoność, porządek, unikalność),
 - posługuje się typami generycznymi i rozumie pojęcie type erasure,
 - rozróżnia `HashSet` i `TreeSet` oraz zna kontrakt `equals`/`hashCode`,
-- stosuje iteratory jawne i niejawne, piszę własne klasy implementujące `Iterable`,
+- stosuje iteratory jawne i niejawne oraz pisze własne klasy implementujące `Iterable`,
 - korzysta z `Map` (`HashMap`, `TreeMap`, `LinkedHashMap`) do budowania słowników,
 - definiuje porządek za pomocą `Comparable` i `Comparator`,
 - buduje potoki przetwarzania danych ze `Stream API`,
@@ -215,6 +278,5 @@ Po ukończeniu modułu student:
 - **Oracle Java Tutorial — Collections:** <https://docs.oracle.com/javase/tutorial/collections/index.html>
 - **Oracle API — java.util:** <https://docs.oracle.com/en/java/docs/api/java.base/java/util/package-summary.html>
 - **Oracle API — java.util.stream:** <https://docs.oracle.com/en/java/docs/api/java.base/java/util/stream/package-summary.html>
-- **JEP 355 / JEP 305 — Pattern Matching:** <https://openjdk.org/jeps/305>
 - **Baeldung — Java Collections:** <https://www.baeldung.com/java-collections>
 - **Baeldung — Java 8 Streams:** <https://www.baeldung.com/java-8-streams>

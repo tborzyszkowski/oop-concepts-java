@@ -13,14 +13,6 @@
 
 ## Diagram — przegląd implementacji
 
-#### Notatka do slajdu
-
-**Jak dobierac kolekcje w praktyce**
-- Zacznij od wymagania domenowego: unikalnosc, kolejnosc, losowy dostep, priorytet, czestotliwosc modyfikacji.
-- Dopiero potem rozmawiaj o konkretnych klasach (`ArrayList`, `HashSet`, `PriorityQueue`).
-- Uzyj zasady: semantyka danych > mikrooptymalizacje.
-
-
 ![Typy kolekcji i ich cechy](diagrams/collection_types.png)
 
 *Źródło: `diagrams/collection_types.puml`*
@@ -29,17 +21,11 @@
 
 ## Implementacje List
 
-#### Notatka do slajdu
-
-**ArrayList vs LinkedList**
-- Wyjasnij lokalnosc pamieci i cache CPU - dlatego `ArrayList` zwykle wygrywa mimo O(n) przy wstawianiu.
-- Podkresl, ze `LinkedList` ma sens glownie dla operacji na koncach i jako `Deque`.
-- Dodaj antywzorzec: wybieranie `LinkedList`, bo "wstawianie ma O(1)", bez analizy kosztu wyszukiwania pozycji.
-
-
 ### ArrayList
 
-Wewnętrznie — tablica dynamiczna. Gdy pojemność zostaje wyczerpana, kopiuje elementy do tablicy 1,5× większej.
+Wewnętrznie — tablica dynamiczna. Gdy zabraknie miejsca, implementacja
+powiększa tablicę i kopiuje do niej elementy; dokładny sposób wzrostu
+pojemności jest szczegółem implementacji, a nie gwarancją API.
 
 ```java
 List<String> list = new ArrayList<>();
@@ -62,7 +48,9 @@ linked.addLast("LAST");     // O(1)
 linked.get(3);              // O(n) — przechodzi węzeł po węźle
 ```
 
-**Kiedy używać:** gdy często wstawiasz/usuwasz na początku lub implementujesz stos/kolejkę.
+**Kiedy używać:** gdy potrzebujesz operacji na początku/końcu albo implementujesz
+`Deque`. Wstawienie przy już znanym węźle/iteratorze jest stałoczasowe, ale
+znalezienie pozycji po indeksie wymaga przejścia listy i kosztuje O(n).
 
 ### Tabela porównawcza List
 
@@ -70,8 +58,8 @@ linked.get(3);              // O(n) — przechodzi węzeł po węźle
 |----------|-----------|-----------|
 | `get(i)` | O(1) | O(n) |
 | `add` na końcu | O(1)* | O(1) |
-| `add(i, e)` | O(n) | O(n) |
-| `remove(i)` | O(n) | O(n) |
+| `add(i, e)` | O(n) | O(n) na znalezienie pozycji |
+| `remove(i)` | O(n) | O(n) na znalezienie pozycji |
 | `addFirst` | O(n) | O(1) |
 | Pamięć | mniej (tablica) | więcej (wskaźniki) |
 
@@ -86,19 +74,10 @@ wstawia element, teoretyczne `O(1)` samego wstawienia nie daje przewagi.
 
 ## Implementacje Set
 
-#### Notatka do slajdu
-
-**Set i warianty porzadku**
-- `HashSet`: najszybsza unikalnosc.
-- `LinkedHashSet`: unikalnosc + stabilna kolejnosc prezentacji.
-- `TreeSet`: stale sortowanie i operacje zakresowe.
-- Podaj praktyczny przyklad: deduplikacja logow, raport UI, autouzupełnianie slownika.
-
-
 ```java
 List<String> input = List.of("banan", "jabłko", "banan", "gruszka", "jabłko", "wiśnia");
 
-Set<String> hash   = new HashSet<>(input);       // kolejność losowa, O(1)
+Set<String> hash   = new HashSet<>(input);       // kolejność nieokreślona, O(1) średnio
 Set<String> linked = new LinkedHashSet<>(input); // kolejność wstawiania, O(1)
 Set<String> tree   = new TreeSet<>(input);       // posortowany, O(log n)
 ```
@@ -109,22 +88,14 @@ Pełny przykład: [`code/CollectionTypesDemo.java`](code/CollectionTypesDemo.jav
 
 | | HashSet | LinkedHashSet | TreeSet |
 |--|---------|--------------|---------|
-| `add`/`contains` | O(1) | O(1) | O(log n) |
-| Porządek | losowy | wstawiania | naturalny/Comparator |
+| `add`/`contains` | O(1) średnio | O(1) średnio | O(log n) |
+| Porządek | nieokreślony | wstawiania | naturalny/Comparator |
 | Wymaga | `equals`+`hashCode` | `equals`+`hashCode` | `Comparable` lub `Comparator` |
 | Typowe użycie | unikalność | unikalność + historia | zawsze posortowany zbiór |
 
 ---
 
 ## PriorityQueue — kolejka priorytetowa
-
-#### Notatka do slajdu
-
-**Kolejki i planowanie zadan**
-- `ArrayDeque` jako domyslny stos/kolejka.
-- `PriorityQueue` do harmonogramow i klasy problemow "top-k / najlepszy następny".
-- Podkresl, ze iteracja po `PriorityQueue` nie daje kolejnosci priorytetowej - porzadek gwarantuje dopiero `poll()`.
-
 
 Implementowana jako **min-heap** — element o najmniejszej wartości trafia na szczyt.
 
@@ -150,7 +121,9 @@ gwarantuje pełnego porządku podczas zwykłego przechodzenia po elementach.
 
 ## ArrayDeque — stos i kolejka
 
-`ArrayDeque` jest **zalecaną implementacją** zarówno stosu, jak i kolejki (szybsza od `Stack` i `LinkedList`).
+`ArrayDeque` jest zwykle dobrym domyślnym wyborem dla stosu i kolejki w kodzie
+jednowątkowym. Nie dopuszcza elementu `null`. Konkretna wydajność zależy od
+zastosowania, ale unika narzutu węzłów `LinkedList` i historycznej klasy `Stack`.
 
 ```java
 // Jako stos (LIFO)

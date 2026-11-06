@@ -21,11 +21,12 @@ interface NavigableMap<K,V> extends SortedMap
 
 class HashMap<K,V> implements Map {
   hash table
-  put/get: O(1)
+  put/get: O(1) średnio
   kolejność: brak
 }
 class LinkedHashMap<K,V> extends HashMap {
-  + insertion-order lub access-order
+  insertion-order domyślnie
+  access-order opcjonalnie
   użycie: LRU cache
 }
 class TreeMap<K,V> implements NavigableMap {
@@ -51,4 +52,3 @@ note right of TreeMap
 end note
 
 @enduml
-

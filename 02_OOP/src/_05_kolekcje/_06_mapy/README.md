@@ -14,18 +14,13 @@
 
 ## Map a Collection — kluczowa różnica
 
-#### Notatka do slajdu
-
-**Dlaczego `Map` to osobna abstrakcja**
-- Podkresl, ze `Map` modeluje relacje klucz->wartosc, a nie zwykla kolekcje elementow.
-- Pokaz typowe przypadki: cache, indeks, slownik tlumaczen, agregacja.
-
-
-`Map<K,V>` **nie dziedziczy** po `Collection`. Przechowuje pary (klucz, wartość) a nie pojedyncze elementy:
+`Map<K,V>` **nie dziedziczy** po `Collection`. Przechowuje pary (klucz, wartość),
+a nie pojedyncze elementy. Przydaje się jako indeks (np. identyfikator → rekord),
+słownik tłumaczeń, cache albo licznik częstości:
 
 | Aspekt | Collection | Map |
 |--------|-----------|-----|
-| Podstawowy element | einzelnes Element | para klucz→wartość |
+| Podstawowy element | pojedynczy element | para klucz→wartość |
 | Klucze | — | unikalne |
 | Wartości | mogą być duplikaty | mogą być duplikaty |
 | Dostęp | iteracja lub indeks | przez klucz |
@@ -33,15 +28,6 @@
 ---
 
 ## Diagram — hierarchia Map
-
-#### Notatka do slajdu
-
-**Projektowanie kluczy**
-- Klucz musi byc stabilny i najlepiej niemutowalny.
-- Wspomnij o konsekwencjach mutowalnego klucza (utrata mozliwosci odnalezienia wpisu).
-
----
-
 
 ![Hierarchia Map](diagrams/map_hierarchy.png)
 
@@ -66,6 +52,11 @@ scores.remove("Bob");                   // usuwa wpis
 ```
 
 Pełny przykład: [`code/MapDemo.java`](code/MapDemo.java)
+
+Klucz powinien zachować stabilne `equals()` i `hashCode()` (dla `HashMap`)
+albo stabilny porządek porównania (dla `TreeMap`) przez cały czas, gdy jest
+w mapie. Zmiana pól uczestniczących w tych metodach po `put()` może sprawić,
+że wpisu nie da się odnaleźć oczekiwaną metodą.
 
 ---
 
@@ -151,13 +142,6 @@ pop.tailMap("Kraków")    // {Kraków=780000, Warszawa=1800000}
 
 ## computeIfAbsent — grupowanie
 
-#### Notatka do slajdu
-
-**Operacje Java 8+ (`merge`, `computeIfAbsent`)**
-- Pokaz, jak te metody zmniejszaja "boilerplate" i ryzyko bledow z `null`.
-- Porownaj styl stary (`containsKey` + `put`) vs nowy (`merge`).
-
-
 ```java
 Map<Character, List<String>> byInitial = new TreeMap<>();
 for (String name : names) {
@@ -172,29 +156,27 @@ for (String name : names) {
 
 ## Tabela porównawcza implementacji Map
 
-#### Notatka do slajdu
-
-**Dobor implementacji mapy**
-- `HashMap`: domyslny wybor dla szybkiego lookup.
-- `LinkedHashMap`: gdy kolejnosc ma znaczenie (np. API/UI, LRU).
-- `TreeMap`: gdy potrzebujesz zakresow i sortowania po kluczu.
-- Zaznacz koszt i zysk kazdego wariantu w jednym zdaniu.
-
-
 | | HashMap | LinkedHashMap | TreeMap | EnumMap |
 |--|---------|--------------|---------|---------|
-| `put`/`get` | O(1) | O(1) | O(log n) | O(1) |
-| Porządek kluczy | brak | wstawiania/dostępu | posortowany | enum ordinal |
-| Null klucze | 1 | 1 | ❌ | ❌ |
-| Zastosowanie | szybkilookup | LRU, kolejność | posortowany słownik | enum→wartość |
+| `put`/`get` | O(1) średnio | O(1) średnio | O(log n) | O(1) |
+| Porządek kluczy | brak | wstawiania lub dostępu* | posortowany | kolejność enum |
+| Klucze `null` | jeden | jeden | zależy od komparatora** | niedozwolone |
+| Wartości `null` | dozwolone | dozwolone | dozwolone | dozwolone |
+| Zastosowanie | szybki indeks | LRU, kolejność | zakresy i sortowanie | enum→wartość |
+
+`LinkedHashMap` domyślnie zachowuje kolejność wstawiania; kolejność dostępu
+trzeba włączyć parametrem konstruktora `accessOrder`. `TreeMap` z porządkiem
+naturalnym nie przyjmuje klucza `null`, ale własny komparator może go obsłużyć.
+`getOrDefault(k, d)` zwraca `d` tylko wtedy, gdy klucz `k` nie istnieje;
+jeśli klucz istnieje i jest skojarzony z `null`, wynikiem pozostaje `null`.
 
 ---
 
 ## ⚠️ Najczęstsze błędy
 
 1. **Nieostrożne użycie wyniku `get()`** — sam wynik `null` nie rozróżnia braku klucza od wartości `null`; problem może pojawić się dopiero przy automatycznym rozpakowaniu do typu prymitywnego.
-2. **Mutitowalny klucz w `HashMap`** — zmiana klucza po wstawieniu „gubi" element (podobny problem jak w `HashSet`).
-3. **Porównywanie `null` z `TreeMap`** — `TreeMap` nie akceptuje `null` jako klucza (rzuca `NullPointerException`).
+2. **Mutowalny klucz w `HashMap`** — zmiana klucza po wstawieniu „gubi" element (podobny problem jak w `HashSet`).
+3. **Założenie, że każda `TreeMap` obsługuje `null`** — przy porządku naturalnym użycie `null` jako klucza zgłosi `NullPointerException`; własny komparator musi jawnie określić jego pozycję.
 
 ---
 

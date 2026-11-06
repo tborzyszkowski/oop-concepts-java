@@ -14,13 +14,14 @@
 
 ## Kontekst historyczny
 
-#### Notatka do slajdu
+Przed generykami kolekcje przechowywały elementy jako `Object`. Błąd typu
+często ujawniał się dopiero podczas rzutowania w czasie działania. Generyki
+pozwalają kompilatorowi sprawdzić zgodność typów wcześniej, zachowując przy
+tym zgodność binarną starszych bibliotek dzięki type erasure.
 
-**Dobre praktyki**
-- Unikaj raw types.
-- Preferuj interfejsy generyczne (`List<T>`) zamiast implementacji.
-- Uzywaj granic typu (`extends`) tylko wtedy, gdy sa semantycznie uzasadnione.
-
+W nowym kodzie unikaj **raw types** (`List list`), deklaruj zmienne przez
+interfejs (`List<String>`) i używaj ograniczeń typu tylko wtedy, gdy są częścią
+rzeczywistego kontraktu metody.
 
 | Wersja | Rok | Zmiana |
 |--------|-----|--------|
@@ -46,14 +47,6 @@ Pełny przykład: [`code/GenericsDemo.java`](code/GenericsDemo.java)
 ---
 
 ## Diagram — klasy generyczne i reguła PECS
-
-#### Notatka do slajdu
-
-**PECS jako praktyczna regula API**
-- Producent (`extends`) - gdy API oddaje elementy.
-- Konsument (`super`) - gdy API przyjmuje elementy.
-- Zaznacz, ze dobrze zaprojektowane API generyczne jest bardziej elastyczne i mniej kruche przy refaktoryzacji.
-
 
 ![Typy generyczne — koncepcje](diagrams/generics.png)
 
@@ -159,25 +152,29 @@ być producentem dla jednej metody i konsumentem dla innej. Jeśli operacja
 ma zarówno dodawać, jak i odczytywać konkretny typ, jawny parametr `T` często
 lepiej opisuje kontrakt niż wildcard.
 
+Przykładowa metoda kopiuje liczby z listy źródłowej do listy docelowej:
+
+```java
+static <T> void copyNumbers(
+        List<? extends T> source,
+        List<? super T> destination) {
+    for (T value : source) {
+        destination.add(value);
+    }
+}
+
+List<Integer> integers = List.of(1, 2, 3);
+List<Number> numbers = new ArrayList<>();
+copyNumbers(integers, numbers);  // Integer jest Number
+```
+
+Źródło jest producentem `T`, więc używa `extends`; cel jest konsumentem `T`,
+więc używa `super`. Dzięki temu metoda działa także dla list o różnych,
+zgodnych typach, bez rzutowań.
+
 ---
 
 ## Type Erasure — jak JVM obsługuje generyki
-
-#### Notatka do slajdu
-
-**Po co powstaly generyki?**
-- Pokaz blad projektowy ery pre-generics: wszystko jako `Object` i opoznione bledy w runtime.
-- Podkresl, ze generyki przesuwaja wykrywanie bledow do etapu kompilacji.
-- Wspomnij o ograniczeniu kompatybilnosci wstecznej, ktore doprowadzilo do type erasure.
-
-
-#### Notatka do slajdu
-
-**Type erasure i konsekwencje**
-- Wyjasnij, ze JVM nie zna `List<String>` vs `List<Integer>` jako odrebnych typow runtime.
-- Omow ograniczenia: brak `new T[]`, brak `instanceof List<String>`.
-- Dodaj praktyczna wskazowke: gdy potrzebujesz typu runtime, przekaz `Class<T>` lub uzyj recordow/adapterow.
-
 
 Kompilator **usuwa** parametry typów w bytecode:
 
@@ -194,6 +191,20 @@ Konsekwencje:
 - Nie można tworzyć tablic generyków: `new T[]` — błąd
 - Nie można używać `instanceof` z konkretnym parametrem: `obj instanceof List<String>` — błąd
 - Można: `obj instanceof List<?>` — OK (unbounded wildcard)
+
+Jeśli metoda musi utworzyć obiekt określonej klasy w czasie działania,
+przekaż token klasy:
+
+```java
+static <T> T create(Class<T> type) throws ReflectiveOperationException {
+    return type.getDeclaredConstructor().newInstance();
+}
+
+String value = create(String.class);
+```
+
+Token `Class<T>` przekazuje informację o klasie, ale nie przywraca w runtime
+argumentu generycznego — `List<String>.class` nadal nie istnieje.
 
 ---
 
