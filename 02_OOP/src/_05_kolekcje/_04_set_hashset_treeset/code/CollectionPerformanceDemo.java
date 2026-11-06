@@ -21,6 +21,12 @@ public class CollectionPerformanceDemo {
     private static final int DEFAULT_QUERY_COUNT = 1_000_000;
     private static final int LINEAR_SEARCH_QUERY_COUNT = 200;
     private static final int WARM_UP_SIZE = 50_000;
+    
+    // Stałe ziarno daje powtarzalną sekwencję "losowych" liczb: wszystkie kolekcje
+    // dostają te same dane i zapytania, więc różnice czasów wynikają z kolekcji,
+    // a nie z innego rozkładu liczb, a kolejne uruchomienia można porównywać.
+    // Elementy i zapytania losujemy z jednego obiektu Random (nie z dwóch o tym
+    // samym ziarnie), bo inaczej obie tablice byłyby identyczne.
     private static final long RANDOM_SEED = 42L;
 
     // Zliczanie trafień uniemożliwia JIT usunięcie "niepotrzebnych" wyszukiwań.
@@ -83,6 +89,13 @@ public class CollectionPerformanceDemo {
         return new Result(name, addMillis, searchMillis, searchCount);
     }
 
+    /**
+     * {@link Supplier}{@code <T>} to interfejs funkcyjny z jedną metodą {@code T get()}:
+     * nie przyjmuje argumentów i zwraca wartość — tu "fabrykę" pustej kolekcji.
+     * Wywołanie {@code HashSet::new} (referencja do konstruktora) oznacza
+     * "gdy zawołam get(), utwórz new HashSet<>()". Dzięki temu jedna metoda
+     * mierzy dowolny zbiór, a kolekcja powstaje dopiero wewnątrz metody.
+     */
     private static Result measureSet(String name, Supplier<Collection<Integer>> factory,
                                      Integer[] elements, Integer[] queries) {
         Collection<Integer> set = factory.get();
@@ -102,6 +115,13 @@ public class CollectionPerformanceDemo {
         return new Result(name, addMillis, searchMillis, queries.length);
     }
 
+    /**
+     * {@link Runnable} to interfejs funkcyjny z jedną metodą {@code void run()}:
+     * nie przyjmuje argumentów i nie zwraca wyniku — reprezentuje "kawałek kodu
+     * do wykonania". Przekazujemy go jako lambdę, np. {@code () -> list.sort(null)},
+     * więc metoda może zmierzyć czas dowolnej operacji bez duplikowania
+     * kodu stopera.
+     */
     private static long measureMillis(Runnable action) {
         long start = System.nanoTime();
         action.run();
