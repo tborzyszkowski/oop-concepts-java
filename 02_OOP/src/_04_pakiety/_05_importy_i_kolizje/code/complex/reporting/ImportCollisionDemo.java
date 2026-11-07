@@ -1,6 +1,7 @@
 package _04_pakiety._05_importy_i_kolizje.code.complex.reporting;
 
 import _04_pakiety._05_importy_i_kolizje.code.complex.shipping.Order;
+//import _04_pakiety._05_importy_i_kolizje.code.complex.billing.Order;
 
 public class ImportCollisionDemo {
     public static void main(String[] args) {
